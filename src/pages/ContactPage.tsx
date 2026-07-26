@@ -1,5 +1,5 @@
 import { Clock, Mail, MapPin, MessageCircle, Phone } from "lucide-react";
-import { Card, LeadForm, PageHero, Reveal, SEO } from "./highgrade/shared";
+import { Card, LeadForm, PageHero, Reveal, SEO } from "../components/JewelleryUI";
 
 const contactItems = [
   [MapPin, "Shop No 8, Old Bus Stand, Padmanabhapuram, Tamil Nadu 629175"],

@@ -46,17 +46,17 @@ const Header: React.FC = () => {
 
   useEffect(() => {
     const sync = () => {
-      try { setMemberName(JSON.parse(localStorage.getItem("highgrade_user_profile") || "null")?.name || ""); }
+      try { setMemberName(JSON.parse(localStorage.getItem("annai_user_profile") || "null")?.name || ""); }
       catch { setMemberName(""); }
       setCartItems(cartCount(readCart()));
     };
     sync();
     window.addEventListener("storage", sync);
-    window.addEventListener("highgrade-user-session", sync);
+    window.addEventListener("annai-user-session", sync);
     window.addEventListener(cartUpdatedEvent, sync);
     return () => {
       window.removeEventListener("storage", sync);
-      window.removeEventListener("highgrade-user-session", sync);
+      window.removeEventListener("annai-user-session", sync);
       window.removeEventListener(cartUpdatedEvent, sync);
     };
   }, []);

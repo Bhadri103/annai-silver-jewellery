@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import { readCart, writeCart } from "../lib/cart";
 import { productShelves, productSlug, type Product } from "./HomePage";
 import Price from "../components/Price";
-import { SEO } from "./highgrade/shared";
+import { SEO } from "../components/JewelleryUI";
 
 type PaymentMethod = "whatsapp" | "upi" | "gpay" | "qr";
 const upiId = "annaijewellery@upi";
@@ -18,9 +18,9 @@ const savedCartProducts = () => {
 export default function SupplementCheckoutPage() {
   const [cart, setCart] = useState(readCart);
   const [method, setMethod] = useState<PaymentMethod>("whatsapp");
-  const [name, setName] = useState(() => { try { return JSON.parse(localStorage.getItem("highgrade_user_profile") || "{}").name || ""; } catch { return ""; } });
-  const [phone, setPhone] = useState(() => { try { return JSON.parse(localStorage.getItem("highgrade_user_profile") || "{}").phone || ""; } catch { return ""; } });
-  const [address, setAddress] = useState(() => { try { return JSON.parse(localStorage.getItem("highgrade_user_profile") || "{}").address || ""; } catch { return ""; } });
+  const [name, setName] = useState(() => { try { return JSON.parse(localStorage.getItem("annai_user_profile") || "{}").name || ""; } catch { return ""; } });
+  const [phone, setPhone] = useState(() => { try { return JSON.parse(localStorage.getItem("annai_user_profile") || "{}").phone || ""; } catch { return ""; } });
+  const [address, setAddress] = useState(() => { try { return JSON.parse(localStorage.getItem("annai_user_profile") || "{}").address || ""; } catch { return ""; } });
   const [screenshot, setScreenshot] = useState<File | null>(null);
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");

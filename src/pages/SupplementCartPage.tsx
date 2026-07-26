@@ -4,7 +4,7 @@ import { Minus, Plus, ShieldCheck, ShoppingBag, Trash2 } from "lucide-react";
 import { cartCount, readCart, writeCart } from "../lib/cart";
 import { productShelves, productSlug, type Product } from "./HomePage";
 import Price from "../components/Price";
-import { SEO } from "./highgrade/shared";
+import { SEO } from "../components/JewelleryUI";
 
 const storedProducts = () => {
   try { return JSON.parse(localStorage.getItem("annai_cart_products") || "{}") as Record<string, Product>; }

@@ -1,5 +1,5 @@
 import { CalendarDays, Check, MessageCircle, Phone } from "lucide-react";
-import { Card, LeadForm, PageHero, Reveal, SEO } from "./highgrade/shared";
+import { Card, LeadForm, PageHero, Reveal, SEO } from "../components/JewelleryUI";
 
 const BookingPage = () => (
   <>

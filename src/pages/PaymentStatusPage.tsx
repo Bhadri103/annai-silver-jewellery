@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link, useSearchParams } from "react-router-dom";
 import { CheckCircle2, Clock3, RefreshCw, XCircle } from "lucide-react";
-import { SEO } from "./highgrade/shared";
+import { SEO } from "../components/JewelleryUI";
 import { websiteApi, type WebsiteOrder } from "../lib/api";
 
 const statusStyles = {
@@ -47,7 +47,7 @@ const PaymentStatusPage = () => {
       const data = await websiteApi.phonePeStatus(transactionId);
       setOrder(data.order);
       setPaymentStatus((data.paymentStatus as "Paid" | "Failed" | "Pending") || "Pending");
-      localStorage.removeItem("highgrade_pending_phonepe");
+      localStorage.removeItem("annai_pending_phonepe");
     } catch (error) {
       setMessage(error instanceof Error ? error.message : "Unable to verify payment.");
     } finally {
@@ -80,7 +80,7 @@ const PaymentStatusPage = () => {
 
   return (
     <>
-      <SEO title="Payment Status | Highgrade Fitness" description="PhonePe payment status for Highgrade supplement orders." />
+      <SEO title="Payment Status" description="Payment status for Annai Jewellery orders." />
       <section className="min-h-[72vh] bg-white px-4 py-16 text-amber-900 sm:px-6 lg:px-10">
         <div className="mx-auto max-w-2xl rounded-[2rem] border border-slate-200 bg-white p-6 shadow-xl shadow-slate-200/60 sm:p-8">
           <div className="flex items-start gap-4">
@@ -128,7 +128,7 @@ const PaymentStatusPage = () => {
             <Link to="/my-orders" className="inline-flex items-center justify-center rounded-full bg-amber-600 px-6 py-3 text-sm font-semibold text-white">
               View my orders
             </Link>
-            <Link to="/programs/highgrade-supplement" className="inline-flex items-center justify-center rounded-full border border-amber-200 px-6 py-3 text-sm font-semibold text-amber-600">
+            <Link to="/collection/indian-jewellery" className="inline-flex items-center justify-center rounded-full border border-amber-200 px-6 py-3 text-sm font-semibold text-amber-600">
               Back to shop
             </Link>
           </div>

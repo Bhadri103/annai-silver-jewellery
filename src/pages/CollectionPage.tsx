@@ -3,7 +3,7 @@ import { ArrowRight, Eye, Filter, IndianRupee, Minus, Plus, Search, SlidersHoriz
 import { Link, useParams } from "react-router-dom";
 import { readCart, writeCart } from "../lib/cart";
 import { productShelves, productSlug } from "./HomePage";
-import { SEO } from "./highgrade/shared";
+import { SEO } from "../components/JewelleryUI";
 import Price from "../components/Price";
 import bangleBanner1 from "../assets/banner/bangle-1.png";
 import bangleBanner2 from "../assets/banner/bangle-2.png";

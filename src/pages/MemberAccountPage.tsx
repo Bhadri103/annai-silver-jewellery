@@ -4,12 +4,12 @@ import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
 import { Calendar, Edit3, Heart, Loader2, LogOut, MapPin, Package, Plus, ReceiptText, Save, ShieldCheck, Trash2, UserRound, X } from "lucide-react";
 import { websiteApi, type WebsiteOrder, type WebsiteProduct, type WebsiteUser } from "../lib/api";
 import { clean, isName, isPhone, limitPhoneDigits, maxLength, phoneDigits } from "../lib/validation";
-import { Card, SEO } from "./highgrade/shared";
+import { Card, SEO } from "../components/JewelleryUI";
 import { productShelves } from "./HomePage";
 
 const money = (value: number) => `Rs. ${Number(value || 0).toLocaleString("en-IN")}`;
-const userTokenKey = "highgrade_user_token";
-const userProfileKey = "highgrade_user_profile";
+const userTokenKey = "annai_user_token";
+const userProfileKey = "annai_user_profile";
 
 const authHeaders = () => Boolean(localStorage.getItem(userTokenKey));
 const isDemoAccount = () => localStorage.getItem(userTokenKey) === "demo-annai-token";
@@ -157,7 +157,7 @@ export const UserProfilePage = () => {
         const data = { ...user!, name: clean(form.name), phone: phoneDigits(form.phone), plan: clean(form.plan), goal: clean(form.goal), address: clean(form.address) };
         setUser(data);
         localStorage.setItem(userProfileKey, JSON.stringify(data));
-        window.dispatchEvent(new Event("highgrade-user-session"));
+        window.dispatchEvent(new Event("annai-user-session"));
         setMessage("Profile updated successfully.");
         setEditing(false);
         return;

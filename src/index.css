@@ -97,18 +97,18 @@ body,
     -webkit-line-clamp: 2;
 }
 
-.fitness-tool-title,
-.fitness-tool-text {
+.jewellery-tool-title,
+.jewellery-tool-text {
     display: -webkit-box;
     overflow: hidden;
     -webkit-box-orient: vertical;
 }
 
-.fitness-tool-title {
+.jewellery-tool-title {
     -webkit-line-clamp: 2;
 }
 
-.fitness-tool-text {
+.jewellery-tool-text {
     -webkit-line-clamp: 3;
 }
 
@@ -369,7 +369,7 @@ body,
     color: #D4AF37;
 }
 
-.program-trainer-panel,
+.program-advisor-panel,
 .program-list-panel {
     color: #D4AF37;
     background: #ffffff;
@@ -618,7 +618,7 @@ body,
     color: #f8fafc;
 }
 
-.theme-dark .program-trainer-panel,
+.theme-dark .program-advisor-panel,
 .theme-dark .program-list-panel {
     color: #f8fafc;
     background: #D4AF37;
@@ -1053,7 +1053,7 @@ input[type="number"] {
     background: rgba(15, 23, 42, 0.72);
 }
 
-.fitness-tools-section {
+.jewellery-tools-section {
     color: #D4AF37;
     background:
         linear-gradient(90deg, rgba(15, 23, 42, 0.045) 1px, transparent 1px),
@@ -1062,7 +1062,7 @@ input[type="number"] {
     background-size: 52px 52px, 52px 52px, auto;
 }
 
-.theme-dark .fitness-tools-section {
+.theme-dark .jewellery-tools-section {
     color: #ffffff;
     background:
         linear-gradient(90deg, rgba(255, 255, 255, 0.04) 1px, transparent 1px),
@@ -1071,61 +1071,61 @@ input[type="number"] {
     background-size: 52px 52px, 52px 52px, auto;
 }
 
-.fitness-tools-kicker {
+.jewellery-tools-kicker {
     color: #D4AF37;
     border: 1px solid rgba(220, 38, 38, 0.18);
     background: #ffffff;
     box-shadow: 0 10px 28px rgba(15, 23, 42, 0.06);
 }
 
-.theme-dark .fitness-tools-kicker {
+.theme-dark .jewellery-tools-kicker {
     color: #e4cfaa;
     border-color: rgba(255, 255, 255, 0.12);
     background: rgba(255, 255, 255, 0.06);
     box-shadow: none;
 }
 
-.fitness-tools-heading {
+.jewellery-tools-heading {
     color: #D4AF37;
 }
 
-.theme-dark .fitness-tools-heading {
+.theme-dark .jewellery-tools-heading {
     color: #ffffff !important;
 }
 
-.fitness-tools-subtitle {
+.jewellery-tools-subtitle {
     color: #475569;
 }
 
-.theme-dark .fitness-tools-subtitle {
+.theme-dark .jewellery-tools-subtitle {
     color: #cbd5e1;
 }
 
-.fitness-tools-arrow {
+.jewellery-tools-arrow {
     color: #D4AF37;
     border: 1px solid rgba(15, 23, 42, 0.16);
     background: rgba(255, 255, 255, 0.78);
 }
 
-.theme-dark .fitness-tools-arrow {
+.theme-dark .jewellery-tools-arrow {
     color: #ffffff;
     border-color: rgba(255, 255, 255, 0.16);
     background: rgba(255, 255, 255, 0.06);
 }
 
-.fitness-tools-dot {
+.jewellery-tools-dot {
     background: #e2e8f0;
 }
 
-.fitness-tools-dot.is-active {
+.jewellery-tools-dot.is-active {
     background: #D4AF37;
 }
 
-.theme-dark .fitness-tools-dot {
+.theme-dark .jewellery-tools-dot {
     background: rgba(255, 255, 255, 0.14);
 }
 
-.fitness-tool-card {
+.jewellery-tool-card {
     color: #D4AF37;
     border: 1px solid rgba(15, 23, 42, 0.1);
     background: rgba(255, 255, 255, 0.92);
@@ -1133,92 +1133,92 @@ input[type="number"] {
     backdrop-filter: blur(14px);
 }
 
-.fitness-tool-card:hover {
+.jewellery-tool-card:hover {
     border-color: rgba(239, 68, 68, 0.34);
     background: rgba(255, 255, 255, 0.95);
 }
 
-.theme-dark .fitness-tool-card {
+.theme-dark .jewellery-tool-card {
     color: #ffffff;
     border-color: rgba(255, 255, 255, 0.11);
     background: rgba(255, 255, 255, 0.065);
     box-shadow: 0 24px 54px rgba(0, 0, 0, 0.24);
 }
 
-.theme-dark .fitness-tool-card:hover {
+.theme-dark .jewellery-tool-card:hover {
     border-color: rgba(239, 68, 68, 0.45);
     background: rgba(255, 255, 255, 0.075);
 }
 
-.fitness-tool-title {
+.jewellery-tool-title {
     color: #D4AF37;
 }
 
-.theme-dark .fitness-tool-title {
+.theme-dark .jewellery-tool-title {
     color: #ffffff;
 }
 
-.fitness-tool-text {
+.jewellery-tool-text {
     color: #475569;
 }
 
-.theme-dark .fitness-tool-text {
+.theme-dark .jewellery-tool-text {
     color: #94a3b8;
 }
 
-.fitness-tool-label {
+.jewellery-tool-label {
     color: #64748b;
     border: 1px solid rgba(15, 23, 42, 0.1);
     background: #f8fafc;
 }
 
-.theme-dark .fitness-tool-label {
+.theme-dark .jewellery-tool-label {
     color: #cbd5e1;
     border-color: rgba(255, 255, 255, 0.12);
     background: rgba(255, 255, 255, 0.07);
 }
 
-.fitness-tool-icon {
+.jewellery-tool-icon {
     background: #D4AF37;
     box-shadow: 0 18px 28px rgba(220, 38, 38, 0.2);
 }
 
-.fitness-tool-metric {
+.jewellery-tool-metric {
     color: #D4AF37;
     border: 1px solid rgba(15, 23, 42, 0.1);
     background: #f8fafc;
 }
 
-.fitness-tool-metric span:first-child {
+.jewellery-tool-metric span:first-child {
     color: #64748b;
 }
 
-.theme-dark .fitness-tool-metric {
+.theme-dark .jewellery-tool-metric {
     color: #ffffff;
     border-color: rgba(255, 255, 255, 0.12);
     background: rgba(255, 255, 255, 0.07);
 }
 
-.theme-dark .fitness-tool-metric span:first-child {
+.theme-dark .jewellery-tool-metric span:first-child {
     color: #94a3b8;
 }
 
-.fitness-tool-footer {
+.jewellery-tool-footer {
     color: #64748b;
     border-top: 1px solid rgba(15, 23, 42, 0.1);
 }
 
-.theme-dark .fitness-tool-footer {
+.theme-dark .jewellery-tool-footer {
     color: #94a3b8;
     border-top-color: rgba(255, 255, 255, 0.1);
 }
 
-.fitness-tool-link {
+.jewellery-tool-link {
     color: #D4AF37;
     background: #f8fafc;
 }
 
-.theme-dark .fitness-tool-link {
+.theme-dark .jewellery-tool-link {
     color: #ffffff;
     background: rgba(255, 255, 255, 0.08);
 }
@@ -2256,7 +2256,7 @@ html.admin-scrollbars-hidden .admin-shell *::-webkit-scrollbar {
     }
 }
 
-.highgrade-certificate {
+.annai-certificate {
     position: relative;
     width: min(100%, 52rem);
     aspect-ratio: 1131 / 1600;
@@ -2299,22 +2299,22 @@ html.admin-scrollbars-hidden .admin-shell *::-webkit-scrollbar {
     font-family: var(--certificate-global-font);
 }
 
-.highgrade-certificate,
-.highgrade-certificate * {
+.annai-certificate,
+.annai-certificate * {
     font-family: var(--certificate-global-font) !important;
 }
 
-.highgrade-certificate [data-certificate-zone] {
+.annai-certificate [data-certificate-zone] {
     font-family: var(--certificate-element-font, var(--certificate-global-font)) !important;
 }
 
-.highgrade-certificate-background {
+.annai-certificate-background {
     position: absolute;
     inset: 0;
     pointer-events: none;
 }
 
-.highgrade-certificate-background {
+.annai-certificate-background {
     width: 100%;
     height: 100%;
     object-fit: cover;
@@ -2322,11 +2322,11 @@ html.admin-scrollbars-hidden .admin-shell *::-webkit-scrollbar {
     user-select: none;
 }
 
-.highgrade-certificate::before {
+.annai-certificate::before {
     content: none;
 }
 
-.highgrade-certificate-qr-block {
+.annai-certificate-qr-block {
     position: absolute;
     top: var(--certificate-qr-top);
     right: var(--certificate-qr-right);
@@ -2340,7 +2340,7 @@ html.admin-scrollbars-hidden .admin-shell *::-webkit-scrollbar {
     background: transparent;
 }
 
-.highgrade-certificate-qr-block img {
+.annai-certificate-qr-block img {
     width: 84%;
     margin: 0 auto 6.5%;
     border: 0.12rem dashed #bd8a2e;
@@ -2348,14 +2348,14 @@ html.admin-scrollbars-hidden .admin-shell *::-webkit-scrollbar {
     background: #fff;
 }
 
-.highgrade-certificate-qr-block p,
-.highgrade-certificate-qr-block span,
-.highgrade-certificate-qr-block strong {
+.annai-certificate-qr-block p,
+.annai-certificate-qr-block span,
+.annai-certificate-qr-block strong {
     display: block;
     line-height: 1.15;
 }
 
-.highgrade-certificate-qr-block p {
+.annai-certificate-qr-block p {
     margin: 0 0 7.5%;
     font-size: clamp(0.28rem, 1.08cqw, 0.7rem);
     font-weight: 900;
@@ -2363,7 +2363,7 @@ html.admin-scrollbars-hidden .admin-shell *::-webkit-scrollbar {
     color: var(--certificate-navy);
 }
 
-.highgrade-certificate-qr-block span {
+.annai-certificate-qr-block span {
     margin-top: 7.5%;
     font-size: clamp(0.18rem, 0.48cqw, 0.38rem);
     font-weight: 700;
@@ -2371,14 +2371,14 @@ html.admin-scrollbars-hidden .admin-shell *::-webkit-scrollbar {
     color: #9a9a9a;
 }
 
-.highgrade-certificate-qr-block strong {
+.annai-certificate-qr-block strong {
     margin-top: 4.5%;
     font-size: clamp(0.2rem, 0.58cqw, 0.46rem);
     font-weight: 900;
     color: var(--certificate-navy);
 }
 
-.highgrade-certificate-header {
+.annai-certificate-header {
     position: absolute;
     left: var(--certificate-logo-left);
     top: var(--certificate-logo-top);
@@ -2387,13 +2387,13 @@ html.admin-scrollbars-hidden .admin-shell *::-webkit-scrollbar {
     display: block;
 }
 
-.highgrade-certificate-header img {
+.annai-certificate-header img {
     width: 100%;
     max-height: none;
     object-fit: contain;
 }
 
-.highgrade-certificate-tagline {
+.annai-certificate-tagline {
     position: absolute;
     left: var(--certificate-tagline-left);
     top: var(--certificate-tagline-top);
@@ -2411,11 +2411,11 @@ html.admin-scrollbars-hidden .admin-shell *::-webkit-scrollbar {
     color: var(--certificate-gold);
 }
 
-.highgrade-certificate-watermark {
+.annai-certificate-watermark {
     display: none;
 }
 
-.highgrade-certificate-title-block {
+.annai-certificate-title-block {
     position: absolute;
     left: 8%;
     top: 31.55%;
@@ -2424,7 +2424,7 @@ html.admin-scrollbars-hidden .admin-shell *::-webkit-scrollbar {
     text-align: center;
 }
 
-.highgrade-certificate-title-block h1 {
+.annai-certificate-title-block h1 {
     margin: 0;
     --certificate-element-font: Georgia, "Times New Roman", serif;
     font-family: var(--certificate-element-font, Georgia, "Times New Roman", serif) !important;
@@ -2436,7 +2436,7 @@ html.admin-scrollbars-hidden .admin-shell *::-webkit-scrollbar {
     color: var(--certificate-navy);
 }
 
-.highgrade-certificate-title-block h2 {
+.annai-certificate-title-block h2 {
     margin: 2.9% 0 0;
     --certificate-element-font: Arial, Helvetica, sans-serif;
     font-family: var(--certificate-element-font, Arial, Helvetica, sans-serif) !important;
@@ -2447,7 +2447,7 @@ html.admin-scrollbars-hidden .admin-shell *::-webkit-scrollbar {
     color: var(--certificate-gold);
 }
 
-.highgrade-certificate-title-block p {
+.annai-certificate-title-block p {
     margin: 3.15% 0 0;
     --certificate-element-font: Georgia, "Times New Roman", serif;
     font-family: var(--certificate-element-font, Georgia, "Times New Roman", serif) !important;
@@ -2456,12 +2456,12 @@ html.admin-scrollbars-hidden .admin-shell *::-webkit-scrollbar {
     color: var(--certificate-navy);
 }
 
-.highgrade-certificate-laurel {
+.annai-certificate-laurel {
     display: none;
 }
 
-.highgrade-certificate-laurel::before,
-.highgrade-certificate-laurel::after {
+.annai-certificate-laurel::before,
+.annai-certificate-laurel::after {
     content: "";
     position: absolute;
     inset: 0;
@@ -2470,24 +2470,24 @@ html.admin-scrollbars-hidden .admin-shell *::-webkit-scrollbar {
     transform-origin: center bottom;
 }
 
-.highgrade-certificate-laurel::before {
+.annai-certificate-laurel::before {
     transform: rotate(-22deg);
 }
 
-.highgrade-certificate-laurel::after {
+.annai-certificate-laurel::after {
     transform: rotate(22deg);
 }
 
-.highgrade-certificate-laurel-left {
+.annai-certificate-laurel-left {
     left: 6.1%;
 }
 
-.highgrade-certificate-laurel-right {
+.annai-certificate-laurel-right {
     right: 6.1%;
     transform: scaleX(-1);
 }
 
-.highgrade-certificate-name {
+.annai-certificate-name {
     position: absolute;
     left: var(--certificate-name-left);
     top: var(--certificate-name-top);
@@ -2501,7 +2501,7 @@ html.admin-scrollbars-hidden .admin-shell *::-webkit-scrollbar {
     padding: 0 1%;
 }
 
-.highgrade-certificate-name span {
+.annai-certificate-name span {
     width: 100%;
     font-family: var(--certificate-element-font, var(--certificate-name-font)) !important;
     font-size: clamp(0.95rem, var(--certificate-name-size), 2.55rem);
@@ -2511,7 +2511,7 @@ html.admin-scrollbars-hidden .admin-shell *::-webkit-scrollbar {
     color: #D4AF37;
 }
 
-.highgrade-certificate-name i {
+.annai-certificate-name i {
     position: absolute;
     bottom: -12%;
     left: 50%;
@@ -2521,7 +2521,7 @@ html.admin-scrollbars-hidden .admin-shell *::-webkit-scrollbar {
     transform: translateX(-50%) rotate(45deg);
 }
 
-.highgrade-certificate-course {
+.annai-certificate-course {
     position: absolute;
     left: 14%;
     top: var(--certificate-course-top);
@@ -2535,7 +2535,7 @@ html.admin-scrollbars-hidden .admin-shell *::-webkit-scrollbar {
     padding: 0.4% 0;
 }
 
-.highgrade-certificate-course em {
+.annai-certificate-course em {
     --certificate-element-font: Georgia, "Times New Roman", serif;
     font-family: var(--certificate-element-font, Georgia, "Times New Roman", serif) !important;
     font-size: clamp(0.36rem, 0.86cqw, 0.64rem);
@@ -2543,7 +2543,7 @@ html.admin-scrollbars-hidden .admin-shell *::-webkit-scrollbar {
     color: var(--certificate-navy);
 }
 
-.highgrade-certificate-course strong {
+.annai-certificate-course strong {
     --certificate-element-font: Georgia, "Times New Roman", serif;
     font-family: var(--certificate-element-font, Georgia, "Times New Roman", serif) !important;
     font-size: clamp(0.5rem, 1.16cqw, 0.9rem);
@@ -2551,7 +2551,7 @@ html.admin-scrollbars-hidden .admin-shell *::-webkit-scrollbar {
     color: var(--certificate-navy);
 }
 
-.highgrade-certificate-course span {
+.annai-certificate-course span {
     --certificate-element-font: Arial, Helvetica, sans-serif;
     font-family: var(--certificate-element-font, Arial, Helvetica, sans-serif) !important;
     font-size: clamp(0.52rem, 1.38cqw, 1rem);
@@ -2561,7 +2561,7 @@ html.admin-scrollbars-hidden .admin-shell *::-webkit-scrollbar {
     color: var(--certificate-gold);
 }
 
-.highgrade-certificate-description {
+.annai-certificate-description {
     position: absolute;
     left: 17%;
     top: 54.75%;
@@ -2571,7 +2571,7 @@ html.admin-scrollbars-hidden .admin-shell *::-webkit-scrollbar {
     color: #111;
 }
 
-.highgrade-certificate-description p {
+.annai-certificate-description p {
     margin: 0 auto 1.55%;
     --certificate-element-font: Arial, Helvetica, sans-serif;
     font-family: var(--certificate-element-font, Arial, Helvetica, sans-serif) !important;
@@ -2579,7 +2579,7 @@ html.admin-scrollbars-hidden .admin-shell *::-webkit-scrollbar {
     line-height: 1.4;
 }
 
-.highgrade-certificate-description blockquote {
+.annai-certificate-description blockquote {
     margin: 3.2% auto 0;
     max-width: 78%;
     --certificate-element-font: Georgia, "Times New Roman", serif;
@@ -2590,7 +2590,7 @@ html.admin-scrollbars-hidden .admin-shell *::-webkit-scrollbar {
     color: var(--certificate-navy);
 }
 
-.highgrade-certificate-signature {
+.annai-certificate-signature {
     position: absolute;
     left: var(--certificate-signature-left);
     top: var(--certificate-signature-top);
@@ -2606,30 +2606,30 @@ html.admin-scrollbars-hidden .admin-shell *::-webkit-scrollbar {
     background: transparent;
 }
 
-.highgrade-certificate-signature img {
+.annai-certificate-signature img {
     max-width: 58%;
     max-height: 70%;
     object-fit: contain;
 }
 
-.highgrade-certificate-signature span {
+.annai-certificate-signature span {
     min-height: clamp(0.2rem, 1.25cqw, 0.72rem);
 }
 
-.highgrade-certificate-signature b {
+.annai-certificate-signature b {
     width: 100%;
     height: clamp(1px, 0.18vw, 3px);
     background: #111;
 }
 
-.highgrade-certificate-signature p,
-.highgrade-certificate-signature small {
+.annai-certificate-signature p,
+.annai-certificate-signature small {
     margin: 0;
     text-transform: uppercase;
     color: var(--certificate-navy);
 }
 
-.highgrade-certificate-signature p {
+.annai-certificate-signature p {
     --certificate-element-font: Arial, Helvetica, sans-serif;
     font-family: var(--certificate-element-font, Arial, Helvetica, sans-serif) !important;
     font-size: clamp(0.18rem, 0.48cqw, 0.36rem);
@@ -2637,7 +2637,7 @@ html.admin-scrollbars-hidden .admin-shell *::-webkit-scrollbar {
     letter-spacing: 0.42em;
 }
 
-.highgrade-certificate-signature small {
+.annai-certificate-signature small {
     --certificate-element-font: Arial, Helvetica, sans-serif;
     font-family: var(--certificate-element-font, Arial, Helvetica, sans-serif) !important;
     font-size: clamp(0.16rem, 0.39cqw, 0.3rem);
@@ -2645,7 +2645,7 @@ html.admin-scrollbars-hidden .admin-shell *::-webkit-scrollbar {
     letter-spacing: 0.28em;
 }
 
-.highgrade-certificate-photo {
+.annai-certificate-photo {
     position: absolute;
     left: var(--certificate-photo-left);
     bottom: var(--certificate-photo-bottom);
@@ -2656,11 +2656,11 @@ html.admin-scrollbars-hidden .admin-shell *::-webkit-scrollbar {
     /* background: linear-gradient(#c9efff 0 45%, #b9dc78 46% 73%, #78a800 74%); */
 }
 
-.highgrade-certificate-photo::before {
+.annai-certificate-photo::before {
     display: none;
 }
 
-.highgrade-certificate-photo img {
+.annai-certificate-photo img {
     position: relative;
     z-index: 2;
     width: 100%;
@@ -2668,7 +2668,7 @@ html.admin-scrollbars-hidden .admin-shell *::-webkit-scrollbar {
     object-fit: cover;
 }
 
-.highgrade-certificate-bottom {
+.annai-certificate-bottom {
     position: absolute;
     z-index: 2;
     display: grid;
@@ -2680,42 +2680,42 @@ html.admin-scrollbars-hidden .admin-shell *::-webkit-scrollbar {
     padding: 0.2% 0;
 }
 
-.highgrade-certificate-bottom span {
+.annai-certificate-bottom span {
     font-size: clamp(0.16rem, 0.44cqw, 0.34rem);
     letter-spacing: 0.28em;
     color: #777;
 }
 
-.highgrade-certificate-bottom strong {
+.annai-certificate-bottom strong {
     font-size: clamp(0.18rem, 0.48cqw, 0.38rem);
     font-weight: 900;
     letter-spacing: 0.18em;
     color: var(--certificate-navy);
 }
 
-.highgrade-certificate-issued {
+.annai-certificate-issued {
     left: 6.2%;
     bottom: 8.25%;
     width: 24%;
 }
 
-.highgrade-certificate-course-meta {
+.annai-certificate-course-meta {
     right: 6.2%;
     bottom: 8.25%;
     width: 32%;
 }
 
-.highgrade-certificate::after {
+.annai-certificate::after {
     content: none;
 }
 
-.certificate-verify-page .highgrade-certificate {
+.certificate-verify-page .annai-certificate {
     min-width: 42rem;
 }
 
-.certificate-form-preview .highgrade-certificate,
-.certificate-template-preview .highgrade-certificate,
-.certificate-modal-preview .highgrade-certificate {
+.certificate-form-preview .annai-certificate,
+.certificate-template-preview .annai-certificate,
+.certificate-modal-preview .annai-certificate {
     min-width: 34rem;
 }
 
@@ -2740,12 +2740,12 @@ html.admin-scrollbars-hidden .admin-shell *::-webkit-scrollbar {
         visibility: hidden !important;
     }
 
-    .highgrade-certificate,
-    .highgrade-certificate * {
+    .annai-certificate,
+    .annai-certificate * {
         visibility: visible !important;
     }
 
-    .highgrade-certificate {
+    .annai-certificate {
         position: fixed;
         inset: 0;
         width: 210mm !important;
@@ -2905,7 +2905,7 @@ select:focus {
 .theme-dark .shop-input-wrap,
 .theme-dark .shop-cart-line,
 .theme-dark .program-enquiry-modal,
-.theme-dark .program-trainer-panel,
+.theme-dark .program-advisor-panel,
 .theme-dark .program-list-panel,
 .theme-dark .chatbot-panel,
 .theme-dark .chatbot-header,

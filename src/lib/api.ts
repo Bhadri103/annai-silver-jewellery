@@ -3,7 +3,7 @@ const API_BASE_URL =
 
 async function request<T>(path: string, options: RequestInit = {}): Promise<T> {
   const hasBody = options.body !== undefined && options.body !== null;
-  const userToken = localStorage.getItem("highgrade_user_token");
+  const userToken = localStorage.getItem("annai_user_token");
   const response = await fetch(`${API_BASE_URL}${path}`, {
     ...options,
     cache: "no-store",

@@ -1,7 +1,7 @@
 import { Award, Gem, HandHeart, Heart, MapPin, Quote, Scale, ShieldCheck, Sparkles, Star, Users } from "lucide-react";
 import heroEditorial from "../assets/jewellery/hero-editorial.png";
 import templeNecklace from "../assets/jewellery/temple-necklace.png";
-import { Card, Reveal, SEO, SectionTitle } from "./highgrade/shared";
+import { Card, Reveal, SEO, SectionTitle } from "../components/JewelleryUI";
 
 const values = [
   {

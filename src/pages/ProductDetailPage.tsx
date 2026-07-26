@@ -3,7 +3,7 @@ import { Check, Clock, Copy, Heart, Minus, Plus, Share2, Star, Truck } from "luc
 import { Link, useParams } from "react-router-dom";
 import { readCart, writeCart } from "../lib/cart";
 import { productShelves, productSlug } from "./HomePage";
-import { SEO } from "./highgrade/shared";
+import { SEO } from "../components/JewelleryUI";
 import ZoomableProductImage from "../components/ZoomableProductImage";
 import Price from "../components/Price";
 

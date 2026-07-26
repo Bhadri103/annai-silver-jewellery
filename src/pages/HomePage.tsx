@@ -93,7 +93,7 @@ import homeBanner4 from "../assets/banner/homebanner4.png";
 import { readCart, writeCart } from "../lib/cart";
 import ZoomableProductImage from "../components/ZoomableProductImage";
 import Price from "../components/Price";
-import { Card, Reveal, SectionTitle, SEO } from "./highgrade/shared";
+import { Card, Reveal, SectionTitle, SEO } from "../components/JewelleryUI";
 
 const collections = [
   { title: "Necklaces", image: necklace1 },

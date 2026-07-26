@@ -5,8 +5,8 @@ type CartProduct = {
   inStock?: boolean;
 };
 
-export const cartStorageKey = "highgrade_cart";
-export const cartUpdatedEvent = "highgrade-cart-updated";
+export const cartStorageKey = "annai_cart";
+export const cartUpdatedEvent = "annai-cart-updated";
 
 export const readCart = (): CartMap => {
   try {

@@ -6,18 +6,18 @@ import logo from "../assets/logo.png";
 import heroEditorial from "../assets/jewellery/hero-editorial.png";
 import { websiteApi, type WebsiteUser } from "../lib/api";
 import { clean, isEmail, isName, isPhone, limitPhoneDigits, maxLength, minLength, phoneDigits } from "../lib/validation";
-import { SEO } from "./highgrade/shared";
+import { SEO } from "../components/JewelleryUI";
 
 type AuthMode = "login" | "register" | "forgot";
 type FormErrors = Record<string, string>;
 
-const userTokenKey = "highgrade_user_token";
-const userProfileKey = "highgrade_user_profile";
+const userTokenKey = "annai_user_token";
+const userProfileKey = "annai_user_profile";
 
 const saveUserSession = (user: WebsiteUser) => {
   localStorage.setItem(userTokenKey, user.token);
   localStorage.setItem(userProfileKey, JSON.stringify(user));
-  window.dispatchEvent(new Event("highgrade-user-session"));
+  window.dispatchEvent(new Event("annai-user-session"));
 };
 
 const Input = ({
