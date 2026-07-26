@@ -1,5 +1,5 @@
 ﻿import { useEffect, useState, type FormEvent } from "react";
-import { ArrowLeft, ArrowRight, Award, CalendarCheck, Eye, Gem, Heart, MessageCircle, Minus, Phone, Plus, Send, ShieldCheck, ShoppingBag, Sparkles, Star, Truck, X } from "lucide-react";
+import { ArrowLeft, ArrowRight, Award, CalendarCheck, Eye, Gem, Heart, MessageCircle, Minus, Phone, Plus, Send, Share2, ShieldCheck, ShoppingBag, Sparkles, Star, Truck, X } from "lucide-react";
 import { Link } from "react-router-dom";
 import earring1 from "../assets/earings/1.png";
 import earring2 from "../assets/earings/2.png";
@@ -253,7 +253,7 @@ export const productShelves: { id: string; kicker: string; title: string; text: 
   },
 ];
 
-const ProductShelf = ({ shelf, alternate, onQuickView, cart, onChangeQuantity }: { shelf: typeof productShelves[number]; alternate: boolean; onQuickView: (product: Product) => void; cart: Record<string, number>; onChangeQuantity: (product: Product, change: number) => void }) => (
+const ProductShelf = ({ shelf, alternate, onQuickView, onShare, cart, onChangeQuantity }: { shelf: typeof productShelves[number]; alternate: boolean; onQuickView: (product: Product) => void; onShare: (product: Product) => void; cart: Record<string, number>; onChangeQuantity: (product: Product, change: number) => void }) => (
   <section id={shelf.id} className={`product-shelf px-4 py-16 sm:px-6 lg:px-10 ${alternate ? "bg-[#fbf8f1]" : "bg-white"}`}>
     <div className="mx-auto max-w-7xl">
       <div className="mb-8 flex flex-wrap items-end justify-between gap-5">
@@ -262,7 +262,7 @@ const ProductShelf = ({ shelf, alternate, onQuickView, cart, onChangeQuantity }:
       </div>
       <div className="product-shelf-grid grid gap-4 overflow-x-auto pb-4">
         {shelf.products.map((product, index) => <Reveal key={product.name} delay={index * 60}><article className="group overflow-hidden rounded-2xl border border-amber-100 bg-white shadow-sm transition hover:-translate-y-1 hover:shadow-xl">
-          <div className="relative h-72 overflow-hidden bg-[#f8f2e8] p-2"><Link to={`/product/${productSlug(product.name)}`} className="block h-full w-full overflow-hidden rounded-xl"><img src={product.image} alt={product.name} className="h-full w-full rounded-xl object-contain transition duration-700 group-hover:scale-110"/></Link>{product.badge && <span className="absolute left-3 top-3 rounded-full bg-[#D4AF37] px-3 py-1 text-[9px] font-bold uppercase tracking-wider text-white">{product.badge}</span>}<button type="button" className="absolute right-3 top-3 grid h-9 w-9 place-items-center rounded-full bg-white/90 text-amber-700 shadow-sm" aria-label={`Save ${product.name}`}><Heart className="h-4 w-4"/></button><button type="button" onClick={() => onQuickView(product)} className="quick-view-button absolute right-3 top-14 grid h-9 w-9 place-items-center rounded-full bg-white/90 text-amber-700 shadow-sm" aria-label={`Quick view ${product.name}`} title="Quick view"><Eye className="h-4 w-4"/></button></div>
+          <div className="relative h-72 overflow-hidden bg-[#f8f2e8] p-2"><Link to={`/product/${productSlug(product.name)}`} className="block h-full w-full overflow-hidden rounded-xl"><img src={product.image} alt={product.name} className="h-full w-full rounded-xl object-contain transition duration-700 group-hover:scale-110"/></Link>{product.badge && <span className="absolute left-3 top-3 rounded-full bg-[#D4AF37] px-3 py-1 text-[9px] font-bold uppercase tracking-wider text-white">{product.badge}</span>}<div className="absolute right-3 top-3 flex flex-col gap-2"><button type="button" className="grid h-9 w-9 place-items-center rounded-full bg-white/90 text-amber-700 shadow-sm" aria-label={`Save ${product.name}`}><Heart className="h-4 w-4"/></button><button type="button" onClick={() => onShare(product)} className="grid h-9 w-9 place-items-center rounded-full bg-white/90 text-amber-700 shadow-sm" aria-label={`Share ${product.name}`}><Share2 className="h-4 w-4"/></button><button type="button" onClick={() => onQuickView(product)} className="quick-view-button grid h-9 w-9 place-items-center rounded-full bg-white/90 text-amber-700 shadow-sm" aria-label={`Quick view ${product.name}`} title="Quick view"><Eye className="h-4 w-4"/></button></div></div>
           <div className="p-5"><p className="text-[10px] font-semibold uppercase tracking-[0.16em] text-amber-600">{product.material}</p><h3 className="mt-2 text-lg font-medium text-slate-900">{product.name}</h3><div className="mt-4 flex items-center justify-between gap-3"><strong className="text-sm text-slate-900"><Price value={product.price}/></strong>{cart[`jewel-${productSlug(product.name)}`] ? <div className="flex h-9 items-center overflow-hidden rounded-full bg-amber-600 text-white shadow-sm"><button type="button" onClick={()=>onChangeQuantity(product,-1)} className="grid h-9 w-9 place-items-center transition hover:bg-amber-700" aria-label={`Remove one ${product.name}`}><Minus className="h-4 w-4"/></button><span className="min-w-7 text-center text-sm font-semibold">{cart[`jewel-${productSlug(product.name)}`]}</span><button type="button" onClick={()=>onChangeQuantity(product,1)} className="grid h-9 w-9 place-items-center transition hover:bg-amber-700" aria-label={`Add one more ${product.name}`}><Plus className="h-4 w-4"/></button></div> : <button type="button" onClick={()=>onChangeQuantity(product,1)} className="inline-flex h-9 items-center gap-1.5 rounded-full bg-amber-600 px-4 text-sm font-semibold text-white shadow-sm transition hover:bg-amber-700" aria-label={`Add ${product.name} to bag`}><Plus className="h-4 w-4"/>Add</button>}</div></div>
         </article></Reveal>)}
       </div>
@@ -375,6 +375,14 @@ export default function HomePage() {
     if (quantity) localStorage.setItem("annai_cart_products", JSON.stringify({ ...JSON.parse(localStorage.getItem("annai_cart_products") || "{}"), [key]: product }));
     setCart(nextCart);
   };
+  const shareProduct = async (product: Product) => {
+    const url = `${window.location.origin}${window.location.pathname}#/product/${productSlug(product.name)}`;
+    if (navigator.share) await navigator.share({ title: product.name, text: `View ${product.name} at Annai Jewellery`, url }).catch(() => undefined);
+    else {
+      await navigator.clipboard?.writeText(url);
+      setCartNotice("Product link copied.");
+    }
+  };
 
   const submitReview = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -443,7 +451,7 @@ export default function HomePage() {
       </div>
     </section>
 
-    {productShelves.map((shelf, index) => <ProductShelf key={shelf.id} shelf={shelf} alternate={index % 2 === 1} onQuickView={openQuickView} cart={cart} onChangeQuantity={changeJewelleryQuantity} />)}
+    {productShelves.map((shelf, index) => <ProductShelf key={shelf.id} shelf={shelf} alternate={index % 2 === 1} onQuickView={openQuickView} onShare={shareProduct} cart={cart} onChangeQuantity={changeJewelleryQuantity} />)}
 
     {/* <section className="px-4 py-12 sm:px-6 lg:px-10">
       <div className="mx-auto max-w-7xl">
@@ -486,7 +494,7 @@ export default function HomePage() {
       </div>
     </section>
 
-    {reviewModalOpen&&<div className="review-modal-backdrop fixed inset-0 z-[100] grid place-items-center overflow-y-auto bg-amber-800/55 p-4 pb-20 backdrop-blur-sm lg:pb-4" role="dialog" aria-modal="true" aria-label="Add customer review" onClick={()=>setReviewModalOpen(false)}>
+    {reviewModalOpen&&<div className="review-modal-backdrop fixed inset-0 z-[100] grid place-items-center overflow-y-auto bg-slate-950/45 p-4 pb-20 backdrop-blur-sm lg:pb-4" role="dialog" aria-modal="true" aria-label="Add customer review" onClick={()=>setReviewModalOpen(false)}>
       <form onSubmit={submitReview} onClick={(event)=>event.stopPropagation()} className="review-modal-card relative my-auto max-h-[calc(100dvh-110px)] w-full max-w-md overflow-y-auto rounded-3xl border border-amber-200 bg-white p-5 shadow-2xl sm:max-h-[90vh] sm:p-7">
         <button type="button" onClick={()=>setReviewModalOpen(false)} className="absolute right-4 top-4 grid h-9 w-9 place-items-center rounded-full bg-[#fbf8f1] text-slate-900" aria-label="Close review form"><X className="h-4 w-4"/></button>
         <p className="text-xs font-semibold uppercase tracking-[0.22em] text-amber-600">Share Your Experience</p>
@@ -505,14 +513,15 @@ export default function HomePage() {
     {quickViewIndex !== null && (() => {
       const product = allProducts[quickViewIndex];
       const gallery = [product.image, ...allProducts.filter((item) => item.name !== product.name).slice(0, 2).map((item) => item.image)];
-      const numericPrice = Number(product.price.replace(/[^\d]/g, "")) || 0;
-      return <div className="fixed inset-0 z-[80] flex items-center justify-center bg-amber-800/65 p-3 backdrop-blur-sm" role="dialog" aria-modal="true" aria-label={`Quick view ${product.name}`}>
+      const productKey = `jewel-${productSlug(product.name)}`;
+      return <div className="fixed inset-0 z-[80] flex items-center justify-center bg-slate-950/45 p-3 backdrop-blur-sm" role="dialog" aria-modal="true" aria-label={`Quick view ${product.name}`}>
         <div className="quick-view-modal-scroll relative max-h-[94vh] w-full max-w-5xl overflow-y-auto rounded-[2rem] border border-amber-200 bg-white shadow-2xl">
           <button type="button" onClick={() => setQuickViewIndex(null)} className="absolute right-4 top-4 z-30 grid h-10 w-10 place-items-center rounded-full bg-white text-slate-900 shadow-lg" aria-label="Close quick view"><X className="h-5 w-5"/></button>
           <button type="button" onClick={() => moveQuickView(-1)} className="absolute left-3 top-1/3 z-30 grid h-10 w-10 place-items-center rounded-full bg-white/95 text-amber-700 shadow-lg" aria-label="Previous product"><ArrowLeft className="h-5 w-5"/></button>
           <button type="button" onClick={() => moveQuickView(1)} className="absolute right-3 top-1/3 z-30 grid h-10 w-10 place-items-center rounded-full bg-white/95 text-amber-700 shadow-lg" aria-label="Next product"><ArrowRight className="h-5 w-5"/></button>
           <div className="grid lg:grid-cols-[1.05fr_0.95fr]">
-            <div className="bg-[#fbf8f1] p-5 sm:p-8">
+            <div className="relative bg-slate-50 p-5 sm:p-8">
+              <div className="absolute right-8 top-8 z-20 flex gap-2"><button type="button" className="grid h-10 w-10 place-items-center rounded-full bg-white text-amber-700 shadow-lg" aria-label={`Save ${product.name}`}><Heart className="h-5 w-5"/></button><button type="button" onClick={()=>shareProduct(product)} className="grid h-10 w-10 place-items-center rounded-full bg-white text-amber-700 shadow-lg" aria-label={`Share ${product.name}`}><Share2 className="h-5 w-5"/></button></div>
               <ZoomableProductImage src={gallery[quickImage]} alt={product.name} className="h-[360px] rounded-2xl bg-white sm:h-[520px]" />
               <div className="mt-4 grid grid-cols-3 gap-3">{gallery.map((image, index) => <button type="button" key={`${image}-${index}`} onClick={() => setQuickImage(index)} className={`h-24 overflow-hidden rounded-xl border-2 bg-white ${quickImage === index ? "border-amber-500" : "border-transparent"}`}><img src={image} alt={`${product.name} view ${index + 1}`} className="h-full w-full object-contain"/></button>)}</div>
             </div>
@@ -520,12 +529,10 @@ export default function HomePage() {
               <p className="text-xs font-semibold uppercase tracking-[0.2em] text-amber-600">{product.material}</p>
               <h2 className="mt-3 pr-10 text-3xl font-medium text-slate-900">{product.name}</h2>
               <div className="mt-3 flex items-center gap-2 text-sm"><div className="flex text-amber-500">{[0,1,2,3,4].map((star) => <Star key={star} className="h-4 w-4 fill-current"/>)}</div><span className="text-slate-500">12 reviews</span></div>
-              <p className="mt-5 text-2xl font-semibold text-slate-900"><Price value={product.price}/></p><p className="mt-1 text-xs text-slate-500">3% GST will be added at checkout</p>
+              <div className="mt-5 flex flex-wrap items-center justify-between gap-3"><p className="text-2xl font-semibold text-slate-900"><Price value={product.price}/></p>{cart[productKey] ? <div className="flex h-11 items-center overflow-hidden rounded-full bg-amber-600 text-white shadow-sm"><button type="button" onClick={()=>changeJewelleryQuantity(product,-1)} className="grid h-11 w-11 place-items-center hover:bg-amber-700" aria-label="Decrease cart quantity"><Minus className="h-4 w-4"/></button><span className="min-w-8 text-center font-semibold">{cart[productKey]}</span><button type="button" onClick={()=>changeJewelleryQuantity(product,1)} className="grid h-11 w-11 place-items-center hover:bg-amber-700" aria-label="Increase cart quantity"><Plus className="h-4 w-4"/></button></div> : <button type="button" onClick={()=>changeJewelleryQuantity(product,1)} className="inline-flex h-11 items-center gap-2 rounded-full bg-amber-600 px-5 text-sm font-semibold text-white hover:bg-amber-700"><Plus className="h-4 w-4"/>Add</button>}</div><p className="mt-1 text-xs text-slate-500">3% GST will be added at checkout</p>
               <div className="mt-5 space-y-2 rounded-2xl bg-[#fbf8f1] p-4 text-sm"><p><strong>3 sold</strong> in the last 20 hours</p><p>Vendor: <span className="text-amber-700">Annai Jewellery</span></p><p>Availability: <strong className="text-green-700">In Stock</strong></p><p>Product type: Jewellery</p><p className="font-semibold text-amber-700">Hurry! Only 8 pieces left.</p></div>
               <div className="mt-5"><p className="text-sm font-semibold">Finish: <span className="text-slate-500">24K Gold Plated</span></p></div>
-              <div className="mt-5 flex items-center justify-between border-y border-amber-100 py-4"><div><p className="text-xs text-slate-500">Subtotal</p><strong className="text-lg"><Price value={numericPrice * quickQuantity}/></strong></div><div className="flex items-center rounded-full border border-amber-200"><button type="button" onClick={()=>setQuickQuantity((q)=>Math.max(1,q-1))} className="grid h-10 w-10 place-items-center" aria-label="Decrease quantity"><Minus className="h-4 w-4"/></button><span className="w-9 text-center text-sm font-semibold">{quickQuantity}</span><button type="button" onClick={()=>setQuickQuantity((q)=>Math.min(8,q+1))} className="grid h-10 w-10 place-items-center" aria-label="Increase quantity"><Plus className="h-4 w-4"/></button></div></div>
-              <button type="button" onClick={()=>addJewelleryToCart(product,quickQuantity)} className="mt-5 flex w-full items-center justify-center gap-2 rounded-full bg-amber-600 px-6 py-3.5 text-sm font-semibold text-white hover:bg-amber-700"><ShoppingBag className="h-4 w-4"/> Add to cart</button>
-              <div className="mt-3 grid grid-cols-2 gap-3"><button type="button" className="rounded-full border border-amber-300 px-4 py-3 text-sm font-semibold text-amber-700"><Heart className="mr-2 inline h-4 w-4"/>Wishlist</button><Link to={`/product/${productSlug(product.name)}`} className="rounded-full bg-[#D4AF37] px-4 py-3 text-center text-sm font-semibold text-white">View full details</Link></div>
+              <Link to={`/product/${productSlug(product.name)}`} className="mt-5 block rounded-full bg-[#D4AF37] px-4 py-3 text-center text-sm font-semibold text-white">View full details</Link>
               {cartNotice && <p className="mt-3 rounded-xl bg-green-50 p-3 text-sm text-green-700">{cartNotice}</p>}
               <p className="mt-5 text-center text-xs text-slate-500"><Eye className="mr-1 inline h-4 w-4"/>283 customers are viewing this product</p>
             </div>
