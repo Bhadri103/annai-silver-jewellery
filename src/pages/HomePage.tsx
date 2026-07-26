@@ -430,7 +430,7 @@ export default function HomePage() {
     <SEO title="Annai Jewellery" description="Shop 925 silver ornaments with 24K gold plating, including earrings, necklaces, bangles, chains and bridal jewellery." />
 
     <section
-      className="jewellery-hero-slider relative min-h-[620px] w-full touch-pan-y select-none overflow-hidden text-amber-900 sm:min-h-[680px]"
+      className="jewellery-hero-slider relative min-h-[420px] w-full touch-pan-y select-none overflow-hidden text-amber-900 sm:min-h-[560px] lg:min-h-[680px]"
       onPointerDown={(event) => { heroSwipeStart.current = event.clientX; }}
       onPointerUp={(event) => finishHeroSwipe(event.clientX)}
       onPointerCancel={() => { heroSwipeStart.current = null; }}
@@ -445,9 +445,9 @@ export default function HomePage() {
       ))}
       <div className="absolute inset-0 bg-gradient-to-r from-white via-white/80 to-white/5" />
       <div className="absolute inset-0 bg-gradient-to-t from-white/30 via-transparent to-white/10" />
-      <div className="relative z-10 mx-auto flex min-h-[620px] max-w-7xl items-center px-6 py-24 sm:min-h-[680px] sm:px-10 lg:px-12">
+      <div className="relative z-10 mx-auto flex min-h-[420px] max-w-7xl items-center px-6 py-12 sm:min-h-[560px] sm:px-10 sm:py-20 lg:min-h-[680px] lg:px-12 lg:py-24">
         <div key={activeSlide} className="jewellery-hero-content max-w-xl">
-          <p className="mb-4 inline-flex items-center gap-2 rounded-full border border-amber-200 bg-white/80 px-3.5 py-1.5 text-[10px] font-semibold uppercase tracking-[0.2em] text-amber-700 shadow-sm backdrop-blur sm:text-xs"><Gem className="h-3.5 w-3.5" /> {heroSlides[activeSlide].kicker}</p>
+          {/* <p className="mb-4 inline-flex items-center gap-2 rounded-full border border-amber-200 bg-white/80 px-3.5 py-1.5 text-[10px] font-semibold uppercase tracking-[0.2em] text-amber-700 shadow-sm backdrop-blur sm:text-xs"><Gem className="h-3.5 w-3.5" /> {heroSlides[activeSlide].kicker}</p> */}
           <h1 className="font-serif text-3xl font-normal leading-[1.08] tracking-[-0.02em] text-slate-900 sm:text-4xl lg:text-5xl">{heroSlides[activeSlide].title}<br/><span className="jewellery-cursive text-amber-600">{heroSlides[activeSlide].accent}</span></h1>
           <p className="mt-4 max-w-md text-sm leading-6 text-slate-700 sm:text-base">{heroSlides[activeSlide].text}</p>
           <div className="mt-6 flex flex-wrap gap-3">
