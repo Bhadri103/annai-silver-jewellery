@@ -3116,7 +3116,7 @@ select:focus {
 
 .quick-view-modal-scroll {
     scrollbar-width: thin;
-    scrollbar-color: #d4af37 transparent;
+    scrollbar-color: #cbd5e1 transparent;
 }
 
 .quick-view-modal-scroll::-webkit-scrollbar {
@@ -3131,20 +3131,20 @@ select:focus {
 
 .quick-view-modal-scroll::-webkit-scrollbar-thumb {
     min-height: 28px;
-    background: #d4af37;
+    background: #cbd5e1;
     border-radius: 999px;
 }
 
 .quick-view-modal-scroll::-webkit-scrollbar-thumb:hover {
-    background: #D4AF37;
+    background: #b6c0cc;
 }
 
-/* Slim pure-gold scrollbars across the complete website. */
+/* Slim light-gray scrollbars across the complete website. */
 html,
 body,
 * {
     scrollbar-width: thin;
-    scrollbar-color: #d4af37 #fbf8f1;
+    scrollbar-color: #cbd5e1 #f8fafc;
 }
 
 *::-webkit-scrollbar {
@@ -3153,21 +3153,21 @@ body,
 }
 
 *::-webkit-scrollbar-track {
-    background: #fbf8f1;
+    background: #f8fafc;
 }
 
 *::-webkit-scrollbar-thumb {
-    background: #d4af37;
-    border: 1px solid #fbf8f1;
+    background: #cbd5e1;
+    border: 1px solid #f8fafc;
     border-radius: 999px;
 }
 
 *::-webkit-scrollbar-thumb:hover {
-    background: #D4AF37;
+    background: #b6c0cc;
 }
 
 *::-webkit-scrollbar-corner {
-    background: #fbf8f1;
+    background: #f8fafc;
 }
 
 /* Final bright pure-gold normalization: no bronze or dark-gold UI accents. */
