@@ -96,10 +96,8 @@ const collections = [
   { title: "Necklaces", image: necklace1 },
   { title: "Bangles", image: bangle1 },
   { title: "Earrings", image: earring1 },
-  { title: "Rings", image: "https://images.unsplash.com/photo-1605100804763-247f67b3557e?auto=format&fit=crop&w=900&q=90" },
   { title: "Bracelets", image: bangle4 },
   { title: "Chains", image: chain1 },
-  { title: "Pendants", image: "https://images.unsplash.com/photo-1599643477877-530eb83abc8e?auto=format&fit=crop&w=900&q=90" },
 ];
 
 const promises = [
@@ -116,7 +114,6 @@ export const productShelves: { id: string; kicker: string; title: string; text: 
     id: "new-arrivals", kicker: "Just In", title: "New Arrivals", text: "Freshly crafted designs created for modern celebrations.",
     products: [
       { name: "Peacock Heritage Necklace", material: "925 Silver with 24K Gold Plating", price: "6,499", badge: "New", image: templeNecklace },
-      { name: "Celestial Zircon Ring", material: "925 Silver with 24K Gold Plating", price: "1,799", badge: "New", image: "https://images.unsplash.com/photo-1605100804763-247f67b3557e?auto=format&fit=crop&w=900&q=90" },
       { name: "Antique Ruby Bangles", material: "925 Silver with 24K Gold Plating", price: "3,999", badge: "New", image: bangle2 },
       { name: "Lotus Jhumka Earrings", material: "925 Silver with 24K Gold Plating", price: "1,699", badge: "New", image: earring2 },
     ],
@@ -125,7 +122,6 @@ export const productShelves: { id: string; kicker: string; title: string; text: 
     id: "best-sellers", kicker: "Customer Favourites", title: "Best Sellers", text: "The Annai designs most loved and chosen by our customers.",
     products: [
       { name: "Royal Lakshmi Necklace", material: "925 Silver with 24K Gold Plating", price: "7,499", badge: "Bestseller", image: templeNecklace },
-      { name: "Classic Zircon Solitaire Ring", material: "925 Silver with 24K Gold Plating", price: "1,999", badge: "Bestseller", image: "https://images.unsplash.com/photo-1603561596112-db1d314c0c1e?auto=format&fit=crop&w=900&q=90" },
       { name: "Traditional Gold Jhumka", material: "925 Silver with 24K Gold Plating", price: "1,899", badge: "Bestseller", image: earring3 },
       { name: "Antique Bridal Bangles", material: "925 Silver with 24K Gold Plating", price: "4,499", badge: "Bestseller", image: bangle3 },
     ],
@@ -158,7 +154,6 @@ export const productShelves: { id: string; kicker: string; title: string; text: 
       { name: "Temple Bridal Necklace", material: "925 Silver with 24K Gold Plating", price: "8,999", badge: "Bestseller", image: necklace1 },
       { name: "Mango Mala Necklace", material: "925 Silver with 24K Gold Plating", price: "7,999", image: necklace2 },
       { name: "Emerald Heritage Choker", material: "925 Silver with 24K Gold Plating", price: "6,999", image: necklace3 },
-      { name: "Moon Gold-Plated Pendant Necklace", material: "925 Silver with 24K Gold Plating", price: "1,499", image: necklace4 },
       { name: "Royal Lakshmi Haaram", material: "925 Silver with 24K Gold Plating", price: "8,499", badge: "New", image: necklace5 },
       { name: "Antique Peacock Necklace", material: "925 Silver with 24K Gold Plating", price: "6,799", image: necklace6 },
       { name: "Ruby Floral Choker", material: "925 Silver with 24K Gold Plating", price: "5,999", image: necklace7 },
@@ -269,7 +264,7 @@ const reviewStories = [
   "My bangles were customised perfectly and delivered as promised. The workmanship is exceptional.",
   "A wonderful selection of traditional and modern jewellery. The staff never rushed us and helped us choose confidently.",
   "The exchange process was simple and transparent. I am very happy with my new necklace.",
-  "My anniversary ring is delicate, elegant and beautifully finished. Thank you for making the day extra special.",
+  "My anniversary necklace is delicate, elegant and beautifully finished. Thank you for making the day extra special.",
   "The bridal consultation was personal and thoughtful. Every piece complemented my wedding saree beautifully.",
   "Trusted quality, kind service and gorgeous designs. We have been shopping with Annai for many years.",
 ];
@@ -364,7 +359,7 @@ export default function HomePage() {
   };
 
   return <>
-    <SEO title="Annai Jewellery" description="Shop 925 silver ornaments with 24K gold plating, including earrings, necklaces, bracelets, rings and bridal jewellery." />
+    <SEO title="Annai Jewellery" description="Shop 925 silver ornaments with 24K gold plating, including earrings, necklaces, bracelets, chains and bridal jewellery." />
 
     <section className="jewellery-hero-slider relative min-h-[620px] w-full overflow-hidden text-amber-900 sm:min-h-[680px]">
       {heroSlides.map((slide, index) => (
@@ -417,7 +412,7 @@ export default function HomePage() {
 
     {productShelves.map((shelf, index) => <ProductShelf key={shelf.id} shelf={shelf} alternate={index % 2 === 1} onQuickView={openQuickView} onAddToCart={(product)=>addJewelleryToCart(product,1)} />)}
 
-    <section className="px-4 py-12 sm:px-6 lg:px-10">
+    {/* <section className="px-4 py-12 sm:px-6 lg:px-10">
       <div className="mx-auto max-w-7xl">
         <SectionTitle kicker="The Annai Promise" title="Genuine silver. Radiant gold finish." text="Every piece combines a quality-checked 925 silver base with carefully applied 24K gold plating."/>
         <div className="grid gap-6 lg:grid-cols-[1.4fr_1fr]">
@@ -425,7 +420,7 @@ export default function HomePage() {
           <div className="grid gap-4">{promises.map(([Icon,title,text],i)=><Reveal key={title} delay={i*80}><Card className="group h-full p-5"><div className="flex gap-4"><span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-amber-50 text-amber-600"><Icon className="h-6 w-6"/></span><div><h3 className="text-lg font-medium">{title}</h3><p className="mt-2 text-sm leading-6 text-slate-600">{text}</p></div></div></Card></Reveal>)}</div>
         </div>
       </div>
-    </section>
+    </section> */}
 
     {/* <section className="bg-slate-50 px-4 py-16 sm:px-6 lg:px-10">
       <div className="mx-auto max-w-7xl text-center"><SectionTitle kicker="A Legacy of Trust" title="Jewellery made for life's precious moments." text="From first gifts to wedding heirlooms, Annai is honoured to be part of your story."/>

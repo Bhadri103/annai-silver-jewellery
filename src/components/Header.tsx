@@ -13,14 +13,12 @@ const primaryItems = [
   ["Necklaces", "/collection/necklaces"],
   ["Earrings", "/collection/earrings"],
   ["Chains", "/collection/chains"],
-  ["Rings", "/collection/rings"],
 ];
 
 const allMenuItems = [
   ...primaryItems.slice(1),
   ["Chain Bracelets", "/collection/chain-bracelets"],
   ["Kada Bracelets", "/collection/kada-bracelets"],
-  ["Pendants", "/collection/pendants"],
   ["Anklets", "/collection/anklets"],
   ["Bridal Jewellery", "/collection/bridal-jewellery"],
   ["Antique Jewellery", "/collection/antique-jewellery"],

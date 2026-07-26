@@ -13,14 +13,12 @@ export default function CollectionPage() {
   const matchedShelf = productShelves.find((item) => item.id === collectionId);
   const collectionKeywords: Record<string, string[]> = {
     "kada-bracelets": ["bangle", "bracelet"],
-    pendants: ["pendant", "necklace"],
     anklets: ["silver", "chain"],
     "bridal-jewellery": ["bridal", "temple", "heritage", "lakshmi"],
     "antique-jewellery": ["antique", "temple", "heritage"],
     "stone-jewellery": ["zircon", "ruby", "emerald", "stone"],
     "gold-plated-jewellery": ["24k gold plating", "gold-plated"],
     "silver-jewellery": ["silver", "925"],
-    rings: ["ring", "solitaire", "zircon"],
   };
   const keywords = collectionKeywords[collectionId || ""] || [collectionId?.replace(/s$/, "") || ""];
   const relatedProducts = allProducts.filter((product) => keywords.some((keyword) => `${product.name} ${product.material}`.toLowerCase().includes(keyword)));
@@ -68,7 +66,7 @@ export default function CollectionPage() {
 
   const categoryLinks = [
     ["New Arrivals", "new-arrivals"], ["Necklaces", "necklaces"], ["Earrings", "earrings"],
-    ["Kada Bracelets", "kada-bracelets"], ["Chains", "chains"], ["Chain Bracelets", "chain-bracelets"], ["Rings", "rings"],
+    ["Kada Bracelets", "kada-bracelets"], ["Chains", "chains"], ["Chain Bracelets", "chain-bracelets"],
     ["Anklets", "anklets"], ["Watches", "watches"], ["Indian Jewellery", "indian-jewellery"],
   ];
   const getCategoryCount = (id: string) => {
@@ -77,7 +75,6 @@ export default function CollectionPage() {
     if (exactShelf) return exactShelf.products.length;
     const categoryTerms: Record<string, string[]> = {
       "kada-bracelets": ["bangle", "bracelet"],
-      rings: ["ring", "solitaire"],
       anklets: ["anklet"],
       watches: ["watch"],
     };
