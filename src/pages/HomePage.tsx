@@ -1,5 +1,5 @@
 ﻿import { useEffect, useState, type FormEvent } from "react";
-import { ArrowLeft, ArrowRight, Award, CalendarCheck, Eye, Gem, Heart, MessageCircle, Minus, Phone, Plus, Send, Share2, ShieldCheck, ShoppingBag, Sparkles, Star, Truck, X } from "lucide-react";
+import { ArrowLeft, ArrowRight, Eye, Gem, Heart, MessageCircle, Minus, Plus, Send, Share2, ShieldCheck, ShoppingBag, Sparkles, Star, Truck, X } from "lucide-react";
 import { Link } from "react-router-dom";
 import earring1 from "../assets/earings/1.png";
 import earring2 from "../assets/earings/2.png";
@@ -430,22 +430,18 @@ export default function HomePage() {
       <div className="absolute inset-0 bg-gradient-to-r from-white via-white/80 to-white/5" />
       <div className="absolute inset-0 bg-gradient-to-t from-white/30 via-transparent to-white/10" />
       <div className="relative z-10 mx-auto flex min-h-[620px] max-w-7xl items-center px-6 py-24 sm:min-h-[680px] sm:px-10 lg:px-12">
-        <div key={activeSlide} className="jewellery-hero-content max-w-2xl">
-          <p className="mb-5 inline-flex items-center gap-2 rounded-full border border-amber-200 bg-white/80 px-4 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-amber-700 shadow-sm backdrop-blur"><Gem className="h-4 w-4" /> {heroSlides[activeSlide].kicker}</p>
-          <h1 className="text-4xl font-medium leading-[1.08] text-slate-900 sm:text-5xl lg:text-6xl">{heroSlides[activeSlide].title}<br/><span className="text-amber-600">{heroSlides[activeSlide].accent}</span></h1>
-          <p className="mt-6 max-w-xl text-sm leading-7 text-slate-700 sm:text-base">{heroSlides[activeSlide].text}</p>
-          <div className="mt-8 flex flex-wrap gap-3">
+        <div key={activeSlide} className="jewellery-hero-content max-w-xl">
+          <p className="mb-4 inline-flex items-center gap-2 rounded-full border border-amber-200 bg-white/80 px-3.5 py-1.5 text-[10px] font-semibold uppercase tracking-[0.2em] text-amber-700 shadow-sm backdrop-blur sm:text-xs"><Gem className="h-3.5 w-3.5" /> {heroSlides[activeSlide].kicker}</p>
+          <h1 className="font-serif text-3xl font-normal leading-[1.08] tracking-[-0.02em] text-slate-900 sm:text-4xl lg:text-5xl">{heroSlides[activeSlide].title}<br/><span className="italic text-amber-600">{heroSlides[activeSlide].accent}</span></h1>
+          <div className="mt-6 flex flex-wrap gap-3">
             <a href="#collections" className="hero-primary-cta inline-flex items-center gap-2 rounded-full px-7 py-3 text-sm font-medium text-white"><Sparkles className="h-4 w-4"/> Explore Collections</a>
-            <Link to="/booking" className="hero-secondary-cta inline-flex items-center gap-2 rounded-full px-6 py-3 text-sm font-medium"><CalendarCheck className="h-4 w-4"/> Book a Visit</Link>
-            <a href="tel:+911234567890" className="hero-secondary-cta inline-flex items-center gap-2 rounded-full px-6 py-3 text-sm font-medium"><Phone className="h-4 w-4"/> Call Now</a>
           </div>
-          <div className="mt-7 flex flex-wrap gap-5 text-sm text-slate-700"><span><strong className="font-medium text-amber-700">Certified 925 Silver</strong> Base</span><span className="flex items-center gap-1"><Star className="h-4 w-4 fill-amber-500 text-amber-500"/> 4.9 Customer Rating</span><span className="flex items-center gap-1"><Award className="h-4 w-4 text-amber-600"/> 24K Gold-Plated Finish</span></div>
         </div>
       </div>
       <button type="button" onClick={() => changeSlide(-1)} className="absolute left-2 top-1/2 z-20 inline-flex h-8 w-8 -translate-y-1/2 items-center justify-center rounded-full border border-amber-200 bg-white/85 text-amber-700 shadow-lg backdrop-blur transition hover:bg-amber-600 hover:text-white sm:left-6 sm:h-11 sm:w-11" aria-label="Previous banner"><ArrowLeft className="h-4 w-4 sm:h-5 sm:w-5"/></button>
       <button type="button" onClick={() => changeSlide(1)} className="absolute right-2 top-1/2 z-20 inline-flex h-8 w-8 -translate-y-1/2 items-center justify-center rounded-full border border-amber-200 bg-white/85 text-amber-700 shadow-lg backdrop-blur transition hover:bg-amber-600 hover:text-white sm:right-6 sm:h-11 sm:w-11" aria-label="Next banner"><ArrowRight className="h-4 w-4 sm:h-5 sm:w-5"/></button>
       <div className="absolute bottom-6 left-1/2 z-20 flex -translate-x-1/2 gap-2">
-        {heroSlides.map((slide, index) => <button key={slide.title} type="button" onClick={() => setActiveSlide(index)} className={`h-2.5 rounded-full bg-amber-600 transition-all ${index === activeSlide ? "w-9" : "w-2.5 opacity-45"}`} aria-label={`Show banner ${index + 1}`}/>)}
+        {heroSlides.map((slide, index) => <button key={slide.title} type="button" onClick={() => setActiveSlide(index)} className={`h-1.5 w-1.5 rounded-full bg-amber-600 transition-all ${index === activeSlide ? "scale-125 opacity-100" : "opacity-40"}`} aria-label={`Show banner ${index + 1}`}/>)}
       </div>
     </section>
 
