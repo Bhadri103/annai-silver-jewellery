@@ -132,15 +132,17 @@ export default function CollectionPage() {
     <section className="px-4 py-10 sm:px-6 lg:px-10">
       <div className="mx-auto max-w-7xl">
         <div className="collection-mobile-search sticky top-[92px] z-30 mb-5 flex items-center rounded-2xl border border-amber-200 bg-white/95 p-1.5 shadow-[0_12px_35px_rgba(143,101,31,0.1)] backdrop-blur-xl lg:hidden">
+          <button type="button" onClick={()=>setFiltersOpen(true)} className="relative grid h-11 w-11 shrink-0 place-items-center rounded-xl bg-amber-600 text-white shadow-md transition hover:-translate-y-0.5 hover:shadow-lg active:scale-95" aria-label="Open filters"><SlidersHorizontal className="h-5 w-5"/>{(material!=="All"||minPrice>0||maxPrice<250000||availability!=="in-stock")&&<span className="absolute -right-1 -top-1 h-3 w-3 rounded-full border-2 border-white bg-[#D4AF37]"/>}</button>
           <Search className="ml-3 h-5 w-5 shrink-0 text-amber-600"/>
           <input value={search} onChange={(event)=>setSearch(event.target.value)} placeholder={`Search ${shelf.title.toLowerCase()}...`} className="min-w-0 flex-1 bg-transparent px-3 py-2.5 text-sm text-slate-900 outline-none placeholder:text-slate-400" aria-label={`Search ${shelf.title}`}/>
           {search&&<button type="button" onClick={()=>setSearch("")} className="grid h-9 w-9 shrink-0 place-items-center rounded-xl text-slate-400" aria-label="Clear search"><X className="h-4 w-4"/></button>}
-          <button type="button" onClick={()=>setFiltersOpen(true)} className="relative grid h-11 w-11 shrink-0 place-items-center rounded-xl bg-amber-600 text-white shadow-md transition hover:-translate-y-0.5 hover:shadow-lg active:scale-95" aria-label="Open filters"><SlidersHorizontal className="h-5 w-5"/>{(material!=="All"||minPrice>0||maxPrice<250000||availability!=="in-stock")&&<span className="absolute -right-1 -top-1 h-3 w-3 rounded-full border-2 border-white bg-[#D4AF37]"/>}</button>
         </div>
         <div className="sticky top-[92px] z-30 mb-7 hidden flex-wrap items-center justify-between gap-4 rounded-2xl border border-amber-100 bg-white/95 p-4 shadow-sm backdrop-blur-xl lg:flex">
-          <div className="flex items-center gap-2 text-sm font-semibold text-slate-900"><Filter className="h-4 w-4 text-amber-600"/>{products.length} products</div>
-          <div className="flex flex-wrap items-center gap-3">
+          <div className="flex items-center gap-3">
             <button type="button" onClick={()=>setFiltersOpen(true)} className="relative inline-flex items-center gap-2 rounded-xl bg-amber-600 px-4 py-2.5 text-sm font-semibold text-white shadow-md transition hover:-translate-y-0.5 hover:bg-amber-700 hover:shadow-lg active:scale-95" aria-label="Open filters"><SlidersHorizontal className="h-4 w-4"/>Filters{(material!=="All"||minPrice>0||maxPrice<250000||availability!=="in-stock")&&<span className="h-2 w-2 rounded-full bg-white"/>}</button>
+            <div className="flex items-center gap-2 text-sm font-semibold text-slate-900"><Filter className="h-4 w-4 text-amber-600"/>{products.length} products</div>
+          </div>
+          <div className="flex flex-wrap items-center gap-3">
             <label className="flex items-center gap-2 text-xs text-slate-500">Material
               <select value={material} onChange={(event)=>setMaterial(event.target.value)} className="rounded-xl border border-amber-100 bg-[#fbf8f1] px-3 py-2 text-sm text-slate-900 outline-none">{materials.map(item=><option key={item}>{item}</option>)}</select>
             </label>
@@ -170,14 +172,14 @@ export default function CollectionPage() {
     </section>
     <div
       aria-hidden={!filtersOpen}
-      className={`fixed inset-0 z-[90] flex justify-end bg-slate-950/40 backdrop-blur-[2px] transition-all duration-500 ease-out ${filtersOpen ? "visible opacity-100" : "invisible pointer-events-none opacity-0"}`}
+      className={`fixed inset-0 z-[90] flex justify-start bg-slate-950/40 backdrop-blur-[2px] transition-all duration-500 ease-out ${filtersOpen ? "visible opacity-100" : "invisible pointer-events-none opacity-0"}`}
       onClick={()=>setFiltersOpen(false)}
     >
       <div
         role="dialog"
         aria-modal="true"
         aria-label="Product filters"
-        className={`collection-filter-drawer h-full w-[88%] max-w-md shadow-2xl transition-transform duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] ${filtersOpen ? "translate-x-0" : "translate-x-full"}`}
+        className={`collection-filter-drawer h-full w-[88%] max-w-md shadow-2xl transition-transform duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] ${filtersOpen ? "translate-x-0" : "-translate-x-full"}`}
         onClick={(event)=>event.stopPropagation()}
       >
         <FilterPanel/>
