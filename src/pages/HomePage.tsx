@@ -1,4 +1,4 @@
-﻿import { useEffect, useState, type FormEvent } from "react";
+import { useEffect, useRef, useState, type FormEvent } from "react";
 import { ArrowLeft, ArrowRight, Eye, Gem, Heart, MessageCircle, Minus, Phone, Plus, Send, Share2, ShieldCheck, ShoppingBag, Sparkles, Star, Truck, X } from "lucide-react";
 import { Link } from "react-router-dom";
 import earring1 from "../assets/earings/1.png";
@@ -345,6 +345,7 @@ export default function HomePage() {
   const [reviewMessage, setReviewMessage] = useState("");
   const [reviewModalOpen, setReviewModalOpen] = useState(false);
   const [customerReviews, setCustomerReviews] = useState(initialReviews);
+  const heroSwipeStart = useRef<number | null>(null);
 
   useEffect(() => {
     if (!reviewModalOpen && quickViewIndex === null) return;
@@ -362,6 +363,13 @@ export default function HomePage() {
 
   const changeSlide = (direction: number) =>
     setActiveSlide((current) => (current + direction + heroSlides.length) % heroSlides.length);
+
+  const finishHeroSwipe = (clientX: number) => {
+    if (heroSwipeStart.current === null) return;
+    const distance = clientX - heroSwipeStart.current;
+    heroSwipeStart.current = null;
+    if (Math.abs(distance) >= 45) changeSlide(distance < 0 ? 1 : -1);
+  };
 
   const openQuickView = (product: Product) => {
     setQuickViewIndex(allProducts.findIndex((item) => item.name === product.name));
@@ -421,7 +429,15 @@ export default function HomePage() {
   return <>
     <SEO title="Annai Jewellery" description="Shop 925 silver ornaments with 24K gold plating, including earrings, necklaces, bangles, chains and bridal jewellery." />
 
-    <section className="jewellery-hero-slider relative min-h-[620px] w-full overflow-hidden text-amber-900 sm:min-h-[680px]">
+    <section
+      className="jewellery-hero-slider relative min-h-[620px] w-full touch-pan-y select-none overflow-hidden text-amber-900 sm:min-h-[680px]"
+      onPointerDown={(event) => { heroSwipeStart.current = event.clientX; }}
+      onPointerUp={(event) => finishHeroSwipe(event.clientX)}
+      onPointerCancel={() => { heroSwipeStart.current = null; }}
+      onPointerLeave={(event) => {
+        if (event.pointerType === "mouse" && event.buttons === 1) finishHeroSwipe(event.clientX);
+      }}
+    >
       {heroSlides.map((slide, index) => (
         <div key={slide.title} className={`jewellery-hero-slide absolute inset-0 ${index === activeSlide ? "is-active" : ""}`}>
           <img src={slide.image} alt={`${slide.title} ${slide.accent}`} data-eager={index === 0 ? "true" : undefined} loading={index === 0 ? "eager" : "lazy"} fetchPriority={index === 0 ? "high" : "auto"} decoding="async" style={{ objectPosition: slide.position }} className="h-full w-full object-cover" />
@@ -440,8 +456,6 @@ export default function HomePage() {
           </div>
         </div>
       </div>
-      <button type="button" onClick={() => changeSlide(-1)} className="absolute left-2 top-1/2 z-20 inline-flex h-8 w-8 -translate-y-1/2 items-center justify-center rounded-full border border-amber-200 bg-white/85 text-amber-700 shadow-lg backdrop-blur transition hover:bg-amber-600 hover:text-white sm:left-6 sm:h-11 sm:w-11" aria-label="Previous banner"><ArrowLeft className="h-4 w-4 sm:h-5 sm:w-5"/></button>
-      <button type="button" onClick={() => changeSlide(1)} className="absolute right-2 top-1/2 z-20 inline-flex h-8 w-8 -translate-y-1/2 items-center justify-center rounded-full border border-amber-200 bg-white/85 text-amber-700 shadow-lg backdrop-blur transition hover:bg-amber-600 hover:text-white sm:right-6 sm:h-11 sm:w-11" aria-label="Next banner"><ArrowRight className="h-4 w-4 sm:h-5 sm:w-5"/></button>
       <div className="absolute bottom-6 left-1/2 z-20 flex -translate-x-1/2 gap-2">
         {heroSlides.map((slide, index) => <button key={slide.title} type="button" onClick={() => setActiveSlide(index)} className={`h-1.5 w-1.5 rounded-full bg-amber-600 transition-all ${index === activeSlide ? "scale-125 opacity-100" : "opacity-40"}`} aria-label={`Show banner ${index + 1}`}/>)}
       </div>
