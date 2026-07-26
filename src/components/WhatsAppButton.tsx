@@ -6,10 +6,9 @@ const WhatsAppButton = () => (
     target="_blank"
     rel="noreferrer"
     aria-label="Message Annai Jewellery on WhatsApp"
-    className="fixed bottom-[76px] right-4 z-[70] flex items-center gap-2 rounded-full bg-[#25D366] px-3.5 py-3 text-sm font-semibold text-white shadow-[0_10px_30px_rgba(37,211,102,0.35)] transition hover:-translate-y-1 hover:bg-[#20bd5a] sm:bottom-6 sm:right-6 sm:px-5"
+    className="fixed bottom-[76px] right-4 z-[70] grid h-12 w-12 place-items-center rounded-full bg-[#25D366] text-white shadow-[0_10px_30px_rgba(37,211,102,0.35)] transition hover:-translate-y-1 hover:scale-105 hover:bg-[#20bd5a] sm:bottom-6 sm:right-6 sm:h-14 sm:w-14"
   >
-    <MessageCircle className="h-5 w-5 fill-white/20" />
-    <span className="hidden sm:inline">WhatsApp Us</span>
+    <MessageCircle className="h-6 w-6 fill-white/20 sm:h-7 sm:w-7" />
   </a>
 );
 

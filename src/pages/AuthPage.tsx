@@ -123,8 +123,8 @@ const AuthPage = ({ initialMode }: { initialMode?: AuthMode }) => {
         const data = await websiteApi.forgotPassword({ email: clean(form.email).toLowerCase() });
         setMessage(data.devOtp ? `${data.message} Dev OTP: ${data.devOtp}` : data.message);
       } else {
-        if (clean(form.email).toLowerCase() === "demo@annai.com" && form.password === "annai123") {
-          handleSuccess({ id: "demo-annai", name: "Ananya Customer", email: "demo@annai.com", phone: "9876543210", plan: "Annai Gold Member", goal: "Bridal & traditional jewellery", address: "Anna Nagar, Chennai", token: "demo-annai-token" }, "Login successful. Opening your profile...");
+        if (clean(form.email).toLowerCase() === "bhadri@guvihost.com" && form.password === "bhadri") {
+          handleSuccess({ id: "demo-bhadri", name: "Bhadri", email: "bhadri@guvihost.com", phone: "9751229418", plan: "Annai Customer", goal: "Silver jewellery", address: "Padmanabhapuram, Tamil Nadu", token: "demo-bhadri-token" }, "Login successful. Opening your profile...");
           return;
         }
         const user = await websiteApi.login({ loginIdentifier: clean(form.email), password: form.password });
@@ -276,7 +276,7 @@ const AuthPage = ({ initialMode }: { initialMode?: AuthMode }) => {
                 </button>
               </p>
             )}
-            {mode === "login" && <div className="mt-3 text-center"><button type="button" onClick={() => update({ email: "demo@annai.com", password: "annai123" })} className="rounded-full border border-dashed border-amber-300 bg-amber-50/60 px-3 py-2 text-[10px] text-slate-600 sm:px-4 sm:text-[11px]"><strong className="text-amber-700">Use demo</strong> &nbsp; demo@annai.com / annai123</button></div>}
+            {mode === "login" && <div className="mt-3 text-center"><button type="button" onClick={() => update({ email: "bhadri@guvihost.com", password: "bhadri" })} className="rounded-full border border-dashed border-amber-300 bg-amber-50/60 px-3 py-2 text-[10px] text-slate-600 sm:px-4 sm:text-[11px]"><strong className="text-amber-700">Use demo</strong> &nbsp; bhadri@guvihost.com / bhadri</button></div>}
             <p className="mt-3 text-center text-xs text-slate-400">
               <Link to="/" className="hover:text-amber-600">Back to website</Link>
             </p>
