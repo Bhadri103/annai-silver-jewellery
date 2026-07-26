@@ -1,5 +1,5 @@
 ﻿import { useEffect, useMemo, useState } from "react";
-import { ArrowRight, Eye, Filter, Heart, IndianRupee, Minus, Plus, Search, Share2, SlidersHorizontal, X } from "lucide-react";
+import { ArrowRight, Eye, Filter, IndianRupee, Minus, Plus, Search, SlidersHorizontal, X } from "lucide-react";
 import { Link, useParams } from "react-router-dom";
 import { readCart, writeCart } from "../lib/cart";
 import { productShelves, productSlug } from "./HomePage";
@@ -107,14 +107,6 @@ export default function CollectionPage() {
     setNotice(quantity ? `${product.name} quantity updated.` : `${product.name} removed from cart.`);
     window.setTimeout(() => setNotice(""), 2500);
   };
-  const shareProduct = async (product: typeof shelf.products[number]) => {
-    const url = `${window.location.origin}${window.location.pathname}#/product/${productSlug(product.name)}`;
-    if (navigator.share) await navigator.share({ title: product.name, url }).catch(() => undefined);
-    else {
-      await navigator.clipboard?.writeText(url);
-      setNotice("Product link copied.");
-    }
-  };
 
   return <>
     <SEO title={`${shelf.title} Collection`} description={shelf.text}/>
@@ -174,7 +166,7 @@ export default function CollectionPage() {
               <div className="relative h-44 overflow-hidden bg-[#fbf8f1] sm:h-60 lg:h-64">
                 <Link to={`/product/${productSlug(product.name)}`} className="m-2 block h-[calc(100%-1rem)] overflow-hidden rounded-xl"><img src={product.image} alt={product.name} className="h-full w-full rounded-xl object-contain transition duration-700 group-hover:scale-110"/></Link>
                 {product.badge&&<span className="absolute left-3 top-3 rounded-full bg-[#D4AF37] px-3 py-1 text-[8px] font-bold uppercase tracking-wider text-white">{product.badge}</span>}
-                <div className="absolute right-3 top-3 flex flex-col gap-2"><button className="grid h-9 w-9 place-items-center rounded-full bg-white/95 text-amber-700 shadow" aria-label={`Save ${product.name}`}><Heart className="h-4 w-4"/></button><button type="button" onClick={()=>shareProduct(product)} className="grid h-9 w-9 place-items-center rounded-full bg-white/95 text-amber-700 shadow" aria-label={`Share ${product.name}`}><Share2 className="h-4 w-4"/></button><Link to={`/product/${productSlug(product.name)}`} className="grid h-9 w-9 place-items-center rounded-full bg-white/95 text-amber-700 shadow" aria-label={`View ${product.name}`}><Eye className="h-4 w-4"/></Link></div>
+                <Link to={`/product/${productSlug(product.name)}`} className="absolute right-3 top-3 grid h-9 w-9 place-items-center rounded-full bg-white/95 text-amber-700 shadow" aria-label={`View ${product.name}`}><Eye className="h-4 w-4"/></Link>
               </div>
               <div className="p-3 sm:p-5"><p className="text-[9px] font-semibold uppercase tracking-[0.14em] text-amber-600">{product.material}</p><h2 className="mt-2 text-sm font-medium text-slate-900 sm:text-lg">{product.name}</h2><div className="mt-4 flex items-center justify-between gap-2"><strong className="text-xs text-slate-900 sm:text-sm"><Price value={product.price}/></strong>{cart[`jewel-${productSlug(product.name)}`] ? <div className="flex h-9 items-center overflow-hidden rounded-full bg-amber-600 text-white shadow-sm"><button type="button" onClick={()=>changeCartQuantity(product,-1)} className="grid h-9 w-8 place-items-center hover:bg-amber-700" aria-label={`Remove one ${product.name}`}><Minus className="h-3.5 w-3.5"/></button><span className="min-w-6 text-center text-xs font-semibold">{cart[`jewel-${productSlug(product.name)}`]}</span><button type="button" onClick={()=>changeCartQuantity(product,1)} className="grid h-9 w-8 place-items-center hover:bg-amber-700" aria-label={`Add one more ${product.name}`}><Plus className="h-3.5 w-3.5"/></button></div> : <button type="button" onClick={()=>changeCartQuantity(product,1)} className="inline-flex h-9 items-center gap-1 rounded-full bg-amber-600 px-3 text-xs font-semibold text-white hover:bg-amber-700" aria-label={`Add ${product.name} to cart`}><Plus className="h-3.5 w-3.5"/>Add</button>}</div><Link to={`/product/${productSlug(product.name)}`} className="mt-4 inline-flex items-center gap-2 text-xs font-semibold text-amber-700">View details <ArrowRight className="h-3.5 w-3.5"/></Link></div>
             </article>
