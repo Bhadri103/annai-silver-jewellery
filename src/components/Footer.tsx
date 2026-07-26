@@ -4,6 +4,9 @@ import { Link } from "react-router-dom";
 import logo from "../assets/logo.png";
 import logoDark from "../assets/logo-dark-theme.png";
 
+const showroomDirections = "https://www.google.com/maps/dir//Annai+Sliver+Jewellery,+Shop+No+8,+Old+Bus+Stand,+Padmanabhapuram,+Tamil+Nadu+629175/@8.2073794,77.3040963,1915m/data=!3m1!1e3!4m8!4m7!1m0!1m5!1m1!1s0x3b04f9c3ad0b657f:0x9c9047a12495cad7!2m2!1d77.3202801!2d8.2407514?entry=ttu&g_ep=EgoyMDI2MDcyMi4wIKXMDSoASAFQAw%3D%3D";
+const showroomEmbed = "https://www.google.com/maps?q=Annai%20Sliver%20Jewellery%2C%20Shop%20No%208%2C%20Old%20Bus%20Stand%2C%20Padmanabhapuram%2C%20Tamil%20Nadu%20629175&output=embed";
+
 const shopLinks = [
   ["New Arrivals", "/collection/new-arrivals"],
   ["Best Sellers", "/collection/best-sellers"],
@@ -38,7 +41,7 @@ const Footer: React.FC = () => (
             {[
               [Instagram, "https://www.instagram.com/", "Instagram"],
               [Facebook, "https://www.facebook.com/", "Facebook"],
-              [MessageCircle, "https://wa.me/919123456789", "WhatsApp"],
+              [MessageCircle, "https://wa.me/919751229418", "WhatsApp"],
             ].map(([Icon, href, label]) => (
               <a key={label as string} href={href as string} target="_blank" rel="noreferrer" aria-label={label as string} className="grid h-10 w-10 place-items-center rounded-full border border-amber-200 bg-white text-amber-700 transition hover:-translate-y-1 hover:bg-amber-600 hover:text-white">
                 <Icon className="h-4 w-4"/>
@@ -67,19 +70,19 @@ const Footer: React.FC = () => (
             {customerLinks.map(([label, href]) => <li key={label}><Link to={href} className="transition hover:text-amber-600">{label}</Link></li>)}
           </ul>
           <div className="mt-7 space-y-3 border-t border-amber-100 pt-6 text-xs leading-6 text-slate-600">
-            <p className="flex gap-3"><Phone className="mt-1 h-4 w-4 shrink-0 text-amber-600"/>+91 91234 56789</p>
+            <p className="flex gap-3"><Phone className="mt-1 h-4 w-4 shrink-0 text-amber-600"/>+91 97512 29418</p>
             <p className="flex gap-3"><Mail className="mt-1 h-4 w-4 shrink-0 text-amber-600"/>info@annaijewellery.com</p>
-            <p className="flex gap-3"><Clock3 className="mt-1 h-4 w-4 shrink-0 text-amber-600"/>Mon-Sat: 10 AM-8 PM<br/>Sun: 10:30 AM-6:30 PM</p>
+            <p className="flex gap-3"><Clock3 className="mt-1 h-4 w-4 shrink-0 text-amber-600"/>Monday-Saturday: 9 AM-9 PM<br/>Sunday: Closed</p>
           </div>
         </div>
 
         <div>
           <h3 className="text-sm font-semibold uppercase tracking-[0.16em] text-amber-600">Visit Our Showroom</h3>
-          <a href="https://www.google.com/maps/search/?api=1&query=Anna+Salai+Chennai+Tamil+Nadu" target="_blank" rel="noreferrer" className="mt-4 flex items-start gap-3 text-sm leading-6 text-slate-600 transition hover:text-amber-600">
-            <MapPin className="mt-1 h-4 w-4 shrink-0 text-amber-600"/>123, Anna Salai, Chennai, Tamil Nadu 600002
+          <a href={showroomDirections} target="_blank" rel="noreferrer" className="mt-4 flex items-start gap-3 text-sm leading-6 text-slate-600 transition hover:text-amber-600">
+            <MapPin className="mt-1 h-4 w-4 shrink-0 text-amber-600"/>Shop No 8, Old Bus Stand, Padmanabhapuram, Tamil Nadu 629175
           </a>
           <div className="mt-4 h-56 overflow-hidden rounded-2xl border border-amber-100 bg-white shadow-sm">
-            <iframe title="Annai Jewellery showroom map" src="https://www.google.com/maps?q=Anna%20Salai%2C%20Chennai%2C%20Tamil%20Nadu&output=embed" className="h-full w-full border-0" loading="lazy" referrerPolicy="no-referrer-when-downgrade" allowFullScreen/>
+            <iframe title="Annai Jewellery showroom map" src={showroomEmbed} className="h-full w-full border-0" loading="lazy" referrerPolicy="no-referrer-when-downgrade" allowFullScreen/>
           </div>
         </div>
       </div>

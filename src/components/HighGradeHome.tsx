@@ -567,7 +567,7 @@ const HighGradeHome: React.FC = () => {
           <div className="grid gap-5 lg:grid-cols-[1.15fr_1fr]">
             <Reveal>
               <article className="group relative min-h-[360px] overflow-hidden rounded-3xl shadow-xl">
-                <img src={posts[0].image} alt={posts[0].title} className="absolute inset-0 h-full w-full object-contain transition duration-700 group-hover:scale-105" />
+                <img src={posts[0].image} alt={posts[0].title} className="absolute inset-0 h-full w-full object-cover transition duration-700 group-hover:scale-105" />
                 <div className="absolute inset-0 bg-gradient-to-t from-amber-900 via-amber-800/35 to-transparent" />
                 <div className="absolute bottom-0 p-6 text-white">
                   <h3 className="text-xl font-semibold">{posts[0].title}</h3>
@@ -579,7 +579,7 @@ const HighGradeHome: React.FC = () => {
               {posts.slice(1).map((post, index) => (
                 <Reveal key={post.title} delay={index * 80}>
                   <article className="group relative min-h-[170px] overflow-hidden rounded-3xl shadow-lg">
-                    <img src={post.image} alt={post.title} className="absolute inset-0 h-full w-full object-contain transition duration-700 group-hover:scale-105" />
+                    <img src={post.image} alt={post.title} className="absolute inset-0 h-full w-full object-cover transition duration-700 group-hover:scale-105" />
                     <div className="absolute inset-0 bg-gradient-to-t from-amber-900 via-amber-800/45 to-transparent" />
                     <h3 className="absolute bottom-7 left-4 right-4 text-sm font-semibold text-white">{post.title}</h3>
                     <a href="#community" className="absolute bottom-3 right-4 text-[10px] font-medium text-amber-300">Learn More --</a>

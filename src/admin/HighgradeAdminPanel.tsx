@@ -2497,7 +2497,7 @@ export default function HighgradeAdminPanel() {
                 <strong>Highgrade Fitness</strong>
                 <p>Highgrade Sports & Supplements</p>
                 <p>Nagercoil, Tamil Nadu</p>
-                <p>+91 86681 69830 / +91 98943 29507</p>
+                <p>+91 97512 29418</p>
               </div>
               <div class="party">
                 <h3>Bill To</h3>

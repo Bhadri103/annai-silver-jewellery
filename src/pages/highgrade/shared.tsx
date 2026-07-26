@@ -110,9 +110,9 @@ export const SEO = ({ title, description }: { title: string; description: string
       "@context": "https://schema.org",
       "@type": "HealthClub",
       name: "Highgrade Fitness",
-      address: "Nagercoil, Tamil Nadu",
-      telephone: "+91 98943 29507",
-      areaServed: "Nagercoil",
+      address: "Shop No 8, Old Bus Stand, Padmanabhapuram, Tamil Nadu 629175",
+      telephone: "+91 97512 29418",
+      areaServed: "Padmanabhapuram",
     });
     document.head.appendChild(script);
   }, [description, title]);

@@ -13,7 +13,7 @@ type ChatMessage = {
 
 type LeadStep = "idle" | "name" | "phone" | "goal";
 
-const showroomMap = "https://www.google.com/maps/search/?api=1&query=Anna+Salai+Chennai+Tamil+Nadu";
+const showroomMap = "https://www.google.com/maps/dir//Annai+Sliver+Jewellery,+Shop+No+8,+Old+Bus+Stand,+Padmanabhapuram,+Tamil+Nadu+629175/@8.2073794,77.3040963,1915m/data=!3m1!1e3!4m8!4m7!1m0!1m5!1m1!1s0x3b04f9c3ad0b657f:0x9c9047a12495cad7!2m2!1d77.3202801!2d8.2407514?entry=ttu&g_ep=EgoyMDI2MDcyMi4wIKXMDSoASAFQAw%3D%3D";
 
 const quickAnswers: Record<string, ChatMessage> = {
   collections: {
@@ -40,13 +40,13 @@ const quickAnswers: Record<string, ChatMessage> = {
   location: {
     id: 0,
     from: "bot",
-    text: "Visit Annai Jewellery at 123, Anna Salai, Chennai, Tamil Nadu 600002. We are open Monday-Saturday 10 AM-8 PM and Sunday 10:30 AM-6:30 PM.",
+    text: "Visit Annai Jewellery at Shop No 8, Old Bus Stand, Padmanabhapuram, Tamil Nadu 629175. We are open Monday-Saturday 9 AM-9 PM and closed on Sunday.",
     actions: [{ label: "Showroom directions", href: showroomMap }],
   },
   contact: {
     id: 0,
     from: "bot",
-    text: "Call or WhatsApp Annai Jewellery at +91 91234 56789. I can also collect your details for a jewellery consultant callback.",
+    text: "Call or WhatsApp Annai Jewellery at +91 97512 29418. I can also collect your details for a jewellery consultant callback.",
   },
   payment: {
     id: 0,
@@ -159,7 +159,7 @@ const HighgradeChatBot = () => {
     } catch (error) {
       botReply({
         from: "bot",
-        text: error instanceof Error ? `${error.message}. You can also call +91 91234 56789.` : "Unable to send details. Please call +91 91234 56789.",
+        text: error instanceof Error ? `${error.message}. You can also call +91 97512 29418.` : "Unable to send details. Please call +91 97512 29418.",
       });
     } finally {
       setSubmitting(false);
@@ -336,10 +336,10 @@ const HighgradeChatBot = () => {
 
         <footer className="chatbot-footer border-t p-3">
           <div className="mb-2 grid grid-cols-2 gap-2">
-            <a href="tel:+919123456789" className="chatbot-chip flex items-center justify-center gap-2 rounded-full border px-3 py-2 text-xs font-semibold">
+            <a href="tel:+919751229418" className="chatbot-chip flex items-center justify-center gap-2 rounded-full border px-3 py-2 text-xs font-semibold">
               <Phone className="h-3.5 w-3.5" /> Call
             </a>
-            <a href="https://wa.me/919123456789" target="_blank" rel="noreferrer" className="chatbot-chip flex items-center justify-center gap-2 rounded-full border px-3 py-2 text-xs font-semibold">
+            <a href="https://wa.me/919751229418" target="_blank" rel="noreferrer" className="chatbot-chip flex items-center justify-center gap-2 rounded-full border px-3 py-2 text-xs font-semibold">
               WhatsApp
             </a>
           </div>

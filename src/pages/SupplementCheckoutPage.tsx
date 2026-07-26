@@ -8,7 +8,7 @@ import { SEO } from "./highgrade/shared";
 
 type PaymentMethod = "whatsapp" | "upi" | "gpay" | "qr";
 const upiId = "annaijewellery@upi";
-const whatsappNumber = "919123456789";
+const whatsappNumber = "919751229418";
 
 const savedCartProducts = () => {
   try { return JSON.parse(localStorage.getItem("annai_cart_products") || "{}") as Record<string, Product>; }

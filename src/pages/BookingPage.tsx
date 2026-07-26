@@ -18,8 +18,8 @@ const BookingPage = () => (
               </p>
             ))}
             <div className="mt-8 grid gap-3 sm:grid-cols-3">
-              <a href="tel:+919894329507" className="inline-flex items-center justify-center gap-2 rounded-xl border border-amber-200 px-4 py-3 text-sm font-medium text-amber-900 transition hover:bg-amber-50"><Phone className="h-4 w-4" /> Call</a>
-              <a href="https://wa.me/919894329507" className="inline-flex items-center justify-center gap-2 rounded-xl border border-amber-200 px-4 py-3 text-sm font-medium text-amber-900 transition hover:bg-amber-50"><MessageCircle className="h-4 w-4" /> WhatsApp</a>
+              <a href="tel:+919751229418" className="inline-flex items-center justify-center gap-2 rounded-xl border border-amber-200 px-4 py-3 text-sm font-medium text-amber-900 transition hover:bg-amber-50"><Phone className="h-4 w-4" /> Call</a>
+              <a href="https://wa.me/919751229418" className="inline-flex items-center justify-center gap-2 rounded-xl border border-amber-200 px-4 py-3 text-sm font-medium text-amber-900 transition hover:bg-amber-50"><MessageCircle className="h-4 w-4" /> WhatsApp</a>
               <button type="button" className="inline-flex items-center justify-center gap-2 rounded-xl bg-amber-600 px-4 py-3 text-sm font-medium text-white"><CalendarDays className="h-4 w-4" /> Book</button>
             </div>
           </Card>
