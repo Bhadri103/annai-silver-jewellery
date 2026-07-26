@@ -132,6 +132,11 @@ export const productShelves: { id: string; kicker: string; title: string; text: 
       { name: "Mango Mala Necklace", material: "925 Silver with 24K Gold Plating", price: "7,999", badge: "Bestseller", image: necklace2 },
       { name: "Traditional Gold Jhumka", material: "925 Silver with 24K Gold Plating", price: "1,899", badge: "Bestseller", image: earring3 },
       { name: "Antique Bridal Bangles", material: "925 Silver with 24K Gold Plating", price: "4,499", badge: "Bestseller", image: bangle3 },
+      { name: "Figaro Gold-Plated Chain", material: "925 Silver with 24K Gold Plating", price: "2,799", badge: "Bestseller", image: chain4 },
+      { name: "Grand Temple Long Haaram", material: "925 Silver with 24K Gold Plating", price: "9,999", badge: "Bestseller", image: necklace21 },
+      { name: "Golden Peacock Earrings", material: "925 Silver with 24K Gold Plating", price: "2,149", badge: "Bestseller", image: earring9 },
+      { name: "Antique Peacock Kada", material: "925 Silver with 24K Gold Plating", price: "3,499", badge: "Bestseller", image: bangle17 },
+      { name: "Imperial Box Link Chain", material: "925 Silver with 24K Gold Plating", price: "3,299", badge: "Bestseller", image: chain15 },
     ],
   },
   {
@@ -414,7 +419,7 @@ export default function HomePage() {
         <div className="shop-category-grid grid gap-2 sm:gap-3 lg:gap-4">
           {collections.map((item,index)=><Reveal key={item.title} delay={index*70} className="h-full">
             <Link to={`/collection/${item.title.toLowerCase()}`} className="shop-category-card group flex h-full flex-col overflow-hidden rounded-2xl border border-amber-100 bg-[#fbf8f1] text-center shadow-sm transition duration-300 hover:-translate-y-1 hover:border-amber-300 hover:shadow-xl">
-              <div className="shop-category-image overflow-hidden"><img src={item.image} alt={`${item.title} collection`} className="h-full w-full object-contain transition duration-700 group-hover:scale-105"/></div>
+              <div className="shop-category-image overflow-hidden"><img src={item.image} alt={`${item.title} collection`} className="h-full w-full object-cover transition duration-700 group-hover:scale-105"/></div>
               <div className="bg-white px-2 py-4">
                 <h3 className="text-sm font-semibold uppercase tracking-[0.04em] text-slate-900 sm:text-base">{item.title}</h3>
                 <span className="mt-1.5 inline-flex items-center gap-1 text-[10px] text-slate-500 transition group-hover:text-amber-700 sm:text-xs">Explore <ArrowRight className="h-3 w-3"/></span>
