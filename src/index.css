@@ -3612,3 +3612,14 @@ html {
     transition: none;
   }
 }
+/* Elegant jewellery accents with reliable cursive fallbacks on every device. */
+.jewellery-cursive,
+.footer-cursive {
+  font-family: "Brush Script MT", "Segoe Script", "Lucida Handwriting", cursive;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+}
+
+.jewellery-cursive {
+  font-size: 1.12em;
+}

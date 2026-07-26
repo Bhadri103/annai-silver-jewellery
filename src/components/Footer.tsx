@@ -12,10 +12,8 @@ const shopLinks = [
   ["Best Sellers", "/collection/best-sellers"],
   ["Necklaces", "/collection/necklaces"],
   ["Earrings", "/collection/earrings"],
-  ["Bracelets", "/collection/bracelets"],
+  ["Bangles", "/collection/bangles"],
   ["Chains", "/collection/chains"],
-  ["Chain Bracelets", "/collection/chain-bracelets"],
-  ["Rings", "/collection/rings"],
 ];
 
 const customerLinks = [
@@ -36,7 +34,8 @@ const Footer: React.FC = () => (
             <img src={logo} alt="Annai Jewellery" className="theme-logo-light h-16 w-auto object-contain" loading="lazy" decoding="async"/>
             <img src={logoDark} alt="Annai Jewellery" className="theme-logo-dark h-16 w-auto object-contain" loading="lazy" decoding="async"/>
           </Link>
-          <p className="mt-5 max-w-sm text-sm leading-7 text-slate-600">Quality-checked 925 silver ornaments finished with radiant 24K gold plating and shaped by South Indian tradition.</p>
+          <p className="footer-cursive mt-5 text-2xl leading-tight text-amber-700">Jewellery made to become part of your story.</p>
+          <p className="mt-3 max-w-sm text-sm leading-7 text-slate-600">Discover quality-checked 925 silver ornaments finished with radiant 24K gold plating. From graceful everyday pieces to memorable bridal jewellery, every Annai design celebrates South Indian artistry.</p>
           <div className="mt-6 flex gap-3">
             {[
               [Instagram, "https://www.instagram.com/", "Instagram"],
@@ -57,27 +56,28 @@ const Footer: React.FC = () => (
           </div>
         </div>
 
-        <div>
-          <h3 className="text-sm font-semibold uppercase tracking-[0.16em] text-amber-600">Shop</h3>
-          <ul className="mt-5 space-y-3 text-sm text-slate-600">
-            {shopLinks.map(([label, href]) => <li key={label}><Link to={href} className="transition hover:text-amber-600">{label}</Link></li>)}
-          </ul>
-        </div>
-
-        <div>
-          <h3 className="text-sm font-semibold uppercase tracking-[0.16em] text-amber-600">Customer Care</h3>
-          <ul className="mt-5 space-y-3 text-sm text-slate-600">
-            {customerLinks.map(([label, href]) => <li key={label}><Link to={href} className="transition hover:text-amber-600">{label}</Link></li>)}
-          </ul>
-          <div className="mt-7 space-y-3 border-t border-amber-100 pt-6 text-xs leading-6 text-slate-600">
-            <p className="flex gap-3"><Phone className="mt-1 h-4 w-4 shrink-0 text-amber-600"/>+91 97512 29418</p>
-            <p className="flex gap-3"><Mail className="mt-1 h-4 w-4 shrink-0 text-amber-600"/>info@annaijewellery.com</p>
-            <p className="flex gap-3"><Clock3 className="mt-1 h-4 w-4 shrink-0 text-amber-600"/>Monday-Saturday: 9 AM-9 PM<br/>Sunday: Closed</p>
+        <div className="grid grid-cols-2 gap-5 lg:col-span-2 lg:gap-8">
+          <div className="col-span-1">
+            <h3 className="footer-cursive text-2xl text-amber-700">Shop</h3>
+            <ul className="mt-4 space-y-3 text-xs text-slate-600 sm:text-sm">
+              {shopLinks.map(([label, href]) => <li key={label}><Link to={href} className="transition hover:text-amber-600">{label}</Link></li>)}
+            </ul>
+          </div>
+          <div className="col-span-1">
+            <h3 className="footer-cursive text-2xl text-amber-700">Customer Care</h3>
+            <ul className="mt-4 space-y-3 text-xs text-slate-600 sm:text-sm">
+              {customerLinks.map(([label, href]) => <li key={label}><Link to={href} className="transition hover:text-amber-600">{label}</Link></li>)}
+            </ul>
+            <div className="mt-6 space-y-3 border-t border-amber-100 pt-5 text-xs leading-5 text-slate-600">
+              <a href="tel:+919751229418" className="flex gap-2 transition hover:text-amber-600"><Phone className="h-4 w-4 shrink-0 text-amber-600"/>+91 97512 29418</a>
+              <p className="flex gap-2"><Mail className="h-4 w-4 shrink-0 text-amber-600"/>info@annaijewellery.com</p>
+              <p className="flex gap-2"><Clock3 className="h-4 w-4 shrink-0 text-amber-600"/><span>Mon-Sat: 9 AM-9 PM<br/>Sunday: Closed</span></p>
+            </div>
           </div>
         </div>
 
         <div>
-          <h3 className="text-sm font-semibold uppercase tracking-[0.16em] text-amber-600">Visit Our Showroom</h3>
+          <h3 className="footer-cursive text-2xl text-amber-700">Visit Our Showroom</h3>
           <a href={showroomDirections} target="_blank" rel="noreferrer" className="mt-4 flex items-start gap-3 text-sm leading-6 text-slate-600 transition hover:text-amber-600">
             <MapPin className="mt-1 h-4 w-4 shrink-0 text-amber-600"/>Shop No 8, Old Bus Stand, Padmanabhapuram, Tamil Nadu 629175
           </a>

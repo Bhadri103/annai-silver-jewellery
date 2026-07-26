@@ -2,7 +2,7 @@ import { ArrowLeft } from "lucide-react";
 import { HashRouter as Router, Route, Routes, useLocation, useNavigate } from "react-router-dom";
 import Footer from "./components/Footer";
 import Header from "./components/Header";
-import AnnaiJewelleryChat from "./components/AnnaiJewelleryChat";
+import WhatsAppButton from "./components/WhatsAppButton";
 import ScrollToTop from "./components/ScrollToTop";
 import SiteMotion from "./components/SiteMotion";
 import ShortScrollbar from "./components/ShortScrollbar";
@@ -41,7 +41,7 @@ const AppContent = () => {
         </Routes>
         </div>
       </main>
-      <Footer /><AnnaiJewelleryChat />
+      <Footer /><WhatsAppButton />
     </div>
   </>;
 };

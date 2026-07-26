@@ -1,5 +1,5 @@
 ﻿import { useEffect, useState, type FormEvent } from "react";
-import { ArrowLeft, ArrowRight, Eye, Gem, Heart, MessageCircle, Minus, Plus, Send, Share2, ShieldCheck, ShoppingBag, Sparkles, Star, Truck, X } from "lucide-react";
+import { ArrowLeft, ArrowRight, Eye, Gem, Heart, MessageCircle, Minus, Phone, Plus, Send, Share2, ShieldCheck, ShoppingBag, Sparkles, Star, Truck, X } from "lucide-react";
 import { Link } from "react-router-dom";
 import earring1 from "../assets/earings/1.png";
 import earring2 from "../assets/earings/2.png";
@@ -432,9 +432,11 @@ export default function HomePage() {
       <div className="relative z-10 mx-auto flex min-h-[620px] max-w-7xl items-center px-6 py-24 sm:min-h-[680px] sm:px-10 lg:px-12">
         <div key={activeSlide} className="jewellery-hero-content max-w-xl">
           <p className="mb-4 inline-flex items-center gap-2 rounded-full border border-amber-200 bg-white/80 px-3.5 py-1.5 text-[10px] font-semibold uppercase tracking-[0.2em] text-amber-700 shadow-sm backdrop-blur sm:text-xs"><Gem className="h-3.5 w-3.5" /> {heroSlides[activeSlide].kicker}</p>
-          <h1 className="font-serif text-3xl font-normal leading-[1.08] tracking-[-0.02em] text-slate-900 sm:text-4xl lg:text-5xl">{heroSlides[activeSlide].title}<br/><span className="italic text-amber-600">{heroSlides[activeSlide].accent}</span></h1>
+          <h1 className="font-serif text-3xl font-normal leading-[1.08] tracking-[-0.02em] text-slate-900 sm:text-4xl lg:text-5xl">{heroSlides[activeSlide].title}<br/><span className="jewellery-cursive text-amber-600">{heroSlides[activeSlide].accent}</span></h1>
+          <p className="mt-4 max-w-md text-sm leading-6 text-slate-700 sm:text-base">{heroSlides[activeSlide].text}</p>
           <div className="mt-6 flex flex-wrap gap-3">
             <a href="#collections" className="hero-primary-cta inline-flex items-center gap-2 rounded-full px-7 py-3 text-sm font-medium text-white"><Sparkles className="h-4 w-4"/> Explore Collections</a>
+            <a href="tel:+919751229418" className="inline-flex items-center gap-2 rounded-full border border-amber-500 bg-white/85 px-6 py-3 text-sm font-semibold text-amber-800 shadow-sm backdrop-blur transition hover:bg-amber-600 hover:text-white"><Phone className="h-4 w-4"/> Call Us</a>
           </div>
         </div>
       </div>
