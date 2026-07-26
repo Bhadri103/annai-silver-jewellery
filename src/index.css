@@ -3005,13 +3005,15 @@ select:focus {
 }
 
 .shop-category-image {
-    height: clamp(9rem, 14vw, 14rem);
+    height: clamp(8.5rem, 12vw, 12.5rem);
     background: #fbf8f1;
 }
 
 .shop-category-grid {
+    width: min(100%, 70rem);
+    margin-inline: auto;
     grid-template-columns: repeat(5, minmax(0, 1fr)) !important;
-    gap: 1.25rem !important;
+    gap: 1rem !important;
 }
 
 .shop-category-card {
