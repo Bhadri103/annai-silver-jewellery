@@ -107,7 +107,7 @@ const Header: React.FC = () => {
       </aside>
     </div>
 
-    <nav className="fixed inset-x-0 bottom-0 z-50 grid h-[62px] grid-cols-5 border-t border-amber-100 bg-white/97 px-2 shadow-[0_-8px_30px_rgba(90,60,10,0.08)] backdrop-blur lg:hidden">
+    <nav className="fixed inset-x-0 bottom-0 z-50 grid h-[62px] grid-cols-5 border-t border-amber-100 bg-white px-2 shadow-[0_-8px_30px_rgba(90,60,10,0.08)] lg:hidden">
       {[
         [Home,"Home","/"],
         [Gem,"Collections","/collection/indian-jewellery"],

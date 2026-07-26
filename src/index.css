@@ -3409,7 +3409,7 @@ article:hover .quick-view-button,
     }
 
     .product-shelf-grid article > div:first-child {
-        height: 7rem !important;
+        height: 10rem !important;
     }
 
     .product-shelf-grid article > div:last-child {
@@ -3436,11 +3436,6 @@ article:hover .quick-view-button,
 
     .product-shelf-grid article strong {
         font-size: 0.65rem;
-    }
-
-    .product-shelf-grid article button {
-        width: 1.75rem;
-        height: 1.75rem;
     }
 
     .product-shelf-grid article button svg {

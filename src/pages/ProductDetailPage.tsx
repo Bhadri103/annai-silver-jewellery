@@ -1,5 +1,5 @@
 ﻿import { useEffect, useState } from "react";
-import { Check, Clock, Copy, Heart, Minus, Plus, Share2, ShoppingBag, Star, Truck } from "lucide-react";
+import { Check, Clock, Copy, Heart, Minus, Plus, Share2, Star, Truck } from "lucide-react";
 import { Link, useParams } from "react-router-dom";
 import { readCart, writeCart } from "../lib/cart";
 import { productShelves, productSlug } from "./HomePage";
@@ -11,14 +11,14 @@ export default function ProductDetailPage() {
   const { slug } = useParams();
   const products = productShelves.flatMap((shelf) => shelf.products);
   const product = products.find((item) => productSlug(item.name) === slug) || products[0];
-  const gallery = [product.image, ...products.filter((item) => item.name !== product.name).slice(0, 3).map((item) => item.image)];
+  const gallery = [product.image];
   const related = products.filter((item) => item.name !== product.name).slice(0, 3);
   const [imageIndex, setImageIndex] = useState(0);
-  const [quantity, setQuantity] = useState(1);
+  const [cart, setCart] = useState(() => readCart());
   const [tab, setTab] = useState("Description");
   const [notice, setNotice] = useState("");
   const [recentlyViewed, setRecentlyViewed] = useState<typeof products>([]);
-  const price = Number(product.price.replace(/[^\d]/g, "")) || 0;
+  const productKey = `jewel-${productSlug(product.name)}`;
 
   useEffect(() => {
     const storageKey = "annai_recently_viewed";
@@ -32,12 +32,16 @@ export default function ProductDetailPage() {
     localStorage.setItem(storageKey, JSON.stringify([productSlug(product.name), ...stored.filter((item) => item !== productSlug(product.name))].slice(0, 12)));
   }, [product.name]);
 
-  const addToCart = () => {
-    const key = `jewel-${productSlug(product.name)}`;
-    const cart = readCart();
-    writeCart({ ...cart, [key]: Number(cart[key] || 0) + quantity });
-    localStorage.setItem("annai_cart_products", JSON.stringify({ ...JSON.parse(localStorage.getItem("annai_cart_products") || "{}"), [key]: product }));
-    setNotice(`${quantity} item${quantity > 1 ? "s" : ""} added to cart.`);
+  const changeCartQuantity = (change: number) => {
+    const currentCart = readCart();
+    const quantity = Math.max(0, Number(currentCart[productKey] || 0) + change);
+    const nextCart = { ...currentCart };
+    if (quantity) nextCart[productKey] = quantity;
+    else delete nextCart[productKey];
+    writeCart(nextCart);
+    if (quantity) localStorage.setItem("annai_cart_products", JSON.stringify({ ...JSON.parse(localStorage.getItem("annai_cart_products") || "{}"), [productKey]: product }));
+    setCart(nextCart);
+    setNotice(quantity ? "Cart quantity updated." : "Product removed from cart.");
   };
 
   return <>
@@ -48,7 +52,7 @@ export default function ProductDetailPage() {
         <div className="grid gap-9 lg:grid-cols-[1.05fr_0.95fr]">
           <div>
             <div className="relative">
-              <ZoomableProductImage src={gallery[imageIndex]} alt={product.name} className="h-[340px] rounded-[2rem] bg-[#fbf8f1] sm:h-[500px]" />
+              <ZoomableProductImage src={gallery[imageIndex]} alt={product.name} className="h-[430px] rounded-[2rem] bg-[#fbf8f1] sm:h-[500px]" />
               <div className="absolute right-4 top-4 z-20 flex gap-2">
                 <button type="button" onClick={() => setNotice("Added to your wishlist.")} className="grid h-11 w-11 place-items-center rounded-full border border-amber-200 bg-white/95 text-amber-700 shadow-lg backdrop-blur transition hover:bg-amber-600 hover:text-white" aria-label={`Add ${product.name} to wishlist`} title="Add to wishlist"><Heart className="h-5 w-5"/></button>
                 <button type="button" onClick={() => { navigator.clipboard?.writeText(window.location.href); setNotice("Product link copied."); }} className="grid h-11 w-11 place-items-center rounded-full border border-amber-200 bg-white/95 text-amber-700 shadow-lg backdrop-blur transition hover:bg-amber-600 hover:text-white" aria-label={`Share ${product.name}`} title="Share product"><Share2 className="h-5 w-5"/></button>
@@ -60,14 +64,9 @@ export default function ProductDetailPage() {
             <span className="inline-flex rounded-full bg-[#D4AF37] px-3 py-1 text-[10px] font-bold uppercase tracking-wider text-white">{product.badge || "New"}</span>
             <h1 className="mt-4 text-3xl font-medium text-slate-900 sm:text-4xl">{product.name}</h1>
             <div className="mt-3 flex items-center gap-3"><div className="flex text-amber-500">{[0,1,2,3,4].map(star=><Star key={star} className="h-4 w-4 fill-current"/>)}</div><span className="text-sm text-slate-500">12 reviews</span></div>
-            <p className="mt-6 text-3xl font-semibold text-slate-900"><Price value={product.price}/></p><p className="mt-1 text-xs text-slate-500">3% GST will be added at checkout</p>
+            <div className="mt-6 flex flex-wrap items-center justify-between gap-3"><p className="text-3xl font-semibold text-slate-900"><Price value={product.price}/></p>{cart[productKey] ? <div className="flex h-11 items-center overflow-hidden rounded-full bg-amber-600 text-white shadow-sm"><button type="button" onClick={()=>changeCartQuantity(-1)} className="grid h-11 w-11 place-items-center hover:bg-amber-700" aria-label={`Remove one ${product.name}`}><Minus className="h-4 w-4"/></button><span className="min-w-8 text-center font-semibold">{cart[productKey]}</span><button type="button" onClick={()=>changeCartQuantity(1)} className="grid h-11 w-11 place-items-center hover:bg-amber-700" aria-label={`Add one more ${product.name}`}><Plus className="h-4 w-4"/></button></div> : <button type="button" onClick={()=>changeCartQuantity(1)} className="inline-flex h-11 items-center gap-2 rounded-full bg-amber-600 px-5 text-sm font-semibold text-white shadow-sm hover:bg-amber-700"><Plus className="h-4 w-4"/>Add</button>}</div><p className="mt-1 text-xs text-slate-500">3% GST will be added at checkout</p>
             <div className="mt-5 space-y-2 text-sm"><p><strong>15 sold</strong> in the last 4 hours</p><p className="font-semibold text-amber-700">Please hurry! Only 8 left in stock.</p></div>
             <div className="mt-6"><p className="text-sm font-semibold">Finish: <span className="text-slate-500">24K Gold Plated</span></p></div>
-            <div className="mt-6 flex items-center justify-between rounded-2xl bg-[#fbf8f1] p-4"><div><p className="text-xs text-slate-500">Subtotal</p><strong className="text-xl"><Price value={price*quantity}/></strong></div><div><p className="mb-2 text-xs font-semibold">Quantity</p><div className="flex items-center rounded-full border border-amber-200 bg-white"><button onClick={()=>setQuantity(q=>Math.max(1,q-1))} className="grid h-10 w-10 place-items-center" aria-label={`Decrease quantity for ${product.name}`}><Minus className="h-4 w-4"/></button><span className="w-10 text-center">{quantity}</span><button onClick={()=>setQuantity(q=>Math.min(8,q+1))} className="grid h-10 w-10 place-items-center" aria-label={`Increase quantity for ${product.name}`}><Plus className="h-4 w-4"/></button></div></div></div>
-            <div className="mt-5 grid grid-cols-2 gap-3">
-              <button onClick={addToCart} className="inline-flex min-h-11 items-center justify-center gap-2 rounded-xl bg-amber-600 px-3 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:-translate-y-0.5 hover:bg-amber-700"><ShoppingBag className="h-4 w-4"/>Add to cart</button>
-              <button onClick={addToCart} className="inline-flex min-h-11 items-center justify-center rounded-xl bg-[#D4AF37] px-3 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:-translate-y-0.5 hover:bg-[#D4AF37]">Buy it now</button>
-            </div>
             {notice&&<p className="mt-3 rounded-xl bg-green-50 p-3 text-sm text-green-700"><Check className="mr-2 inline h-4 w-4"/>{notice}</p>}
             <div className="mt-6 space-y-3 border-y border-amber-100 py-5 text-sm text-slate-600"><p><Clock className="mr-2 inline h-4 w-4 text-amber-600"/>Order within 2 hours 27 minutes for priority dispatch.</p><p><Truck className="mr-2 inline h-4 w-4 text-amber-600"/>Estimated delivery in 4-7 working days.</p><p><Copy className="mr-2 inline h-4 w-4 text-amber-600"/>10 customers are viewing this product.</p></div>
           </div>

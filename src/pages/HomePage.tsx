@@ -512,7 +512,7 @@ export default function HomePage() {
 
     {quickViewIndex !== null && (() => {
       const product = allProducts[quickViewIndex];
-      const gallery = [product.image, ...allProducts.filter((item) => item.name !== product.name).slice(0, 2).map((item) => item.image)];
+      const gallery = [product.image];
       const productKey = `jewel-${productSlug(product.name)}`;
       return <div className="fixed inset-0 z-[80] flex items-center justify-center bg-slate-950/45 p-3 backdrop-blur-sm" role="dialog" aria-modal="true" aria-label={`Quick view ${product.name}`}>
         <div className="quick-view-modal-scroll relative max-h-[94vh] w-full max-w-5xl overflow-y-auto rounded-[2rem] border border-amber-200 bg-white shadow-2xl">
