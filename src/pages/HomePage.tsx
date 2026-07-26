@@ -445,7 +445,7 @@ export default function HomePage() {
       ))}
       <div className="absolute inset-0 bg-gradient-to-r from-white via-white/80 to-white/5" />
       <div className="absolute inset-0 bg-gradient-to-t from-white/30 via-transparent to-white/10" />
-      <div className="relative z-10 mx-auto flex min-h-[420px] max-w-7xl items-center px-6 py-12 sm:min-h-[560px] sm:px-10 sm:py-20 lg:min-h-[680px] lg:px-12 lg:py-24">
+      <div className="relative z-10 mx-auto flex min-h-[420px] max-w-7xl items-start px-6 pb-8 pt-24 sm:min-h-[560px] sm:items-center sm:px-10 sm:py-20 lg:min-h-[680px] lg:px-12 lg:py-24">
         <div key={activeSlide} className="jewellery-hero-content max-w-xl">
           {/* <p className="mb-4 inline-flex items-center gap-2 rounded-full border border-amber-200 bg-white/80 px-3.5 py-1.5 text-[10px] font-semibold uppercase tracking-[0.2em] text-amber-700 shadow-sm backdrop-blur sm:text-xs"><Gem className="h-3.5 w-3.5" /> {heroSlides[activeSlide].kicker}</p> */}
           <h1 className="font-serif text-3xl font-normal leading-[1.08] tracking-[-0.02em] text-slate-900 sm:text-4xl lg:text-5xl">{heroSlides[activeSlide].title}<br/><span className="jewellery-cursive text-amber-600">{heroSlides[activeSlide].accent}</span></h1>
