@@ -275,7 +275,7 @@ const AnnaiJewelleryChat = () => {
   return (
     <div
       ref={containerRef}
-      className={`${position ? "fixed z-[60]" : "fixed bottom-4 right-4 z-[60] sm:bottom-6 sm:right-6"} chatbot-root`}
+      className={`${position ? "fixed z-[60]" : "fixed bottom-[132px] right-4 z-[60] sm:bottom-24 sm:right-6"} chatbot-root`}
       style={position ? { left: position.x, top: position.y } : undefined}
     >
       <section
