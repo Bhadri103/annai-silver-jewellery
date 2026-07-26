@@ -112,15 +112,24 @@ export const productShelves: { id: string; kicker: string; title: string; text: 
   {
     id: "new-arrivals", kicker: "Just In", title: "New Arrivals", text: "Freshly crafted designs created for modern celebrations.",
     products: [
-      { name: "Peacock Heritage Necklace", material: "925 Silver with 24K Gold Plating", price: "6,499", badge: "New", image: templeNecklace },
+      { name: "Temple Bridal Necklace", material: "925 Silver with 24K Gold Plating", price: "8,999", badge: "New", image: necklace1 },
       { name: "Antique Ruby Bangles", material: "925 Silver with 24K Gold Plating", price: "3,999", badge: "New", image: bangle2 },
       { name: "Lotus Jhumka Earrings", material: "925 Silver with 24K Gold Plating", price: "1,699", badge: "New", image: earring2 },
+      { name: "Classic Rope Gold Chain", material: "925 Silver with 24K Gold Plating", price: "2,299", badge: "New", image: chain1 },
+      { name: "Royal Lakshmi Haaram", material: "925 Silver with 24K Gold Plating", price: "8,499", badge: "New", image: necklace5 },
+      { name: "Emerald Gold-Plated Drops", material: "925 Silver with 24K Gold Plating", price: "2,199", badge: "New", image: earring5 },
+      { name: "Royal Ruby Kada Bangle", material: "925 Silver with 24K Gold Plating", price: "3,299", badge: "New", image: bangle14 },
+      { name: "Statement Gold Link Chain", material: "925 Silver with 24K Gold Plating", price: "3,699", badge: "New", image: chain12 },
+      { name: "Goddess Lakshmi Necklace", material: "925 Silver with 24K Gold Plating", price: "8,299", badge: "New", image: necklace15 },
+      { name: "Royal Ruby Drop Earrings", material: "925 Silver with 24K Gold Plating", price: "2,299", badge: "New", image: earring8 },
+      { name: "Bridal Nakshi Kada", material: "925 Silver with 24K Gold Plating", price: "4,299", badge: "New", image: bangle23 },
+      { name: "Royal Byzantine Chain", material: "925 Silver with 24K Gold Plating", price: "3,899", badge: "New", image: chain20 },
     ],
   },
   {
     id: "best-sellers", kicker: "Customer Favourites", title: "Best Sellers", text: "The Annai designs most loved and chosen by our customers.",
     products: [
-      { name: "Royal Lakshmi Necklace", material: "925 Silver with 24K Gold Plating", price: "7,499", badge: "Bestseller", image: templeNecklace },
+      { name: "Mango Mala Necklace", material: "925 Silver with 24K Gold Plating", price: "7,999", badge: "Bestseller", image: necklace2 },
       { name: "Traditional Gold Jhumka", material: "925 Silver with 24K Gold Plating", price: "1,899", badge: "Bestseller", image: earring3 },
       { name: "Antique Bridal Bangles", material: "925 Silver with 24K Gold Plating", price: "4,499", badge: "Bestseller", image: bangle3 },
     ],
