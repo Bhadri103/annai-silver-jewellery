@@ -156,7 +156,7 @@ export default function CollectionPage() {
           {products.map((product)=>(
             <article key={product.name} className="group self-start overflow-hidden rounded-2xl border border-amber-100 bg-white shadow-sm transition hover:-translate-y-1 hover:shadow-xl">
               <div className="relative h-44 overflow-hidden bg-[#fbf8f1] sm:h-60 lg:h-64">
-                <Link to={`/product/${productSlug(product.name)}`}><img src={product.image} alt={product.name} className="h-full w-full object-contain transition duration-700 group-hover:scale-110"/></Link>
+                <Link to={`/product/${productSlug(product.name)}`} className="m-2 block h-[calc(100%-1rem)] overflow-hidden rounded-xl"><img src={product.image} alt={product.name} className="h-full w-full rounded-xl object-contain transition duration-700 group-hover:scale-110"/></Link>
                 {product.badge&&<span className="absolute left-3 top-3 rounded-full bg-[#D4AF37] px-3 py-1 text-[8px] font-bold uppercase tracking-wider text-white">{product.badge}</span>}
                 <div className="absolute right-3 top-3 flex flex-col gap-2"><button className="grid h-9 w-9 place-items-center rounded-full bg-white/95 text-amber-700 shadow" aria-label={`Save ${product.name}`}><Heart className="h-4 w-4"/></button><Link to={`/product/${productSlug(product.name)}`} className="grid h-9 w-9 place-items-center rounded-full bg-white/95 text-amber-700 shadow" aria-label={`View ${product.name}`}><Eye className="h-4 w-4"/></Link></div>
               </div>
