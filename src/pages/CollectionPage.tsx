@@ -1,5 +1,5 @@
 ﻿import { useEffect, useMemo, useState } from "react";
-import { ArrowRight, Eye, Filter, Heart, IndianRupee, Search, ShoppingBag, SlidersHorizontal, X } from "lucide-react";
+import { ArrowRight, Eye, Filter, Heart, IndianRupee, Minus, Plus, Search, SlidersHorizontal, X } from "lucide-react";
 import { Link, useParams } from "react-router-dom";
 import { readCart, writeCart } from "../lib/cart";
 import { productShelves, productSlug } from "./HomePage";
@@ -38,6 +38,7 @@ export default function CollectionPage() {
   const [maxPrice, setMaxPrice] = useState(250000);
   const [filtersOpen, setFiltersOpen] = useState(false);
   const [notice, setNotice] = useState("");
+  const [cart, setCart] = useState(() => readCart());
   useEffect(() => {
     if (!filtersOpen) return;
     const previousOverflow = document.body.style.overflow;
@@ -93,12 +94,17 @@ export default function CollectionPage() {
     <button onClick={()=>{setMaterial("All");setAvailability("in-stock");setMinPrice(0);setMaxPrice(250000);}} className="mt-6 w-full rounded-full border border-amber-300 px-4 py-2.5 text-sm font-semibold text-amber-700">Clear filters</button>
   </aside>;
 
-  const addToCart = (product: typeof shelf.products[number]) => {
+  const changeCartQuantity = (product: typeof shelf.products[number], change: number) => {
     const key = `jewel-${productSlug(product.name)}`;
-    const cart = readCart();
-    writeCart({ ...cart, [key]: Number(cart[key] || 0) + 1 });
-    localStorage.setItem("annai_cart_products", JSON.stringify({ ...JSON.parse(localStorage.getItem("annai_cart_products") || "{}"), [key]: product }));
-    setNotice(`${product.name} added to cart.`);
+    const currentCart = readCart();
+    const quantity = Math.max(0, Number(currentCart[key] || 0) + change);
+    const nextCart = { ...currentCart };
+    if (quantity) nextCart[key] = quantity;
+    else delete nextCart[key];
+    writeCart(nextCart);
+    if (quantity) localStorage.setItem("annai_cart_products", JSON.stringify({ ...JSON.parse(localStorage.getItem("annai_cart_products") || "{}"), [key]: product }));
+    setCart(nextCart);
+    setNotice(quantity ? `${product.name} quantity updated.` : `${product.name} removed from cart.`);
     window.setTimeout(() => setNotice(""), 2500);
   };
 
@@ -162,7 +168,7 @@ export default function CollectionPage() {
                 {product.badge&&<span className="absolute left-3 top-3 rounded-full bg-[#D4AF37] px-3 py-1 text-[8px] font-bold uppercase tracking-wider text-white">{product.badge}</span>}
                 <div className="absolute right-3 top-3 flex flex-col gap-2"><button className="grid h-9 w-9 place-items-center rounded-full bg-white/95 text-amber-700 shadow" aria-label={`Save ${product.name}`}><Heart className="h-4 w-4"/></button><Link to={`/product/${productSlug(product.name)}`} className="grid h-9 w-9 place-items-center rounded-full bg-white/95 text-amber-700 shadow" aria-label={`View ${product.name}`}><Eye className="h-4 w-4"/></Link></div>
               </div>
-              <div className="p-3 sm:p-5"><p className="text-[9px] font-semibold uppercase tracking-[0.14em] text-amber-600">{product.material}</p><h2 className="mt-2 text-sm font-medium text-slate-900 sm:text-lg">{product.name}</h2><div className="mt-4 flex items-center justify-between"><strong className="text-xs text-slate-900 sm:text-sm"><Price value={product.price}/></strong><button onClick={()=>addToCart(product)} className="grid h-9 w-9 place-items-center rounded-full bg-amber-600 text-white hover:bg-amber-700" aria-label={`Add ${product.name} to cart`}><ShoppingBag className="h-4 w-4"/></button></div><Link to={`/product/${productSlug(product.name)}`} className="mt-4 inline-flex items-center gap-2 text-xs font-semibold text-amber-700">View details <ArrowRight className="h-3.5 w-3.5"/></Link></div>
+              <div className="p-3 sm:p-5"><p className="text-[9px] font-semibold uppercase tracking-[0.14em] text-amber-600">{product.material}</p><h2 className="mt-2 text-sm font-medium text-slate-900 sm:text-lg">{product.name}</h2><div className="mt-4 flex items-center justify-between gap-2"><strong className="text-xs text-slate-900 sm:text-sm"><Price value={product.price}/></strong>{cart[`jewel-${productSlug(product.name)}`] ? <div className="flex h-9 items-center overflow-hidden rounded-full bg-amber-600 text-white shadow-sm"><button type="button" onClick={()=>changeCartQuantity(product,-1)} className="grid h-9 w-8 place-items-center hover:bg-amber-700" aria-label={`Remove one ${product.name}`}><Minus className="h-3.5 w-3.5"/></button><span className="min-w-6 text-center text-xs font-semibold">{cart[`jewel-${productSlug(product.name)}`]}</span><button type="button" onClick={()=>changeCartQuantity(product,1)} className="grid h-9 w-8 place-items-center hover:bg-amber-700" aria-label={`Add one more ${product.name}`}><Plus className="h-3.5 w-3.5"/></button></div> : <button type="button" onClick={()=>changeCartQuantity(product,1)} className="inline-flex h-9 items-center gap-1 rounded-full bg-amber-600 px-3 text-xs font-semibold text-white hover:bg-amber-700" aria-label={`Add ${product.name} to cart`}><Plus className="h-3.5 w-3.5"/>Add</button>}</div><Link to={`/product/${productSlug(product.name)}`} className="mt-4 inline-flex items-center gap-2 text-xs font-semibold text-amber-700">View details <ArrowRight className="h-3.5 w-3.5"/></Link></div>
             </article>
           ))}
           {!products.length&&<div className="flex min-h-[320px] w-full items-center justify-center rounded-3xl border border-amber-100 bg-[#fbf8f1] p-8 text-center text-slate-500 sm:p-12">No products match the selected filters.</div>}

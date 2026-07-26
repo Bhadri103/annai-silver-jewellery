@@ -253,7 +253,7 @@ export const productShelves: { id: string; kicker: string; title: string; text: 
   },
 ];
 
-const ProductShelf = ({ shelf, alternate, onQuickView, onAddToCart }: { shelf: typeof productShelves[number]; alternate: boolean; onQuickView: (product: Product) => void; onAddToCart: (product: Product) => void }) => (
+const ProductShelf = ({ shelf, alternate, onQuickView, cart, onChangeQuantity }: { shelf: typeof productShelves[number]; alternate: boolean; onQuickView: (product: Product) => void; cart: Record<string, number>; onChangeQuantity: (product: Product, change: number) => void }) => (
   <section id={shelf.id} className={`product-shelf px-4 py-16 sm:px-6 lg:px-10 ${alternate ? "bg-[#fbf8f1]" : "bg-white"}`}>
     <div className="mx-auto max-w-7xl">
       <div className="mb-8 flex flex-wrap items-end justify-between gap-5">
@@ -263,7 +263,7 @@ const ProductShelf = ({ shelf, alternate, onQuickView, onAddToCart }: { shelf: t
       <div className="product-shelf-grid grid gap-4 overflow-x-auto pb-4">
         {shelf.products.map((product, index) => <Reveal key={product.name} delay={index * 60}><article className="group overflow-hidden rounded-2xl border border-amber-100 bg-white shadow-sm transition hover:-translate-y-1 hover:shadow-xl">
           <div className="relative h-72 overflow-hidden bg-[#f8f2e8] p-2"><Link to={`/product/${productSlug(product.name)}`} className="block h-full w-full overflow-hidden rounded-xl"><img src={product.image} alt={product.name} className="h-full w-full rounded-xl object-contain transition duration-700 group-hover:scale-110"/></Link>{product.badge && <span className="absolute left-3 top-3 rounded-full bg-[#D4AF37] px-3 py-1 text-[9px] font-bold uppercase tracking-wider text-white">{product.badge}</span>}<button type="button" className="absolute right-3 top-3 grid h-9 w-9 place-items-center rounded-full bg-white/90 text-amber-700 shadow-sm" aria-label={`Save ${product.name}`}><Heart className="h-4 w-4"/></button><button type="button" onClick={() => onQuickView(product)} className="quick-view-button absolute right-3 top-14 grid h-9 w-9 place-items-center rounded-full bg-white/90 text-amber-700 shadow-sm" aria-label={`Quick view ${product.name}`} title="Quick view"><Eye className="h-4 w-4"/></button></div>
-          <div className="p-5"><p className="text-[10px] font-semibold uppercase tracking-[0.16em] text-amber-600">{product.material}</p><h3 className="mt-2 text-lg font-medium text-slate-900">{product.name}</h3><div className="mt-4 flex items-center justify-between"><strong className="text-sm text-slate-900"><Price value={product.price}/></strong><button type="button" onClick={()=>onAddToCart(product)} className="grid h-9 w-9 place-items-center rounded-full bg-amber-600 text-white transition hover:bg-amber-700" aria-label={`Add ${product.name} to bag`}><ShoppingBag className="h-4 w-4"/></button></div></div>
+          <div className="p-5"><p className="text-[10px] font-semibold uppercase tracking-[0.16em] text-amber-600">{product.material}</p><h3 className="mt-2 text-lg font-medium text-slate-900">{product.name}</h3><div className="mt-4 flex items-center justify-between gap-3"><strong className="text-sm text-slate-900"><Price value={product.price}/></strong>{cart[`jewel-${productSlug(product.name)}`] ? <div className="flex h-9 items-center overflow-hidden rounded-full bg-amber-600 text-white shadow-sm"><button type="button" onClick={()=>onChangeQuantity(product,-1)} className="grid h-9 w-9 place-items-center transition hover:bg-amber-700" aria-label={`Remove one ${product.name}`}><Minus className="h-4 w-4"/></button><span className="min-w-7 text-center text-sm font-semibold">{cart[`jewel-${productSlug(product.name)}`]}</span><button type="button" onClick={()=>onChangeQuantity(product,1)} className="grid h-9 w-9 place-items-center transition hover:bg-amber-700" aria-label={`Add one more ${product.name}`}><Plus className="h-4 w-4"/></button></div> : <button type="button" onClick={()=>onChangeQuantity(product,1)} className="inline-flex h-9 items-center gap-1.5 rounded-full bg-amber-600 px-4 text-sm font-semibold text-white shadow-sm transition hover:bg-amber-700" aria-label={`Add ${product.name} to bag`}><Plus className="h-4 w-4"/>Add</button>}</div></div>
         </article></Reveal>)}
       </div>
     </div>
@@ -319,6 +319,7 @@ export default function HomePage() {
   const [quickQuantity, setQuickQuantity] = useState(1);
   const [quickImage, setQuickImage] = useState(0);
   const [cartNotice, setCartNotice] = useState("");
+  const [cart, setCart] = useState(() => readCart());
   const [reviewName, setReviewName] = useState("");
   const [reviewText, setReviewText] = useState("");
   const [reviewRating, setReviewRating] = useState(5);
@@ -359,8 +360,20 @@ export default function HomePage() {
     const key = `jewel-${productSlug(product.name)}`;
     const cart = readCart();
     writeCart({ ...cart, [key]: Number(cart[key] || 0) + quantity });
+    setCart(readCart());
     localStorage.setItem("annai_cart_products", JSON.stringify({ ...JSON.parse(localStorage.getItem("annai_cart_products") || "{}"), [key]: product }));
     setCartNotice(`${quantity} item${quantity > 1 ? "s" : ""} added to your cart.`);
+  };
+  const changeJewelleryQuantity = (product: Product, change: number) => {
+    const key = `jewel-${productSlug(product.name)}`;
+    const currentCart = readCart();
+    const quantity = Math.max(0, Number(currentCart[key] || 0) + change);
+    const nextCart = { ...currentCart };
+    if (quantity) nextCart[key] = quantity;
+    else delete nextCart[key];
+    writeCart(nextCart);
+    if (quantity) localStorage.setItem("annai_cart_products", JSON.stringify({ ...JSON.parse(localStorage.getItem("annai_cart_products") || "{}"), [key]: product }));
+    setCart(nextCart);
   };
 
   const submitReview = (event: FormEvent<HTMLFormElement>) => {
@@ -430,7 +443,7 @@ export default function HomePage() {
       </div>
     </section>
 
-    {productShelves.map((shelf, index) => <ProductShelf key={shelf.id} shelf={shelf} alternate={index % 2 === 1} onQuickView={openQuickView} onAddToCart={(product)=>addJewelleryToCart(product,1)} />)}
+    {productShelves.map((shelf, index) => <ProductShelf key={shelf.id} shelf={shelf} alternate={index % 2 === 1} onQuickView={openQuickView} cart={cart} onChangeQuantity={changeJewelleryQuantity} />)}
 
     {/* <section className="px-4 py-12 sm:px-6 lg:px-10">
       <div className="mx-auto max-w-7xl">
