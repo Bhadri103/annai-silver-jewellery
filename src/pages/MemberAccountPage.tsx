@@ -12,7 +12,7 @@ const userTokenKey = "annai_user_token";
 const userProfileKey = "annai_user_profile";
 
 const authHeaders = () => Boolean(localStorage.getItem(userTokenKey));
-const isDemoAccount = () => localStorage.getItem(userTokenKey) === "demo-annai-token";
+const isDemoAccount = () => localStorage.getItem(userTokenKey) === "demo-bhadri-token";
 
 const demoOrders: WebsiteOrder[] = [
   { id: 1, orderId: "AN24071801", product: "Peacock Heritage Necklace", category: "Necklaces", amount: 98000, status: "Delivered", paymentStatus: "Paid", paymentMethod: "UPI", deliveryMode: "Insured Delivery", deliveryAddress: "Anna Nagar, Chennai", invoiceNumber: "INV-24071801", notes: "Gift wrapped", createdAt: "2026-07-18" },
@@ -153,7 +153,7 @@ export const UserProfilePage = () => {
     if (Object.keys(next).length) return;
     setSaving(true);
     try {
-      if (localStorage.getItem(userTokenKey) === "demo-annai-token") {
+      if (localStorage.getItem(userTokenKey) === "demo-bhadri-token") {
         const data = { ...user!, name: clean(form.name), phone: phoneDigits(form.phone), plan: clean(form.plan), goal: clean(form.goal), address: clean(form.address) };
         setUser(data);
         localStorage.setItem(userProfileKey, JSON.stringify(data));
