@@ -408,7 +408,7 @@ export default function HomePage() {
       <div className="mx-auto max-w-7xl">
         <div className="mb-9 text-center">
           <p className="text-xs font-semibold uppercase tracking-[0.28em] text-amber-600">Find your favourite</p>
-          <h2 className="mt-2 text-3xl font-medium uppercase tracking-[0.08em] text-[#5a4323] sm:text-4xl">Shop by Category</h2>
+          <h2 className="mt-2 text-3xl font-medium tracking-[0.04em] text-[#5a4323] sm:text-4xl">Shop by Category</h2>
           <span className="mx-auto mt-4 block h-px w-28 bg-gradient-to-r from-transparent via-amber-500 to-transparent" />
         </div>
         <div className="shop-category-grid grid gap-2 sm:gap-3 lg:gap-4">
