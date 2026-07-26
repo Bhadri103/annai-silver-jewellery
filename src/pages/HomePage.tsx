@@ -85,8 +85,11 @@ import necklace21 from "../assets/necklace/21.png";
 import necklace22 from "../assets/necklace/22.png";
 import necklace23 from "../assets/necklace/23.png";
 import necklace24 from "../assets/necklace/24.png";
-import heroImage from "../assets/jewellery/hero-editorial.png";
 import templeNecklace from "../assets/jewellery/temple-necklace.png";
+import homeBanner1 from "../assets/banner/homebanner1.png";
+import homeBanner2 from "../assets/banner/homebanner2.png";
+import homeBanner3 from "../assets/banner/homebanner3.png";
+import homeBanner4 from "../assets/banner/homebanner4.png";
 import { readCart, writeCart } from "../lib/cart";
 import ZoomableProductImage from "../components/ZoomableProductImage";
 import Price from "../components/Price";
@@ -298,7 +301,7 @@ export default function HomePage() {
   const allProducts = productShelves.flatMap((shelf) => shelf.products);
   const heroSlides = [
     {
-      image: heroImage,
+      image: homeBanner1,
       kicker: "The Wedding Edit - 2026",
       title: "Jewellery for Today.",
       accent: "Heirlooms for Tomorrow.",
@@ -306,12 +309,28 @@ export default function HomePage() {
       position: "center",
     },
     {
-      image: templeNecklace,
+      image: homeBanner2,
       kicker: "Timeless Temple Jewellery",
       title: "Crafted by Hand.",
       accent: "Cherished for Generations.",
       text: "Intricate heritage motifs, quality-checked silver and careful 24K gold plating come together in every Annai creation.",
       position: "center 43%",
+    },
+    {
+      image: homeBanner3,
+      kicker: "Modern Silver Luxury",
+      title: "Designed to Shine.",
+      accent: "Made to Be Yours.",
+      text: "Explore graceful jewellery designed for celebrations, gifting and everyday elegance.",
+      position: "center",
+    },
+    {
+      image: homeBanner4,
+      kicker: "The Annai Collection",
+      title: "Tradition Reimagined.",
+      accent: "Beauty Without Time.",
+      text: "Discover distinctive necklaces, earrings, bangles and chains crafted with enduring detail.",
+      position: "center",
     },
   ];
   const [activeSlide, setActiveSlide] = useState(0);
@@ -423,8 +442,8 @@ export default function HomePage() {
           <div className="mt-7 flex flex-wrap gap-5 text-sm text-slate-700"><span><strong className="font-medium text-amber-700">Certified 925 Silver</strong> Base</span><span className="flex items-center gap-1"><Star className="h-4 w-4 fill-amber-500 text-amber-500"/> 4.9 Customer Rating</span><span className="flex items-center gap-1"><Award className="h-4 w-4 text-amber-600"/> 24K Gold-Plated Finish</span></div>
         </div>
       </div>
-      <button type="button" onClick={() => changeSlide(-1)} className="absolute left-3 top-1/2 z-20 inline-flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full border border-amber-200 bg-white/85 text-amber-700 shadow-lg backdrop-blur transition hover:bg-amber-600 hover:text-white sm:left-6" aria-label="Previous banner"><ArrowLeft className="h-5 w-5"/></button>
-      <button type="button" onClick={() => changeSlide(1)} className="absolute right-3 top-1/2 z-20 inline-flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full border border-amber-200 bg-white/85 text-amber-700 shadow-lg backdrop-blur transition hover:bg-amber-600 hover:text-white sm:right-6" aria-label="Next banner"><ArrowRight className="h-5 w-5"/></button>
+      <button type="button" onClick={() => changeSlide(-1)} className="absolute left-2 top-1/2 z-20 inline-flex h-8 w-8 -translate-y-1/2 items-center justify-center rounded-full border border-amber-200 bg-white/85 text-amber-700 shadow-lg backdrop-blur transition hover:bg-amber-600 hover:text-white sm:left-6 sm:h-11 sm:w-11" aria-label="Previous banner"><ArrowLeft className="h-4 w-4 sm:h-5 sm:w-5"/></button>
+      <button type="button" onClick={() => changeSlide(1)} className="absolute right-2 top-1/2 z-20 inline-flex h-8 w-8 -translate-y-1/2 items-center justify-center rounded-full border border-amber-200 bg-white/85 text-amber-700 shadow-lg backdrop-blur transition hover:bg-amber-600 hover:text-white sm:right-6 sm:h-11 sm:w-11" aria-label="Next banner"><ArrowRight className="h-4 w-4 sm:h-5 sm:w-5"/></button>
       <div className="absolute bottom-6 left-1/2 z-20 flex -translate-x-1/2 gap-2">
         {heroSlides.map((slide, index) => <button key={slide.title} type="button" onClick={() => setActiveSlide(index)} className={`h-2.5 rounded-full bg-amber-600 transition-all ${index === activeSlide ? "w-9" : "w-2.5 opacity-45"}`} aria-label={`Show banner ${index + 1}`}/>)}
       </div>

@@ -5,6 +5,33 @@ import { readCart, writeCart } from "../lib/cart";
 import { productShelves, productSlug } from "./HomePage";
 import { SEO } from "./highgrade/shared";
 import Price from "../components/Price";
+import bangleBanner1 from "../assets/banner/bangle-1.png";
+import bangleBanner2 from "../assets/banner/bangle-2.png";
+import earringBanner from "../assets/banner/earings-1.png";
+import necklaceBanner1 from "../assets/banner/necklace-1.png";
+import necklaceBanner2 from "../assets/banner/necklace-2.png";
+import necklaceBanner3 from "../assets/banner/necklace-3.png";
+import necklaceBanner4 from "../assets/banner/necklace-4.png";
+import homeBanner5 from "../assets/banner/homebanner5.png";
+import homeBanner6 from "../assets/banner/homebanner6.png";
+
+const collectionBanners: Record<string, string> = {
+  "new-arrivals": homeBanner5,
+  necklaces: necklaceBanner2,
+  earrings: earringBanner,
+  bangles: bangleBanner1,
+  "kada-bracelets": bangleBanner2,
+  chains: necklaceBanner3,
+  "chain-bracelets": necklaceBanner4,
+  anklets: necklaceBanner1,
+  watches: homeBanner6,
+  "indian-jewellery": homeBanner5,
+  "bridal-jewellery": necklaceBanner2,
+  "antique-jewellery": necklaceBanner4,
+  "stone-jewellery": earringBanner,
+  "gold-plated-jewellery": bangleBanner2,
+  "silver-jewellery": homeBanner6,
+};
 
 export default function CollectionPage() {
   const { collectionId } = useParams();
@@ -30,6 +57,7 @@ export default function CollectionPage() {
     text: `Explore our curated ${requestedTitle.toLowerCase()} collection.`,
     products: collectionId === "indian-jewellery" ? allProducts : relatedProducts.length ? relatedProducts : allProducts,
   };
+  const bannerImage = collectionBanners[collectionId || ""] || homeBanner5;
   const [sort, setSort] = useState("featured");
   const [material, setMaterial] = useState("All");
   const [availability, setAvailability] = useState("in-stock");
@@ -112,7 +140,7 @@ export default function CollectionPage() {
     <SEO title={`${shelf.title} Collection`} description={shelf.text}/>
     <section className="relative flex min-h-[340px] items-center overflow-hidden bg-[#fbf8f1] px-4 py-14 sm:min-h-[390px] sm:px-6 lg:px-10">
       <img
-        src={shelf.products[0]?.image || allProducts[0]?.image}
+        src={bannerImage}
         alt=""
         aria-hidden="true"
         data-eager="true"
