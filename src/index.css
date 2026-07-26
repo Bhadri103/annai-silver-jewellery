@@ -3284,15 +3284,6 @@ select {
     color: #ffffff !important;
 }
 
-.collection-filter-drawer {
-    animation: collectionFilterSlideIn 240ms ease-out both;
-}
-
-@keyframes collectionFilterSlideIn {
-    from { transform: translateX(-100%); opacity: 0.6; }
-    to { transform: translateX(0); opacity: 1; }
-}
-
 @media (max-width: 380px) {
     .collection-mobile-search {
         border-radius: 0.85rem;

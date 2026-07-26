@@ -83,13 +83,13 @@ export default function CollectionPage() {
     return allProducts.filter((product) => terms.some((term) => `${product.name} ${product.material}`.toLowerCase().includes(term))).length;
   };
 
-  const FilterPanel = ({ mobile = false }: { mobile?: boolean }) => <aside className={`${mobile ? "h-full overflow-y-auto bg-white p-5" : "rounded-3xl border border-amber-100 bg-white p-5 shadow-sm"}`}>
-    <div className="mb-5 flex items-center justify-between"><h2 className="flex items-center gap-2 text-lg font-semibold text-slate-900"><Filter className="h-5 w-5 text-amber-600"/>Filters</h2>{mobile&&<button onClick={()=>setFiltersOpen(false)} aria-label="Close filters"><X className="h-5 w-5"/></button>}</div>
+  const FilterPanel = () => <aside className="h-full overflow-y-auto bg-white p-5 sm:p-7">
+    <div className="mb-5 flex items-center justify-between"><h2 className="flex items-center gap-2 text-lg font-semibold text-slate-900"><SlidersHorizontal className="h-5 w-5 text-amber-600"/>Filters</h2><button onClick={()=>setFiltersOpen(false)} className="grid h-10 w-10 place-items-center rounded-full border border-amber-100 text-slate-600 transition hover:rotate-90 hover:border-amber-300 hover:bg-amber-50 hover:text-amber-700" aria-label="Close filters"><X className="h-5 w-5"/></button></div>
     <div className="border-t border-amber-100 pt-5"><h3 className="text-sm font-semibold text-slate-900">Categories</h3><nav className="mt-3 space-y-1">{categoryLinks.map(([label,id])=><Link key={id} to={`/collection/${id}`} onClick={()=>setFiltersOpen(false)} className={`flex items-center justify-between rounded-xl px-3 py-2 text-sm transition ${collectionId===id?"bg-amber-50 font-semibold text-amber-700":"text-slate-600 hover:bg-[#fbf8f1] hover:text-amber-700"}`}><span>{label}</span><span className={`min-w-7 rounded-full px-2 py-0.5 text-center text-[11px] font-semibold ${collectionId===id?"bg-white text-amber-700":"bg-[#fbf8f1] text-slate-500"}`}>{getCategoryCount(id)}</span></Link>)}</nav></div>
     <div className="mt-6 border-t border-amber-100 pt-5"><h3 className="text-sm font-semibold text-slate-900">Material</h3><div className="mt-3 flex flex-wrap gap-2">{materials.map(item=><button key={item} type="button" onClick={()=>setMaterial(item)} className={`rounded-full border px-3 py-2 text-xs font-semibold ${material===item?"border-amber-600 bg-amber-600 text-white":"border-amber-100 bg-[#fbf8f1] text-slate-600"}`}>{item}</button>)}</div></div>
     <div className="mt-6 border-t border-amber-100 pt-5"><h3 className="text-sm font-semibold text-slate-900">Availability</h3><label className="mt-3 flex cursor-pointer items-center justify-between text-sm text-slate-600"><span className="flex items-center gap-2"><input type="radio" checked={availability==="in-stock"} onChange={()=>setAvailability("in-stock")} className="accent-amber-600"/>In stock</span><span>({shelf.products.length})</span></label><label className="mt-3 flex cursor-pointer items-center justify-between text-sm text-slate-400"><span className="flex items-center gap-2"><input type="radio" checked={availability==="out-of-stock"} onChange={()=>setAvailability("out-of-stock")} className="accent-amber-600"/>Out of stock</span><span>(0)</span></label></div>
     <div className="mt-6 border-t border-amber-100 pt-5"><h3 className="text-sm font-semibold text-slate-900">Price</h3><div className="mt-4 grid grid-cols-[1fr_auto_1fr] items-end gap-2"><label className="text-[10px] uppercase tracking-wider text-slate-500">From<div className="mt-1 flex rounded-xl border border-amber-100 bg-[#fbf8f1]"><span className="grid place-items-center px-2 py-2"><IndianRupee className="h-3.5 w-3.5"/></span><input type="number" min="0" max={maxPrice} value={minPrice} onChange={(event)=>setMinPrice(Math.max(0,Number(event.target.value)))} className="min-w-0 w-full bg-transparent py-2 pr-2 text-sm outline-none"/></div></label><span className="pb-2 text-xs text-slate-400">to</span><label className="text-[10px] uppercase tracking-wider text-slate-500">To<div className="mt-1 flex rounded-xl border border-amber-100 bg-[#fbf8f1]"><span className="grid place-items-center px-2 py-2"><IndianRupee className="h-3.5 w-3.5"/></span><input type="number" min={minPrice} value={maxPrice} onChange={(event)=>setMaxPrice(Math.max(minPrice,Number(event.target.value)))} className="min-w-0 w-full bg-transparent py-2 pr-2 text-sm outline-none"/></div></label></div><input type="range" min="0" max="250000" step="5000" value={maxPrice} onChange={(event)=>setMaxPrice(Number(event.target.value))} className="mt-4 w-full accent-amber-600"/><div className="mt-2 flex justify-between text-xs text-slate-500"><Price value={0}/><Price value={250000}/></div></div>
-    {mobile&&<div className="mt-6 border-t border-amber-100 pt-5"><h3 className="text-sm font-semibold text-slate-900">Sort products</h3><select value={sort} onChange={(event)=>setSort(event.target.value)} className="mt-3 w-full rounded-xl border border-amber-100 bg-[#fbf8f1] px-3 py-3 text-sm outline-none"><option value="featured">Featured</option><option value="low">Price: Low to High</option><option value="high">Price: High to Low</option><option value="name">Name: A to Z</option></select></div>}
+    <div className="mt-6 border-t border-amber-100 pt-5"><h3 className="text-sm font-semibold text-slate-900">Sort products</h3><select value={sort} onChange={(event)=>setSort(event.target.value)} className="mt-3 w-full rounded-xl border border-amber-100 bg-[#fbf8f1] px-3 py-3 text-sm outline-none"><option value="featured">Featured</option><option value="low">Price: Low to High</option><option value="high">Price: High to Low</option><option value="name">Name: A to Z</option></select></div>
     <button onClick={()=>{setMaterial("All");setAvailability("in-stock");setMinPrice(0);setMaxPrice(250000);}} className="mt-6 w-full rounded-full border border-amber-300 px-4 py-2.5 text-sm font-semibold text-amber-700">Clear filters</button>
   </aside>;
 
@@ -135,11 +135,12 @@ export default function CollectionPage() {
           <Search className="ml-3 h-5 w-5 shrink-0 text-amber-600"/>
           <input value={search} onChange={(event)=>setSearch(event.target.value)} placeholder={`Search ${shelf.title.toLowerCase()}...`} className="min-w-0 flex-1 bg-transparent px-3 py-2.5 text-sm text-slate-900 outline-none placeholder:text-slate-400" aria-label={`Search ${shelf.title}`}/>
           {search&&<button type="button" onClick={()=>setSearch("")} className="grid h-9 w-9 shrink-0 place-items-center rounded-xl text-slate-400" aria-label="Clear search"><X className="h-4 w-4"/></button>}
-          <button type="button" onClick={()=>setFiltersOpen(true)} className="relative grid h-11 w-11 shrink-0 place-items-center rounded-xl bg-amber-600 text-white shadow-md transition active:scale-95" aria-label="Open filters"><Filter className="h-5 w-5"/>{(material!=="All"||minPrice>0||maxPrice<250000||availability!=="in-stock")&&<span className="absolute -right-1 -top-1 h-3 w-3 rounded-full border-2 border-white bg-[#D4AF37]"/>}</button>
+          <button type="button" onClick={()=>setFiltersOpen(true)} className="relative grid h-11 w-11 shrink-0 place-items-center rounded-xl bg-amber-600 text-white shadow-md transition hover:-translate-y-0.5 hover:shadow-lg active:scale-95" aria-label="Open filters"><SlidersHorizontal className="h-5 w-5"/>{(material!=="All"||minPrice>0||maxPrice<250000||availability!=="in-stock")&&<span className="absolute -right-1 -top-1 h-3 w-3 rounded-full border-2 border-white bg-[#D4AF37]"/>}</button>
         </div>
         <div className="sticky top-[92px] z-30 mb-7 hidden flex-wrap items-center justify-between gap-4 rounded-2xl border border-amber-100 bg-white/95 p-4 shadow-sm backdrop-blur-xl lg:flex">
           <div className="flex items-center gap-2 text-sm font-semibold text-slate-900"><Filter className="h-4 w-4 text-amber-600"/>{products.length} products</div>
           <div className="flex flex-wrap items-center gap-3">
+            <button type="button" onClick={()=>setFiltersOpen(true)} className="relative inline-flex items-center gap-2 rounded-xl bg-amber-600 px-4 py-2.5 text-sm font-semibold text-white shadow-md transition hover:-translate-y-0.5 hover:bg-amber-700 hover:shadow-lg active:scale-95" aria-label="Open filters"><SlidersHorizontal className="h-4 w-4"/>Filters{(material!=="All"||minPrice>0||maxPrice<250000||availability!=="in-stock")&&<span className="h-2 w-2 rounded-full bg-white"/>}</button>
             <label className="flex items-center gap-2 text-xs text-slate-500">Material
               <select value={material} onChange={(event)=>setMaterial(event.target.value)} className="rounded-xl border border-amber-100 bg-[#fbf8f1] px-3 py-2 text-sm text-slate-900 outline-none">{materials.map(item=><option key={item}>{item}</option>)}</select>
             </label>
@@ -150,8 +151,7 @@ export default function CollectionPage() {
         </div>
 
         {notice&&<div className="fixed right-4 top-24 z-50 rounded-2xl bg-green-700 px-5 py-3 text-sm text-white shadow-xl">{notice}</div>}
-        <div className="grid items-start gap-7 lg:grid-cols-[260px_1fr]">
-          <div className="sticky top-[188px] self-start lg:block"><FilterPanel/></div>
+        <div>
           <div className={products.length ? "grid grid-cols-2 items-start gap-3 md:grid-cols-3 md:gap-5 xl:grid-cols-4" : "min-w-0"}>
           {products.map((product)=>(
             <article key={product.name} className="group self-start overflow-hidden rounded-2xl border border-amber-100 bg-white shadow-sm transition hover:-translate-y-1 hover:shadow-xl">
@@ -170,14 +170,17 @@ export default function CollectionPage() {
     </section>
     <div
       aria-hidden={!filtersOpen}
-      className={`fixed inset-0 z-[90] bg-amber-800/50 backdrop-blur-[2px] transition-all duration-700 ease-out lg:hidden ${filtersOpen ? "visible opacity-100" : "invisible pointer-events-none opacity-0"}`}
+      className={`fixed inset-0 z-[90] flex justify-end bg-slate-950/40 backdrop-blur-[2px] transition-all duration-500 ease-out ${filtersOpen ? "visible opacity-100" : "invisible pointer-events-none opacity-0"}`}
       onClick={()=>setFiltersOpen(false)}
     >
       <div
-        className={`collection-filter-drawer h-full w-[88%] max-w-sm shadow-2xl transition-transform duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] ${filtersOpen ? "translate-x-0" : "-translate-x-full"}`}
+        role="dialog"
+        aria-modal="true"
+        aria-label="Product filters"
+        className={`collection-filter-drawer h-full w-[88%] max-w-md shadow-2xl transition-transform duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] ${filtersOpen ? "translate-x-0" : "translate-x-full"}`}
         onClick={(event)=>event.stopPropagation()}
       >
-        <FilterPanel mobile/>
+        <FilterPanel/>
       </div>
     </div>
   </>;
