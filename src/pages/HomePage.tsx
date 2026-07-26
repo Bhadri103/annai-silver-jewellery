@@ -96,7 +96,6 @@ const collections = [
   { title: "Necklaces", image: necklace1 },
   { title: "Bangles", image: bangle1 },
   { title: "Earrings", image: earring1 },
-  { title: "Bracelets", image: bangle4 },
   { title: "Chains", image: chain1 },
 ];
 
@@ -127,13 +126,20 @@ export const productShelves: { id: string; kicker: string; title: string; text: 
     ],
   },
   {
-    id: "bracelets", kicker: "Grace at Your Wrist", title: "Bracelets", text: "Delicate details and statement designs for every style.",
+    id: "bangles", kicker: "Grace at Your Wrist", title: "Bangles", text: "A complete collection of traditional, bridal and everyday gold-plated silver bangles.",
     products: [
-      { name: "Golden Petal Bracelet", material: "925 Silver with 24K Gold Plating", price: "2,199", image: bangle4 },
-      // { name: "Zircon Tennis Bracelet", material: "925 Silver with 24K Gold Plating", price: "3,499", image: bangle5 },
-      { name: "Infinity Gold-Plated Bracelet", material: "925 Silver with 24K Gold Plating", price: "1,699", image: bangle6 },
-      { name: "Ruby Floral Bracelet", material: "925 Silver with 24K Gold Plating", price: "2,799", image: bangle7 },
+      { name: "Classic Temple Gold Bangle", material: "925 Silver with 24K Gold Plating", price: "2,899", badge: "Bestseller", image: bangle1 },
+      { name: "Antique Ruby Bangles", material: "925 Silver with 24K Gold Plating", price: "3,999", badge: "New", image: bangle2 },
+      { name: "Antique Bridal Bangles", material: "925 Silver with 24K Gold Plating", price: "4,499", badge: "Bestseller", image: bangle3 },
+      { name: "Golden Petal Bangle", material: "925 Silver with 24K Gold Plating", price: "2,199", image: bangle4 },
+      { name: "Infinity Gold-Plated Bangle", material: "925 Silver with 24K Gold Plating", price: "1,699", image: bangle6 },
+      { name: "Ruby Floral Bangle", material: "925 Silver with 24K Gold Plating", price: "2,799", image: bangle7 },
+      { name: "Traditional Engraved Bangle", material: "925 Silver with 24K Gold Plating", price: "2,649", image: bangle8 },
+      { name: "Royal Stone Gold Bangle", material: "925 Silver with 24K Gold Plating", price: "3,249", image: bangle9 },
+      { name: "Heritage Nakshi Bangle", material: "925 Silver with 24K Gold Plating", price: "3,599", image: bangle10 },
+      { name: "Classic Slim Gold Bangle", material: "925 Silver with 24K Gold Plating", price: "1,999", image: bangle11 },
       { name: "Temple Carved Gold Bangle", material: "925 Silver with 24K Gold Plating", price: "2,599", image: bangle12 },
+      { name: "Festive Ruby Kada Bangle", material: "925 Silver with 24K Gold Plating", price: "3,349", image: bangle13 },
       { name: "Royal Ruby Kada Bangle", material: "925 Silver with 24K Gold Plating", price: "3,299", badge: "New", image: bangle14 },
       { name: "Lakshmi Heritage Bangle", material: "925 Silver with 24K Gold Plating", price: "3,599", image: bangle15 },
       { name: "Floral Filigree Gold Bangle", material: "925 Silver with 24K Gold Plating", price: "2,899", image: bangle16 },
@@ -359,7 +365,7 @@ export default function HomePage() {
   };
 
   return <>
-    <SEO title="Annai Jewellery" description="Shop 925 silver ornaments with 24K gold plating, including earrings, necklaces, bracelets, chains and bridal jewellery." />
+    <SEO title="Annai Jewellery" description="Shop 925 silver ornaments with 24K gold plating, including earrings, necklaces, bangles, chains and bridal jewellery." />
 
     <section className="jewellery-hero-slider relative min-h-[620px] w-full overflow-hidden text-amber-900 sm:min-h-[680px]">
       {heroSlides.map((slide, index) => (

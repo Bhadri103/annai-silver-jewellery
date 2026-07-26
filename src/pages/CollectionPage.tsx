@@ -12,6 +12,7 @@ export default function CollectionPage() {
   const requestedTitle = (collectionId || "products").split("-").map((part) => part.charAt(0).toUpperCase() + part.slice(1)).join(" ");
   const matchedShelf = productShelves.find((item) => item.id === collectionId);
   const collectionKeywords: Record<string, string[]> = {
+    bangles: ["bangle", "kada"],
     "kada-bracelets": ["bangle", "bracelet"],
     anklets: ["silver", "chain"],
     "bridal-jewellery": ["bridal", "temple", "heritage", "lakshmi"],
@@ -65,7 +66,7 @@ export default function CollectionPage() {
   }, [availability, material, maxPrice, minPrice, search, shelf.products, sort]);
 
   const categoryLinks = [
-    ["New Arrivals", "new-arrivals"], ["Necklaces", "necklaces"], ["Earrings", "earrings"],
+    ["New Arrivals", "new-arrivals"], ["Necklaces", "necklaces"], ["Earrings", "earrings"], ["Bangles", "bangles"],
     ["Kada Bracelets", "kada-bracelets"], ["Chains", "chains"], ["Chain Bracelets", "chain-bracelets"],
     ["Anklets", "anklets"], ["Watches", "watches"], ["Indian Jewellery", "indian-jewellery"],
   ];

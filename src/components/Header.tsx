@@ -9,7 +9,7 @@ const primaryItems = [
   ["Home", "/"],
   ["New Arrivals", "/collection/new-arrivals"],
   ["Best Sellers", "/collection/best-sellers"],
-  ["Bracelets", "/collection/bracelets"],
+  ["Bangles", "/collection/bangles"],
   ["Necklaces", "/collection/necklaces"],
   ["Earrings", "/collection/earrings"],
   ["Chains", "/collection/chains"],
