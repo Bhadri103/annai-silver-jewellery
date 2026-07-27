@@ -285,7 +285,7 @@ const AnnaiJewelleryChat = () => {
         aria-hidden={!open}
       >
         <header className="chatbot-header flex items-center gap-3 border-b p-3">
-          <img src={botImage} alt="Annai Jewellery assistant" className="h-12 w-12 shrink-0 rounded-2xl bg-white object-contain p-1" />
+          <img src={botImage} alt="Annai Jewellery assistant" className="h-14 w-14 shrink-0 rounded-2xl bg-white object-contain p-0.5 shadow-sm" />
           <div className="min-w-0 flex-1">
             <p className="truncate text-sm font-semibold">Annai Jewellery Assist</p>
             <p className="truncate text-xs text-slate-500">Jewellery guidance, anytime.</p>

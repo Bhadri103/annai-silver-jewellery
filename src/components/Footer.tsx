@@ -2,7 +2,7 @@ import React from "react";
 import { Facebook, Instagram, Mail, MapPin, MessageCircle, Phone, Clock3, Send } from "lucide-react";
 import { Link } from "react-router-dom";
 import logo from "../assets/logo.png";
-import logoDark from "../assets/logo-dark-theme.png";
+import logoDark from "../assets/logo.png";
 
 const showroomDirections = "https://www.google.com/maps/dir//Annai+Sliver+Jewellery,+Shop+No+8,+Old+Bus+Stand,+Padmanabhapuram,+Tamil+Nadu+629175/@8.2073794,77.3040963,1915m/data=!3m1!1e3!4m8!4m7!1m0!1m5!1m1!1s0x3b04f9c3ad0b657f:0x9c9047a12495cad7!2m2!1d77.3202801!2d8.2407514?entry=ttu&g_ep=EgoyMDI2MDcyMi4wIKXMDSoASAFQAw%3D%3D";
 const showroomEmbed = "https://www.google.com/maps?q=Annai%20Sliver%20Jewellery%2C%20Shop%20No%208%2C%20Old%20Bus%20Stand%2C%20Padmanabhapuram%2C%20Tamil%20Nadu%20629175&output=embed";

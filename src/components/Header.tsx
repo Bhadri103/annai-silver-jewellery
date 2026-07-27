@@ -76,7 +76,7 @@ const Header: React.FC = () => {
   return <>
     <header className="fixed inset-x-0 top-0 z-50 border-b border-amber-100 bg-white/95 shadow-sm backdrop-blur-xl">
       <div className="mx-auto hidden h-[76px] max-w-7xl items-center gap-5 px-6 lg:flex lg:px-10">
-        <Link to="/" className="shrink-0"><img src={logo} alt="Annai Jewellery" className="h-12 w-auto object-contain"/></Link>
+        <Link to="/" className="flex h-[70px] w-[86px] shrink-0 items-center justify-center"><img src={logo} alt="Annai Jewellery" className="h-16 w-16 object-contain"/></Link>
         <nav className="flex min-w-0 flex-1 items-center justify-center gap-3 xl:gap-5">
           {primaryItems.map(([label,href]) => <Link key={href} to={href} className={`border-b-2 py-2 text-xs font-semibold transition xl:text-sm ${location.pathname===href?"border-amber-600 text-amber-700":"border-transparent text-slate-700 hover:border-amber-500 hover:text-amber-600"}`}>{label}</Link>)}
           <div className="group relative"><button className="flex items-center gap-1 border-b-2 border-transparent py-2 text-xs font-semibold text-slate-700 hover:border-amber-500 hover:text-amber-600 xl:text-sm">More <ChevronDown className="h-3.5 w-3.5"/></button><div className="invisible absolute right-0 top-full mt-2 grid w-[430px] grid-cols-2 gap-1 rounded-2xl border border-amber-100 bg-white p-3 opacity-0 shadow-2xl transition group-hover:visible group-hover:opacity-100">{allMenuItems.slice(7).map(([label,href])=><Link key={href} to={href} className="rounded-xl px-4 py-2.5 text-sm text-slate-600 hover:bg-amber-50 hover:text-amber-700">{label}</Link>)}</div></div>
@@ -94,7 +94,7 @@ const Header: React.FC = () => {
           <button onClick={()=>setDrawer("menu")} className="grid h-10 w-10 place-items-center rounded-full text-slate-900" aria-label="Open menu"><Menu className="h-5 w-5"/></button>
           <button onClick={()=>setDrawer("search")} className="grid h-10 w-10 place-items-center rounded-full text-slate-900" aria-label="Search products"><Search className="h-5 w-5"/></button>
         </div>
-        <Link to="/" className="absolute left-1/2 flex h-[72px] max-w-[46%] -translate-x-1/2 items-center justify-center"><img src={logo} alt="Annai Jewellery" className="max-h-14 w-auto max-w-full object-contain"/></Link>
+        <Link to="/" className="absolute left-1/2 flex h-[78px] w-[82px] -translate-x-1/2 items-center justify-center"><img src={logo} alt="Annai Jewellery" className="h-[70px] w-[70px] object-contain"/></Link>
         <Link to="/cart" className="relative grid h-10 w-10 place-items-center rounded-full text-slate-900" aria-label="Cart"><ShoppingBag className="h-5 w-5"/>{cartItems>0&&<span className="absolute right-0 top-0 grid h-4 min-w-4 place-items-center rounded-full bg-amber-600 px-1 text-[8px] font-bold text-white">{cartItems}</span>}</Link>
       </div>
     </header>
