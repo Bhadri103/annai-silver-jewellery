@@ -74,7 +74,7 @@ const Header: React.FC = () => {
   }, [drawer]);
 
   return <>
-    <header className="fixed inset-x-0 top-0 z-50 border-b border-amber-200 bg-white shadow-[0_5px_22px_rgba(78,52,18,0.12)]">
+    <header className="fixed inset-x-0 top-0 z-50 border-b border-amber-300 bg-[#fffaf0] shadow-[0_5px_22px_rgba(78,52,18,0.12)]">
       <div className="mx-auto hidden h-[96px] max-w-7xl items-center gap-5 px-6 lg:flex lg:px-10">
         <Link to="/" className="flex h-[92px] w-[104px] shrink-0 items-center justify-center" aria-label="Annai Jewellery home"><span className="grid h-[86px] w-[86px] place-items-center rounded-full border border-amber-300 bg-[#fffaf0] shadow-[0_4px_16px_rgba(169,116,22,0.16)]"><img src={logo} alt="Annai Jewellery" className="h-[78px] w-[78px] object-contain"/></span></Link>
         <nav className="flex min-w-0 flex-1 items-center justify-center gap-3 xl:gap-5">
