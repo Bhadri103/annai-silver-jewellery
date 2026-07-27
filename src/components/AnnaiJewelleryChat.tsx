@@ -1,6 +1,6 @@
 import { type PointerEvent, useEffect, useMemo, useRef, useState } from "react";
 import { MapPin, MessageCircle, Phone, Send, Sparkles, X } from "lucide-react";
-import botImage from "../assets/logo.png";
+import botImage from "../assets/bot-logo.png";
 import { websiteApi } from "../lib/api";
 import { clean, isPhone, limitPhoneDigits, minLength, phoneDigits } from "../lib/validation";
 
