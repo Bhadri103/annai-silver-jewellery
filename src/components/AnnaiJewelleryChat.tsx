@@ -156,10 +156,11 @@ const AnnaiJewelleryChat = () => {
       setLeadStep("idle");
       setLead({ name: "", phone: "", goal: "" });
       botReply({ from: "bot", text: "Thank you. Your enquiry has been shared with our jewellery team. A consultant will contact you soon." });
-    } catch (error) {
+    } catch {
+      setLeadStep("idle");
       botReply({
         from: "bot",
-        text: error instanceof Error ? `${error.message}. You can also call +91 97512 29418.` : "Unable to send details. Please call +91 97512 29418.",
+        text: "Sorry, I could not send your request right now. Please call or WhatsApp our Annai Jewellery team at +91 97512 29418. Our team will be happy to guide and support you.",
       });
     } finally {
       setSubmitting(false);
@@ -212,9 +213,8 @@ const AnnaiJewelleryChat = () => {
 
     botReply({
       from: "bot",
-      text: "I can help with jewellery collections, 925 silver, 24K gold plating, care, prices, payments, delivery, orders and showroom directions. For personal assistance, please share your name.",
+      text: "Thank you for your message. I am unable to answer that right now. Please call or WhatsApp our Annai Jewellery team at +91 97512 29418, and our team will guide and support you.",
     });
-    setLeadStep("name");
   };
 
   const handleQuick = (label: string, key: keyof typeof quickAnswers | "lead") => {
