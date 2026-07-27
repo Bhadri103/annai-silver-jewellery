@@ -76,10 +76,10 @@ const Header: React.FC = () => {
   return <>
     <header
       className="fixed inset-x-0 top-0 z-50 border-b border-amber-300 shadow-[0_5px_22px_rgba(78,52,18,0.12)]"
-      style={{ backgroundColor: "#fffaf0" }}
+      style={{ backgroundColor: "#f8edcf" }}
     >
       <div className="mx-auto hidden h-[96px] max-w-7xl items-center gap-5 px-6 lg:flex lg:px-10">
-        <Link to="/" className="flex h-[92px] w-[104px] shrink-0 items-center justify-center" aria-label="Annai Jewellery home"><span className="grid h-[68px] place-items-center"><img src={logo} alt="Annai Jewellery" className="h-[64px] w-auto max-w-none object-contain"/></span></Link>
+        <Link to="/" className="flex h-[92px] w-[104px] shrink-0 items-center justify-center" aria-label="Annai Jewellery home"><span className="grid h-[68px] place-items-center"><img src={logo} alt="Annai Jewellery" className="h-[40px] w-auto max-w-none object-contain"/></span></Link>
         <nav className="flex min-w-0 flex-1 items-center justify-center gap-3 xl:gap-5">
           {primaryItems.map(([label,href]) => <Link key={href} to={href} className={`border-b-2 py-2 text-xs font-semibold transition xl:text-sm ${location.pathname===href?"border-amber-600 text-amber-700":"border-transparent text-slate-700 hover:border-amber-500 hover:text-amber-700"}`}>{label}</Link>)}
           <div className="group relative"><button className="flex items-center gap-1 border-b-2 border-transparent py-2 text-xs font-semibold text-slate-700 hover:border-amber-500 hover:text-amber-700 xl:text-sm">More <ChevronDown className="h-3.5 w-3.5"/></button><div className="invisible absolute right-0 top-full mt-2 grid w-[430px] grid-cols-2 gap-1 rounded-2xl border border-amber-100 bg-white p-3 opacity-0 shadow-2xl transition group-hover:visible group-hover:opacity-100">{allMenuItems.slice(7).map(([label,href])=><Link key={href} to={href} className="rounded-xl px-4 py-2.5 text-sm text-slate-600 hover:bg-amber-50 hover:text-amber-700">{label}</Link>)}</div></div>
