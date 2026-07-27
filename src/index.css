@@ -3135,19 +3135,28 @@ select:focus {
     right: max(1rem, env(safe-area-inset-right));
     z-index: 220;
     display: grid;
-    width: 2.75rem;
-    height: 2.75rem;
+    width: 2.25rem;
+    height: 2.25rem;
     place-items: center;
-    border: 1px solid rgb(217 119 6 / 0.3);
+    border: 1px solid rgb(217 119 6 / 0.24);
     border-radius: 9999px;
-    background: #fff;
+    background: rgb(255 255 255 / 0.94);
     color: #78350f;
-    box-shadow: 0 8px 28px rgb(69 52 22 / 0.2);
+    box-shadow: 0 6px 20px rgb(69 52 22 / 0.16);
+    backdrop-filter: blur(8px);
+    transition: transform 180ms ease, border-color 180ms ease, background-color 180ms ease;
+}
+
+.product-image-modal-close:hover {
+    transform: scale(1.06);
+    border-color: rgb(217 119 6 / 0.5);
+    background: #fffbeb;
 }
 
 .product-image-modal-close svg {
-    width: 1.25rem;
-    height: 1.25rem;
+    width: 0.875rem;
+    height: 0.875rem;
+    stroke-width: 2;
 }
 
 .welcome-ad-close {
