@@ -448,9 +448,9 @@ export default function HomePage() {
     <SEO title="Annai Jewellery" description="Shop 925 silver ornaments with 24K gold plating, including earrings, necklaces, bangles, chains and bridal jewellery." />
 
     {welcomeAd.mounted && <div className={`welcome-ad-backdrop popup-backdrop-motion fixed inset-0 z-[180] grid place-items-center bg-slate-950/55 p-4 backdrop-blur-sm ${welcomeAd.active ? "is-open" : ""}`} role="dialog" aria-modal="true" aria-label="Annai Jewellery promotion" onClick={closeWelcomeAd}>
-      <div className="welcome-ad popup-surface-motion relative w-full max-w-2xl overflow-hidden rounded-2xl bg-white shadow-2xl" onClick={(event) => event.stopPropagation()}>
+      <div className="welcome-ad popup-surface-motion relative w-fit max-w-full overflow-hidden rounded-2xl bg-transparent shadow-2xl" onClick={(event) => event.stopPropagation()}>
         <button type="button" onClick={closeWelcomeAd} className="welcome-ad-close" aria-label="Close promotion"><X /></button>
-        <img src={popupAd} alt="Annai Jewellery special promotion" className="block max-h-[82dvh] w-full object-contain" />
+        <img src={popupAd} alt="Annai Jewellery special promotion" className="block max-h-[82dvh] w-auto max-w-full object-contain" />
       </div>
     </div>}
 
