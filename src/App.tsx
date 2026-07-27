@@ -32,7 +32,7 @@ const AppContent = () => {
     <ShortScrollbar />
     <div className="min-h-screen bg-white text-amber-900">
       <Header />
-      <main className="pt-[82px] lg:pt-[76px]">
+      <main className="pt-[96px]">
         {showBackButton && <div className="site-back-row"><button type="button" onClick={() => window.history.length > 1 ? navigate(-1) : navigate("/")} className="site-back-button inline-flex h-8 w-8 items-center justify-center rounded-full border shadow-sm transition sm:h-10 sm:w-10" aria-label="Go back"><ArrowLeft className="h-4 w-4 sm:h-5 sm:w-5" /></button></div>}
         <div key={location.pathname} className="site-page-enter">
         <Routes>
