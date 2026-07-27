@@ -31,8 +31,8 @@ const Footer: React.FC = () => (
       <div className="grid gap-10 lg:grid-cols-[1.15fr_0.8fr_0.8fr_1.25fr]">
         <div>
           <Link to="/" className="inline-flex items-center">
-            <img src={logo} alt="Annai Jewellery" className="theme-logo-light h-16 w-auto object-contain" loading="lazy" decoding="async"/>
-            <img src={logoDark} alt="Annai Jewellery" className="theme-logo-dark h-16 w-auto object-contain" loading="lazy" decoding="async"/>
+            <img src={logo} alt="Annai Jewellery" className="theme-logo-light h-20 w-auto object-contain sm:h-24" loading="lazy" decoding="async"/>
+            <img src={logoDark} alt="Annai Jewellery" className="theme-logo-dark h-20 w-auto object-contain sm:h-24" loading="lazy" decoding="async"/>
           </Link>
           <p className="footer-cursive mt-5 text-2xl leading-tight text-amber-700">Jewellery made to become part of your story.</p>
           <p className="mt-3 max-w-sm text-sm leading-7 text-slate-600">Discover quality-checked 925 silver ornaments finished with radiant 24K gold plating. From graceful everyday pieces to memorable bridal jewellery, every Annai design celebrates South Indian artistry.</p>
