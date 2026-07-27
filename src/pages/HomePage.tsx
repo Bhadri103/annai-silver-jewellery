@@ -90,6 +90,7 @@ import homeBanner1 from "../assets/banner/homebanner1.png";
 import homeBanner2 from "../assets/banner/homebanner2.png";
 import homeBanner3 from "../assets/banner/homebanner3.png";
 import homeBanner4 from "../assets/banner/homebanner4.png";
+import popupAd from "../assets/popup-ad.png";
 import { readCart, writeCart } from "../lib/cart";
 import ZoomableProductImage from "../components/ZoomableProductImage";
 import Price from "../components/Price";
@@ -449,7 +450,7 @@ export default function HomePage() {
     {welcomeAd.mounted && <div className={`welcome-ad-backdrop popup-backdrop-motion fixed inset-0 z-[180] grid place-items-center bg-slate-950/55 p-4 backdrop-blur-sm ${welcomeAd.active ? "is-open" : ""}`} role="dialog" aria-modal="true" aria-label="Annai Jewellery promotion" onClick={closeWelcomeAd}>
       <div className="welcome-ad popup-surface-motion relative w-full max-w-2xl overflow-hidden rounded-2xl bg-white shadow-2xl" onClick={(event) => event.stopPropagation()}>
         <button type="button" onClick={closeWelcomeAd} className="welcome-ad-close" aria-label="Close promotion"><X /></button>
-        <img src={homeBanner2} alt="Annai Jewellery featured collection" className="block max-h-[82dvh] w-full object-contain" />
+        <img src={popupAd} alt="Annai Jewellery special promotion" className="block max-h-[82dvh] w-full object-contain" />
       </div>
     </div>}
 
