@@ -22,7 +22,9 @@ import SupplementCheckoutPage from "./pages/SupplementCheckoutPage";
 const AppContent = () => {
   const location = useLocation();
   const navigate = useNavigate();
-  const showBackButton = location.pathname !== "/";
+  const showBackButton = location.pathname !== "/"
+    && !location.pathname.startsWith("/product/")
+    && !location.pathname.startsWith("/collection/");
   return <>
     <ScrollToTop />
     <SiteMotion pageKey={location.pathname} />

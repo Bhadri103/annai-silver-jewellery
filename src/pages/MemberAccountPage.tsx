@@ -34,15 +34,15 @@ const demoWishlist: WebsiteProduct[] = productShelves.flatMap((shelf) => shelf.p
   image: product.image,
 }));
 
-const logout = () => {
-  localStorage.removeItem(userTokenKey);
-  localStorage.removeItem(userProfileKey);
-  window.location.href = "/login";
-};
-
 const MemberShell = ({ title, text, children }: { title: string; text: string; children: ReactNode }) => {
   const navigate = useNavigate();
   const location = useLocation();
+  const logout = () => {
+    localStorage.removeItem(userTokenKey);
+    localStorage.removeItem(userProfileKey);
+    window.dispatchEvent(new Event("annai-user-session"));
+    navigate("/login", { replace: true });
+  };
   let member: Partial<WebsiteUser> = {};
   try {
     member = JSON.parse(localStorage.getItem(userProfileKey) || "{}");
