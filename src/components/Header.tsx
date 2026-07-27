@@ -74,28 +74,28 @@ const Header: React.FC = () => {
   }, [drawer]);
 
   return <>
-    <header className="fixed inset-x-0 top-0 z-50 border-b border-amber-100 bg-white/95 shadow-sm backdrop-blur-xl">
+    <header className="fixed inset-x-0 top-0 z-50 border-b border-amber-500/35 bg-gradient-to-r from-[#211208] via-[#3b2414] to-[#211208] shadow-[0_5px_22px_rgba(38,20,8,0.22)]">
       <div className="mx-auto hidden h-[76px] max-w-7xl items-center gap-5 px-6 lg:flex lg:px-10">
-        <Link to="/" className="flex h-[70px] w-[86px] shrink-0 items-center justify-center" aria-label="Annai Jewellery home"><span className="grid h-[66px] w-[66px] place-items-center rounded-full border border-amber-400/70 bg-gradient-to-br from-[#4a301d] to-[#211208] shadow-[0_5px_18px_rgba(67,40,16,0.24)]"><img src={logo} alt="Annai Jewellery" className="h-[58px] w-[58px] object-contain"/></span></Link>
+        <Link to="/" className="flex h-[70px] w-[86px] shrink-0 items-center justify-center" aria-label="Annai Jewellery home"><img src={logo} alt="Annai Jewellery" className="h-[68px] w-[68px] object-contain drop-shadow-[0_3px_8px_rgba(0,0,0,0.3)]"/></Link>
         <nav className="flex min-w-0 flex-1 items-center justify-center gap-3 xl:gap-5">
-          {primaryItems.map(([label,href]) => <Link key={href} to={href} className={`border-b-2 py-2 text-xs font-semibold transition xl:text-sm ${location.pathname===href?"border-amber-600 text-amber-700":"border-transparent text-slate-700 hover:border-amber-500 hover:text-amber-600"}`}>{label}</Link>)}
-          <div className="group relative"><button className="flex items-center gap-1 border-b-2 border-transparent py-2 text-xs font-semibold text-slate-700 hover:border-amber-500 hover:text-amber-600 xl:text-sm">More <ChevronDown className="h-3.5 w-3.5"/></button><div className="invisible absolute right-0 top-full mt-2 grid w-[430px] grid-cols-2 gap-1 rounded-2xl border border-amber-100 bg-white p-3 opacity-0 shadow-2xl transition group-hover:visible group-hover:opacity-100">{allMenuItems.slice(7).map(([label,href])=><Link key={href} to={href} className="rounded-xl px-4 py-2.5 text-sm text-slate-600 hover:bg-amber-50 hover:text-amber-700">{label}</Link>)}</div></div>
+          {primaryItems.map(([label,href]) => <Link key={href} to={href} className={`border-b-2 py-2 text-xs font-semibold transition xl:text-sm ${location.pathname===href?"border-amber-300 text-amber-300":"border-transparent text-amber-50/90 hover:border-amber-400 hover:text-amber-300"}`}>{label}</Link>)}
+          <div className="group relative"><button className="flex items-center gap-1 border-b-2 border-transparent py-2 text-xs font-semibold text-amber-50/90 hover:border-amber-400 hover:text-amber-300 xl:text-sm">More <ChevronDown className="h-3.5 w-3.5"/></button><div className="invisible absolute right-0 top-full mt-2 grid w-[430px] grid-cols-2 gap-1 rounded-2xl border border-amber-100 bg-white p-3 opacity-0 shadow-2xl transition group-hover:visible group-hover:opacity-100">{allMenuItems.slice(7).map(([label,href])=><Link key={href} to={href} className="rounded-xl px-4 py-2.5 text-sm text-slate-600 hover:bg-amber-50 hover:text-amber-700">{label}</Link>)}</div></div>
         </nav>
         <div className="flex shrink-0 items-center gap-2">
-          <button onClick={()=>setDrawer("search")} className="grid h-10 w-10 place-items-center rounded-full border border-amber-200 text-slate-800" aria-label="Search products"><Search className="h-4 w-4"/></button>
-          <Link to="/wishlist" className="grid h-10 w-10 place-items-center rounded-full border border-amber-200 text-slate-800" aria-label="Wishlist"><Heart className="h-4 w-4"/></Link>
-          <Link to="/cart" className="relative grid h-10 w-10 place-items-center rounded-full border border-amber-200 text-slate-800" aria-label="Cart"><ShoppingCart className="h-4 w-4"/>{cartItems>0&&<span className="absolute -right-1 -top-1 grid h-5 min-w-5 place-items-center rounded-full bg-amber-600 px-1 text-[9px] font-bold text-white">{cartItems}</span>}</Link>
-          <Link to={accountPath} className="grid h-10 w-10 place-items-center rounded-full bg-amber-600 text-white shadow-md" aria-label={memberName?"My profile":"Login"}><UserRound className="h-4 w-4"/></Link>
+          <button onClick={()=>setDrawer("search")} className="grid h-10 w-10 place-items-center rounded-full border border-amber-400/45 text-amber-50 transition hover:bg-white/10" aria-label="Search products"><Search className="h-4 w-4"/></button>
+          <Link to="/wishlist" className="grid h-10 w-10 place-items-center rounded-full border border-amber-400/45 text-amber-50 transition hover:bg-white/10" aria-label="Wishlist"><Heart className="h-4 w-4"/></Link>
+          <Link to="/cart" className="relative grid h-10 w-10 place-items-center rounded-full border border-amber-400/45 text-amber-50 transition hover:bg-white/10" aria-label="Cart"><ShoppingCart className="h-4 w-4"/>{cartItems>0&&<span className="absolute -right-1 -top-1 grid h-5 min-w-5 place-items-center rounded-full bg-amber-500 px-1 text-[9px] font-bold text-[#211208]">{cartItems}</span>}</Link>
+          <Link to={accountPath} className="grid h-10 w-10 place-items-center rounded-full bg-amber-500 text-[#211208] shadow-md" aria-label={memberName?"My profile":"Login"}><UserRound className="h-4 w-4"/></Link>
         </div>
       </div>
 
       <div className="relative flex h-[82px] items-center justify-between px-4 lg:hidden">
         <div className="flex items-center gap-1">
-          <button onClick={()=>setDrawer("menu")} className="grid h-10 w-10 place-items-center rounded-full text-slate-900" aria-label="Open menu"><Menu className="h-5 w-5"/></button>
-          <button onClick={()=>setDrawer("search")} className="grid h-10 w-10 place-items-center rounded-full text-slate-900" aria-label="Search products"><Search className="h-5 w-5"/></button>
+          <button onClick={()=>setDrawer("menu")} className="grid h-10 w-10 place-items-center rounded-full text-amber-50" aria-label="Open menu"><Menu className="h-5 w-5"/></button>
+          <button onClick={()=>setDrawer("search")} className="grid h-10 w-10 place-items-center rounded-full text-amber-50" aria-label="Search products"><Search className="h-5 w-5"/></button>
         </div>
-        <Link to="/" className="absolute left-1/2 flex h-[78px] w-[82px] -translate-x-1/2 items-center justify-center" aria-label="Annai Jewellery home"><span className="grid h-[68px] w-[68px] place-items-center rounded-full border border-amber-400/70 bg-gradient-to-br from-[#4a301d] to-[#211208] shadow-[0_5px_18px_rgba(67,40,16,0.24)]"><img src={logo} alt="Annai Jewellery" className="h-[60px] w-[60px] object-contain"/></span></Link>
-        <Link to="/cart" className="relative grid h-10 w-10 place-items-center rounded-full text-slate-900" aria-label="Cart"><ShoppingBag className="h-5 w-5"/>{cartItems>0&&<span className="absolute right-0 top-0 grid h-4 min-w-4 place-items-center rounded-full bg-amber-600 px-1 text-[8px] font-bold text-white">{cartItems}</span>}</Link>
+        <Link to="/" className="absolute left-1/2 flex h-[78px] w-[82px] -translate-x-1/2 items-center justify-center" aria-label="Annai Jewellery home"><img src={logo} alt="Annai Jewellery" className="h-[72px] w-[72px] object-contain drop-shadow-[0_3px_8px_rgba(0,0,0,0.32)]"/></Link>
+        <Link to="/cart" className="relative grid h-10 w-10 place-items-center rounded-full text-amber-50" aria-label="Cart"><ShoppingBag className="h-5 w-5"/>{cartItems>0&&<span className="absolute right-0 top-0 grid h-4 min-w-4 place-items-center rounded-full bg-amber-500 px-1 text-[8px] font-bold text-[#211208]">{cartItems}</span>}</Link>
       </div>
     </header>
 
