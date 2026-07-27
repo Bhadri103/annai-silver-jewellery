@@ -346,7 +346,7 @@ export default function HomePage() {
   const [reviewRating, setReviewRating] = useState(5);
   const [reviewMessage, setReviewMessage] = useState("");
   const [reviewModalOpen, setReviewModalOpen] = useState(false);
-  const [welcomeAdOpen, setWelcomeAdOpen] = useState(() => sessionStorage.getItem("annai-welcome-ad-seen") !== "true");
+  const [welcomeAdOpen, setWelcomeAdOpen] = useState(() => sessionStorage.getItem("annai-welcome-ad-v2-seen") !== "true");
   const [quickImageModalOpen, setQuickImageModalOpen] = useState(false);
   const reviewModal = usePopupTransition(reviewModalOpen);
   const welcomeAd = usePopupTransition(welcomeAdOpen);
@@ -370,7 +370,7 @@ export default function HomePage() {
   }, [reviewModal.mounted, quickViewModal.mounted, welcomeAd.mounted, quickImageModal.mounted]);
 
   const closeWelcomeAd = () => {
-    sessionStorage.setItem("annai-welcome-ad-seen", "true");
+    sessionStorage.setItem("annai-welcome-ad-v2-seen", "true");
     setWelcomeAdOpen(false);
   };
 
