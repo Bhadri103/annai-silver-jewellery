@@ -76,7 +76,7 @@ const Header: React.FC = () => {
   return <>
     <header
       className="fixed inset-x-0 top-0 z-50 border-b border-amber-300 shadow-[0_5px_22px_rgba(78,52,18,0.12)]"
-      style={{ backgroundColor: "#f8edcf" }}
+      style={{ backgroundColor: "#fff7e3" }}
     >
       <div className="mx-auto hidden h-[96px] max-w-7xl items-center gap-5 px-6 lg:flex lg:px-10">
         <Link to="/" className="flex h-[92px] w-[104px] shrink-0 items-center justify-center" aria-label="Annai Jewellery home"><span className="grid h-[68px] place-items-center"><img src={logo} alt="Annai Jewellery" className="h-[40px] w-auto max-w-none object-contain"/></span></Link>
