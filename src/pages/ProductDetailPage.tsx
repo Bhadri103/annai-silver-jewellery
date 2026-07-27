@@ -1,11 +1,12 @@
 ﻿import { useEffect, useState } from "react";
-import { Check, Clock, Copy, Heart, Minus, Plus, Share2, Star, Truck } from "lucide-react";
+import { Check, Clock, Copy, Heart, Minus, Plus, Share2, Star, Truck, X } from "lucide-react";
 import { Link, useParams } from "react-router-dom";
 import { readCart, writeCart } from "../lib/cart";
 import { productShelves, productSlug } from "./HomePage";
 import { SEO } from "../components/JewelleryUI";
 import ZoomableProductImage from "../components/ZoomableProductImage";
 import Price from "../components/Price";
+import { usePopupTransition } from "../lib/usePopupTransition";
 
 export default function ProductDetailPage() {
   const { slug } = useParams();
@@ -17,8 +18,24 @@ export default function ProductDetailPage() {
   const [cart, setCart] = useState(() => readCart());
   const [tab, setTab] = useState("Description");
   const [notice, setNotice] = useState("");
+  const [imageModalOpen, setImageModalOpen] = useState(false);
+  const imageModal = usePopupTransition(imageModalOpen);
   const [recentlyViewed, setRecentlyViewed] = useState<typeof products>([]);
   const productKey = `jewel-${productSlug(product.name)}`;
+
+  useEffect(() => {
+    if (!imageModal.mounted) return;
+    const previousOverflow = document.body.style.overflow;
+    const closeOnEscape = (event: KeyboardEvent) => {
+      if (event.key === "Escape") setImageModalOpen(false);
+    };
+    document.body.style.overflow = "hidden";
+    window.addEventListener("keydown", closeOnEscape);
+    return () => {
+      document.body.style.overflow = previousOverflow;
+      window.removeEventListener("keydown", closeOnEscape);
+    };
+  }, [imageModal.mounted]);
 
   useEffect(() => {
     const storageKey = "annai_recently_viewed";
@@ -52,7 +69,7 @@ export default function ProductDetailPage() {
         <div className="grid gap-9 lg:grid-cols-[1.05fr_0.95fr]">
           <div>
             <div className="relative">
-              <ZoomableProductImage src={gallery[imageIndex]} alt={product.name} className="h-[430px] rounded-[2rem] bg-[#fbf8f1] sm:h-[500px]" />
+              <ZoomableProductImage src={gallery[imageIndex]} alt={product.name} onOpen={() => setImageModalOpen(true)} className="h-[430px] rounded-[2rem] bg-[#fbf8f1] sm:h-[500px]" />
               <div className="absolute right-4 top-4 z-20 flex gap-2">
                 <button type="button" onClick={() => setNotice("Added to your wishlist.")} className="grid h-11 w-11 place-items-center rounded-full border border-amber-200 bg-white/95 text-amber-700 shadow-lg backdrop-blur transition hover:bg-amber-600 hover:text-white" aria-label={`Add ${product.name} to wishlist`} title="Add to wishlist"><Heart className="h-5 w-5"/></button>
                 <button type="button" onClick={() => { navigator.clipboard?.writeText(window.location.href); setNotice("Product link copied."); }} className="grid h-11 w-11 place-items-center rounded-full border border-amber-200 bg-white/95 text-amber-700 shadow-lg backdrop-blur transition hover:bg-amber-600 hover:text-white" aria-label={`Share ${product.name}`} title="Share product"><Share2 className="h-5 w-5"/></button>
@@ -62,7 +79,7 @@ export default function ProductDetailPage() {
           </div>
           <div className="lg:sticky lg:top-28 lg:self-start">
             <span className="inline-flex rounded-full bg-[#D4AF37] px-3 py-1 text-[10px] font-bold uppercase tracking-wider text-white">{product.badge || "New"}</span>
-            <h1 className="mt-4 text-3xl font-medium text-slate-900 sm:text-4xl">{product.name}</h1>
+            <h1 className="mt-4 text-3xl font-medium text-slate-900 sm:text-3xl">{product.name}</h1>
             <div className="mt-3 flex items-center gap-3"><div className="flex text-amber-500">{[0,1,2,3,4].map(star=><Star key={star} className="h-4 w-4 fill-current"/>)}</div><span className="text-sm text-slate-500">12 reviews</span></div>
             <div className="mt-6 flex flex-wrap items-center justify-between gap-3"><p className="text-3xl font-semibold text-slate-900"><Price value={product.price}/></p>{cart[productKey] ? <div className="flex h-11 items-center overflow-hidden rounded-full bg-amber-600 text-white shadow-sm"><button type="button" onClick={()=>changeCartQuantity(-1)} className="grid h-11 w-11 place-items-center hover:bg-amber-700" aria-label={`Remove one ${product.name}`}><Minus className="h-4 w-4"/></button><span className="min-w-8 text-center font-semibold">{cart[productKey]}</span><button type="button" onClick={()=>changeCartQuantity(1)} className="grid h-11 w-11 place-items-center hover:bg-amber-700" aria-label={`Add one more ${product.name}`}><Plus className="h-4 w-4"/></button></div> : <button type="button" onClick={()=>changeCartQuantity(1)} className="inline-flex h-11 items-center gap-2 rounded-full bg-amber-600 px-5 text-sm font-semibold text-white shadow-sm hover:bg-amber-700"><Plus className="h-4 w-4"/>Add</button>}</div><p className="mt-1 text-xs text-slate-500">3% GST will be added at checkout</p>
             <div className="mt-5 space-y-2 text-sm"><p><strong>15 sold</strong> in the last 4 hours</p><p className="font-semibold text-amber-700">Please hurry! Only 8 left in stock.</p></div>
@@ -74,7 +91,7 @@ export default function ProductDetailPage() {
 
         <div className="mt-16">
           <div className="flex gap-6 overflow-x-auto border-b border-amber-100">{["Description","Additional Information","Shipping & Delivery","Reviews"].map(item=><button key={item} onClick={()=>setTab(item)} className={`shrink-0 border-b-2 px-2 pb-3 text-sm font-semibold ${tab===item?"border-amber-600 text-amber-700":"border-transparent text-slate-500"}`}>{item}</button>)}</div>
-          <div className="max-w-4xl py-7 text-sm leading-8 text-slate-600">
+          <div className="max-w-3xl py-7 text-sm leading-8 text-slate-600">
             {tab==="Description"&&<ul className="list-disc space-y-1 pl-5"><li>Crafted in genuine 925 silver and finished with a rich layer of 24K gold plating.</li><li>Traditional gold appearance with the comfort and value of a sterling-silver base.</li><li>Each piece is checked for secure stone setting, clasp strength, polish and plating finish.</li><li>Avoid water, perfume, sweat and harsh chemicals to preserve the gold plating.</li><li>Wipe gently after use and store separately in the provided Annai jewellery pouch.</li></ul>}
             {tab==="Additional Information"&&<div className="grid max-w-xl grid-cols-2 gap-3"><strong>Base metal</strong><span>925 Silver</span><strong>Finish</strong><span>24K Gold Plating</span><strong>Availability</strong><span>In stock</span><strong>Vendor</strong><span>Annai Jewellery</span></div>}
             {tab==="Shipping & Delivery"&&<p>All orders are quality checked, securely packed and shipped with insurance. Standard delivery takes 4-7 working days. You will receive tracking details when the order leaves our showroom.</p>}
@@ -86,5 +103,9 @@ export default function ProductDetailPage() {
         {recentlyViewed.length>0&&<section className="mt-14 border-t border-amber-100 pt-10"><div className="flex items-end justify-between gap-4"><div><p className="text-xs font-semibold uppercase tracking-[0.2em] text-amber-600">Picked up where you left off</p><h2 className="mt-2 text-3xl font-medium text-slate-900">Recently Viewed Products</h2></div><Link to="/" className="hidden items-center gap-2 text-sm font-semibold text-amber-700 sm:inline-flex">Continue shopping <span aria-hidden="true">&rarr;</span></Link></div><div className="mt-6 grid grid-cols-3 gap-3 sm:gap-5">{recentlyViewed.map(item=><Link key={item.name} to={`/product/${productSlug(item.name)}`} className="group overflow-hidden rounded-2xl border border-amber-100 bg-white shadow-sm transition hover:-translate-y-1 hover:shadow-lg"><div className="h-40 overflow-hidden bg-[#fbf8f1] sm:h-64"><img src={item.image} alt={item.name} className="h-full w-full object-contain transition duration-500 group-hover:scale-105"/></div><div className="p-3 sm:p-5"><p className="hidden text-[9px] font-semibold uppercase tracking-wider text-amber-600 sm:block">{item.material}</p><h3 className="text-xs font-semibold sm:mt-2 sm:text-base">{item.name}</h3><p className="mt-2 text-xs font-semibold text-amber-700 sm:text-sm"><Price value={item.price}/></p></div></Link>)}</div></section>}
       </div>
     </section>
+    {imageModal.mounted && <div className={`product-image-modal popup-backdrop-motion ${imageModal.active ? "is-open" : ""}`} role="dialog" aria-modal="true" aria-label={`${product.name} full-screen image`} onPointerDown={(event) => { if (event.target === event.currentTarget) setImageModalOpen(false); }}>
+      <button type="button" className="product-image-modal-close" onClick={() => setImageModalOpen(false)} aria-label="Close full-screen image" autoFocus><X /></button>
+      <img src={gallery[imageIndex]} alt={product.name} className="product-image-modal-image popup-surface-motion" />
+    </div>}
   </>;
 }

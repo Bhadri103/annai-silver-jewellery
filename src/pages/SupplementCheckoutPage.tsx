@@ -77,7 +77,7 @@ export default function SupplementCheckoutPage() {
   return <section className="min-h-screen bg-[#fbf8f1] px-4 pb-16 pt-28 sm:px-6 lg:px-10">
     <SEO title="Secure Checkout" description="Complete your Annai Jewellery order through WhatsApp, UPI, GPay or QR payment."/>
     <div className="mx-auto max-w-6xl">
-      <div className="mb-7"><p className="text-xs font-bold uppercase tracking-[0.22em] text-amber-600">Secure checkout</p><h1 className="mt-2 text-4xl font-semibold">Complete your order</h1><p className="mt-2 text-sm text-slate-500">Choose the payment method that is easiest for you.</p></div>
+      <div className="mb-7"><p className="text-xs font-bold uppercase tracking-[0.22em] text-amber-600">Secure checkout</p><h1 className="mt-2 text-3xl font-semibold">Complete your order</h1><p className="mt-2 text-sm text-slate-500">Choose the payment method that is easiest for you.</p></div>
       {success ? <div className="rounded-3xl border border-amber-200 bg-white p-10 text-center shadow-sm"><CheckCircle2 className="mx-auto h-12 w-12 text-amber-600"/><h2 className="mt-4 text-2xl font-semibold">Thank you for your order</h2><p className="mx-auto mt-3 max-w-xl text-sm leading-7 text-slate-600">{success}</p><Link to="/" className="mt-6 inline-flex rounded-full bg-amber-600 px-6 py-2.5 text-sm font-semibold text-white">Continue shopping</Link></div> :
       <div className="grid items-start gap-6 lg:grid-cols-[minmax(0,1fr)_360px]">
         <div className="space-y-6">

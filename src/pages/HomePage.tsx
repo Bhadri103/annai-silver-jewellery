@@ -93,6 +93,7 @@ import homeBanner4 from "../assets/banner/homebanner4.png";
 import { readCart, writeCart } from "../lib/cart";
 import ZoomableProductImage from "../components/ZoomableProductImage";
 import Price from "../components/Price";
+import { usePopupTransition } from "../lib/usePopupTransition";
 import { Card, Reveal, SectionTitle, SEO } from "../components/JewelleryUI";
 
 const collections = [
@@ -260,7 +261,7 @@ const ProductShelf = ({ shelf, alternate, onQuickView, cart, onChangeQuantity }:
   <section id={shelf.id} className={`product-shelf px-4 py-16 sm:px-6 lg:px-10 ${alternate ? "bg-[#fbf8f1]" : "bg-white"}`}>
     <div className="mx-auto max-w-7xl">
       <div className="mb-8 flex flex-wrap items-end justify-between gap-5">
-        <div><p className="text-xs font-semibold uppercase tracking-[0.24em] text-amber-600">{shelf.kicker}</p><h2 className="mt-2 text-3xl font-medium text-slate-900 sm:text-4xl">{shelf.title}</h2><p className="mt-3 max-w-xl text-sm leading-6 text-slate-600">{shelf.text}</p></div>
+        <div><p className="text-xs font-semibold uppercase tracking-[0.24em] text-amber-600">{shelf.kicker}</p><h2 className="mt-2 text-3xl font-medium text-slate-900 sm:text-3xl">{shelf.title}</h2><p className="mt-3 max-w-xl text-sm leading-6 text-slate-600">{shelf.text}</p></div>
         <Link to={`/collection/${shelf.id}`} className="inline-flex items-center gap-2 border-b border-amber-500 pb-1 text-sm font-medium text-amber-700">View all <ArrowRight className="h-4 w-4"/></Link>
       </div>
       <div className="product-shelf-grid grid gap-4 overflow-x-auto pb-4">
@@ -344,17 +345,33 @@ export default function HomePage() {
   const [reviewRating, setReviewRating] = useState(5);
   const [reviewMessage, setReviewMessage] = useState("");
   const [reviewModalOpen, setReviewModalOpen] = useState(false);
+  const [welcomeAdOpen, setWelcomeAdOpen] = useState(() => sessionStorage.getItem("annai-welcome-ad-seen") !== "true");
+  const [quickImageModalOpen, setQuickImageModalOpen] = useState(false);
+  const reviewModal = usePopupTransition(reviewModalOpen);
+  const welcomeAd = usePopupTransition(welcomeAdOpen);
+  const quickImageModal = usePopupTransition(quickImageModalOpen);
+  const quickViewModal = usePopupTransition(quickViewIndex !== null);
+  const [renderedQuickViewIndex, setRenderedQuickViewIndex] = useState<number | null>(null);
   const [customerReviews, setCustomerReviews] = useState(initialReviews);
   const heroSwipeStart = useRef<number | null>(null);
 
   useEffect(() => {
-    if (!reviewModalOpen && quickViewIndex === null) return;
+    if (quickViewIndex !== null) setRenderedQuickViewIndex(quickViewIndex);
+  }, [quickViewIndex]);
+
+  useEffect(() => {
+    if (!reviewModal.mounted && !quickViewModal.mounted && !welcomeAd.mounted && !quickImageModal.mounted) return;
     const previousOverflow = document.body.style.overflow;
     document.body.style.overflow = "hidden";
     return () => {
       document.body.style.overflow = previousOverflow;
     };
-  }, [reviewModalOpen, quickViewIndex]);
+  }, [reviewModal.mounted, quickViewModal.mounted, welcomeAd.mounted, quickImageModal.mounted]);
+
+  const closeWelcomeAd = () => {
+    sessionStorage.setItem("annai-welcome-ad-seen", "true");
+    setWelcomeAdOpen(false);
+  };
 
   useEffect(() => {
     const timer = window.setInterval(() => setActiveSlide((current) => (current + 1) % heroSlides.length), 5500);
@@ -429,6 +446,13 @@ export default function HomePage() {
   return <>
     <SEO title="Annai Jewellery" description="Shop 925 silver ornaments with 24K gold plating, including earrings, necklaces, bangles, chains and bridal jewellery." />
 
+    {welcomeAd.mounted && <div className={`welcome-ad-backdrop popup-backdrop-motion fixed inset-0 z-[180] grid place-items-center bg-slate-950/55 p-4 backdrop-blur-sm ${welcomeAd.active ? "is-open" : ""}`} role="dialog" aria-modal="true" aria-label="Annai Jewellery promotion" onClick={closeWelcomeAd}>
+      <div className="welcome-ad popup-surface-motion relative w-full max-w-2xl overflow-hidden rounded-2xl bg-white shadow-2xl" onClick={(event) => event.stopPropagation()}>
+        <button type="button" onClick={closeWelcomeAd} className="welcome-ad-close" aria-label="Close promotion"><X /></button>
+        <img src={homeBanner2} alt="Annai Jewellery featured collection" className="block max-h-[82dvh] w-full object-contain" />
+      </div>
+    </div>}
+
     <section
       className="jewellery-hero-slider relative min-h-[420px] w-full touch-pan-y select-none overflow-hidden text-amber-900 sm:min-h-[560px] lg:min-h-[680px]"
       onPointerDown={(event) => { heroSwipeStart.current = event.clientX; }}
@@ -448,7 +472,7 @@ export default function HomePage() {
       <div className="relative z-10 mx-auto flex min-h-[420px] max-w-7xl items-start px-6 pb-8 pt-24 sm:min-h-[560px] sm:items-center sm:px-10 sm:py-20 lg:min-h-[680px] lg:px-12 lg:py-24">
         <div key={activeSlide} className="jewellery-hero-content max-w-xl">
           {/* <p className="mb-4 inline-flex items-center gap-2 rounded-full border border-amber-200 bg-white/80 px-3.5 py-1.5 text-[10px] font-semibold uppercase tracking-[0.2em] text-amber-700 shadow-sm backdrop-blur sm:text-xs"><Gem className="h-3.5 w-3.5" /> {heroSlides[activeSlide].kicker}</p> */}
-          <h1 className="font-serif text-3xl font-normal leading-[1.08] tracking-[-0.02em] text-slate-900 sm:text-4xl lg:text-5xl">{heroSlides[activeSlide].title}<br/><span className="jewellery-cursive text-amber-600">{heroSlides[activeSlide].accent}</span></h1>
+          <h1 className="font-serif text-3xl font-normal leading-[1.08] tracking-[-0.02em] text-slate-900 sm:text-3xl lg:text-5xl">{heroSlides[activeSlide].title}<br/><span className="jewellery-cursive text-amber-600">{heroSlides[activeSlide].accent}</span></h1>
           <p className="mt-4 max-w-md text-sm leading-6 text-slate-700 sm:text-base">{heroSlides[activeSlide].text}</p>
           <div className="mt-6 flex flex-wrap gap-3">
             <a href="#collections" className="hero-primary-cta inline-flex items-center gap-2 rounded-full px-7 py-3 text-sm font-medium text-white"><Sparkles className="h-4 w-4"/> Explore Collections</a>
@@ -465,7 +489,7 @@ export default function HomePage() {
       <div className="mx-auto max-w-7xl">
         <div className="mb-9 text-center">
           <p className="text-xs font-semibold uppercase tracking-[0.28em] text-amber-600">Find your favourite</p>
-          <h2 className="mt-2 text-3xl font-medium tracking-[0.04em] text-[#5a4323] sm:text-4xl">Shop by Category</h2>
+          <h2 className="mt-2 text-3xl font-medium tracking-[0.04em] text-[#5a4323] sm:text-3xl">Shop by Category</h2>
           <span className="mx-auto mt-4 block h-px w-28 bg-gradient-to-r from-transparent via-amber-500 to-transparent" />
         </div>
         <div className="shop-category-grid grid gap-2 sm:gap-3 lg:gap-4">
@@ -496,7 +520,7 @@ export default function HomePage() {
 
     {/* <section className="bg-slate-50 px-4 py-16 sm:px-6 lg:px-10">
       <div className="mx-auto max-w-7xl text-center"><SectionTitle kicker="A Legacy of Trust" title="Jewellery made for life's precious moments." text="From first gifts to wedding heirlooms, Annai is honoured to be part of your story."/>
-        <div className="grid gap-4 sm:grid-cols-3">{[["925","Sterling silver base"],["24K","Gold-plated finish"],["100%","Quality checked"]].map(([n,l])=><Card key={l} className="p-8"><strong className="text-4xl text-amber-600">{n}</strong><p className="mt-2 text-sm text-slate-600">{l}</p></Card>)}</div>
+        <div className="grid gap-4 sm:grid-cols-3">{[["925","Sterling silver base"],["24K","Gold-plated finish"],["100%","Quality checked"]].map(([n,l])=><Card key={l} className="p-8"><strong className="text-3xl text-amber-600">{n}</strong><p className="mt-2 text-sm text-slate-600">{l}</p></Card>)}</div>
       </div>
     </section> */}
 
@@ -525,8 +549,8 @@ export default function HomePage() {
       </div>
     </section>
 
-    {reviewModalOpen&&<div className="review-modal-backdrop fixed inset-0 z-[100] grid place-items-center overflow-y-auto bg-slate-950/45 p-4 pb-20 backdrop-blur-sm lg:pb-4" role="dialog" aria-modal="true" aria-label="Add customer review" onClick={()=>setReviewModalOpen(false)}>
-      <form onSubmit={submitReview} onClick={(event)=>event.stopPropagation()} className="review-modal-card relative my-auto max-h-[calc(100dvh-110px)] w-full max-w-md overflow-y-auto rounded-3xl border border-amber-200 bg-white p-5 shadow-2xl sm:max-h-[90vh] sm:p-7">
+    {reviewModal.mounted&&<div className={`review-modal-backdrop popup-backdrop-motion fixed inset-0 z-[100] grid place-items-center overflow-y-auto bg-slate-950/45 p-4 pb-20 backdrop-blur-sm lg:pb-4 ${reviewModal.active?"is-open":""}`} role="dialog" aria-modal="true" aria-label="Add customer review" onClick={()=>setReviewModalOpen(false)}>
+      <form onSubmit={submitReview} onClick={(event)=>event.stopPropagation()} className="review-modal-card popup-surface-motion relative my-auto max-h-[calc(100dvh-110px)] w-full max-w-md overflow-y-auto rounded-3xl border border-amber-200 bg-white p-5 shadow-2xl sm:max-h-[90vh] sm:p-7">
         <button type="button" onClick={()=>setReviewModalOpen(false)} className="absolute right-4 top-4 grid h-9 w-9 place-items-center rounded-full bg-[#fbf8f1] text-slate-900" aria-label="Close review form"><X className="h-4 w-4"/></button>
         <p className="text-xs font-semibold uppercase tracking-[0.22em] text-amber-600">Share Your Experience</p>
         <h3 className="mt-2 text-2xl font-medium text-slate-900">Add a review</h3>
@@ -541,19 +565,19 @@ export default function HomePage() {
       </form>
     </div>}
 
-    {quickViewIndex !== null && (() => {
-      const product = allProducts[quickViewIndex];
+    {quickViewModal.mounted && renderedQuickViewIndex !== null && (() => {
+      const product = allProducts[renderedQuickViewIndex];
       const gallery = [product.image];
       const productKey = `jewel-${productSlug(product.name)}`;
-      return <div className="fixed inset-0 z-[80] flex items-center justify-center bg-slate-950/45 p-3 backdrop-blur-sm" role="dialog" aria-modal="true" aria-label={`Quick view ${product.name}`}>
-        <div className="quick-view-modal-scroll relative max-h-[94vh] w-full max-w-5xl overflow-y-auto rounded-[2rem] border border-amber-200 bg-white shadow-2xl">
+      return <div className={`popup-backdrop-motion fixed inset-0 z-[80] flex items-center justify-center bg-slate-950/45 p-3 backdrop-blur-sm ${quickViewModal.active?"is-open":""}`} role="dialog" aria-modal="true" aria-label={`Quick view ${product.name}`} onClick={()=>setQuickViewIndex(null)}>
+        <div onClick={(event)=>event.stopPropagation()} className="quick-view-modal-scroll popup-surface-motion relative max-h-[94vh] w-full max-w-5xl overflow-y-auto rounded-[2rem] border border-amber-200 bg-white shadow-2xl">
           <button type="button" onClick={() => setQuickViewIndex(null)} className="absolute right-4 top-4 z-30 grid h-10 w-10 place-items-center rounded-full bg-white text-slate-900 shadow-lg" aria-label="Close quick view"><X className="h-5 w-5"/></button>
           <button type="button" onClick={() => moveQuickView(-1)} className="absolute left-3 top-1/3 z-30 grid h-10 w-10 place-items-center rounded-full bg-white/95 text-amber-700 shadow-lg" aria-label="Previous product"><ArrowLeft className="h-5 w-5"/></button>
           <button type="button" onClick={() => moveQuickView(1)} className="absolute right-3 top-1/3 z-30 grid h-10 w-10 place-items-center rounded-full bg-white/95 text-amber-700 shadow-lg" aria-label="Next product"><ArrowRight className="h-5 w-5"/></button>
           <div className="grid lg:grid-cols-[1.05fr_0.95fr]">
             <div className="relative bg-slate-50 p-5 sm:p-8">
-              <div className="absolute right-8 top-8 z-20 flex gap-2"><button type="button" className="grid h-10 w-10 place-items-center rounded-full bg-white text-amber-700 shadow-lg" aria-label={`Save ${product.name}`}><Heart className="h-5 w-5"/></button><button type="button" onClick={()=>shareProduct(product)} className="grid h-10 w-10 place-items-center rounded-full bg-white text-amber-700 shadow-lg" aria-label={`Share ${product.name}`}><Share2 className="h-5 w-5"/></button></div>
-              <ZoomableProductImage src={gallery[quickImage]} alt={product.name} className="h-[360px] rounded-2xl bg-white sm:h-[520px]" />
+              <div className="absolute right-20 top-4 z-20 flex gap-2 sm:right-24"><button type="button" className="grid h-10 w-10 place-items-center rounded-full bg-white text-amber-700 shadow-lg" aria-label={`Save ${product.name}`}><Heart className="h-5 w-5"/></button><button type="button" onClick={()=>shareProduct(product)} className="grid h-10 w-10 place-items-center rounded-full bg-white text-amber-700 shadow-lg" aria-label={`Share ${product.name}`}><Share2 className="h-5 w-5"/></button></div>
+              <ZoomableProductImage src={gallery[quickImage]} alt={product.name} onOpen={() => setQuickImageModalOpen(true)} className="h-[360px] rounded-2xl bg-white sm:h-[520px]" />
               <div className="mt-4 grid grid-cols-3 gap-3">{gallery.map((image, index) => <button type="button" key={`${image}-${index}`} onClick={() => setQuickImage(index)} className={`h-24 overflow-hidden rounded-xl border-2 bg-white ${quickImage === index ? "border-amber-500" : "border-transparent"}`}><img src={image} alt={`${product.name} view ${index + 1}`} className="h-full w-full object-contain"/></button>)}</div>
             </div>
             <div className="p-6 sm:p-9">
@@ -571,5 +595,10 @@ export default function HomePage() {
         </div>
       </div>;
     })()}
+
+    {quickImageModal.mounted && renderedQuickViewIndex !== null && <div className={`product-image-modal popup-backdrop-motion ${quickImageModal.active ? "is-open" : ""}`} role="dialog" aria-modal="true" aria-label={`${allProducts[renderedQuickViewIndex].name} full-screen image`} onPointerDown={(event) => { if (event.target === event.currentTarget) setQuickImageModalOpen(false); }}>
+      <button type="button" className="product-image-modal-close" onClick={() => setQuickImageModalOpen(false)} aria-label="Close full-screen image"><X /></button>
+      <img src={allProducts[renderedQuickViewIndex].image} alt={allProducts[renderedQuickViewIndex].name} className="product-image-modal-image popup-surface-motion" />
+    </div>}
   </>;
 }

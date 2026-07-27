@@ -23,6 +23,7 @@ const AppContent = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const showBackButton = location.pathname !== "/"
+    && location.pathname !== "/cart"
     && !location.pathname.startsWith("/product/")
     && !location.pathname.startsWith("/collection/");
   return <>

@@ -74,7 +74,7 @@ const AboutPage = () => (
         </Reveal>
         <Reveal delay={100}>
           <p className="text-xs font-semibold uppercase tracking-[0.26em] text-amber-600">Meet Our Founder</p>
-          <h2 className="mt-4 text-4xl font-medium leading-tight text-slate-900 sm:text-5xl">A personal promise behind every jewel.</h2>
+          <h2 className="mt-4 text-3xl font-medium leading-tight text-slate-900 sm:text-5xl">A personal promise behind every jewel.</h2>
           <p className="mt-6 text-sm leading-8 text-slate-600">Annai Jewellery was founded with a simple purpose: families should be able to choose precious jewellery with complete confidence. Our owner built the showroom around honest conversations, carefully verified quality and long-term relationships rather than one-time sales.</p>
           <p className="mt-4 text-sm leading-8 text-slate-600">That founding promise remains part of our daily work. From selecting new designs and working alongside artisans to personally supporting important bridal orders, our leadership stays closely involved in every customer experience.</p>
           <div className="mt-7 border-l-2 border-amber-500 pl-5">
@@ -98,7 +98,7 @@ const AboutPage = () => (
         </Reveal>
         <Reveal delay={120}>
           <p className="text-xs font-semibold uppercase tracking-[0.26em] text-amber-600">About Annai Jewels</p>
-          <h2 className="mt-4 text-4xl font-medium leading-tight text-amber-900 sm:text-5xl">More than jewellery.<br />A part of your family story.</h2>
+          <h2 className="mt-4 text-3xl font-medium leading-tight text-amber-900 sm:text-5xl">More than jewellery.<br />A part of your family story.</h2>
           <p className="mt-6 text-sm leading-8 text-slate-600">
             Annai Jewellery began with one enduring belief: buying jewellery should feel as meaningful and reassuring as the occasion it celebrates. What started as a family showroom has grown through the trust of customers who value honest material details, careful gold plating and thoughtful craftsmanship.
           </p>
@@ -162,7 +162,7 @@ const AboutPage = () => (
       <div className="mx-auto max-w-7xl">
         <div className="mb-10 max-w-2xl">
           <p className="text-xs font-semibold uppercase tracking-[0.26em] text-amber-400">Our Journey</p>
-          <h2 className="mt-3 text-4xl font-medium">Two decades of meaningful milestones.</h2>
+          <h2 className="mt-3 text-3xl font-medium">Two decades of meaningful milestones.</h2>
         </div>
         <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-4">
           {milestones.map(([year, text], index) => (

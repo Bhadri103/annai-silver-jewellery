@@ -178,7 +178,7 @@ const AuthPage = ({ initialMode }: { initialMode?: AuthMode }) => {
     <>
       <SEO title={mode === "register" ? "Create Account" : mode === "forgot" ? "Reset Password" : "Customer Login"} description="Login or create your Annai Jewellery customer account." />
       <section className="bg-[#fbf8f1] px-4 pb-7 pt-[92px] text-amber-900 sm:px-6 sm:pb-14 sm:pt-28 lg:px-10">
-        <div className="mx-auto grid max-w-sm overflow-hidden rounded-3xl border border-amber-100 bg-white shadow-[0_18px_50px_rgba(130,91,24,0.11)] sm:max-w-md xl:max-w-4xl xl:grid-cols-[0.88fr_1.12fr] xl:rounded-[2rem]">
+        <div className="mx-auto grid max-w-sm overflow-hidden rounded-3xl border border-amber-100 bg-white shadow-[0_18px_50px_rgba(130,91,24,0.11)] sm:max-w-md xl:max-w-3xl xl:grid-cols-[0.88fr_1.12fr] xl:rounded-[2rem]">
           <div className="relative h-28 overflow-hidden sm:h-40 xl:block xl:h-auto xl:min-h-[570px]">
             <img src={heroEditorial} alt="Annai Jewellery collection" className="absolute inset-0 h-full w-full object-cover object-center" loading="eager" fetchPriority="high"/>
             <div className="absolute inset-0 bg-gradient-to-t from-black/65 via-black/10 to-transparent"/>

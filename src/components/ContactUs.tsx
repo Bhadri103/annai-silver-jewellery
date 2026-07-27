@@ -201,7 +201,7 @@ const ContactUsSection: React.FC = () => {
 
         <div className="relative text-center py-16 sm:py-20 md:py-24 px-4">
           <h1
-            className={`text-3xl sm:text-4xl md:text-6xl font-bold text-white mb-3 md:mb-4 transition-all duration-1000 ${
+            className={`text-3xl sm:text-3xl md:text-6xl font-bold text-white mb-3 md:mb-4 transition-all duration-1000 ${
               isVisible
                 ? "opacity-100 translate-y-0"
                 : "opacity-0 translate-y-10"

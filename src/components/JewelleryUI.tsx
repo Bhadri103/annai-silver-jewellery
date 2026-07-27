@@ -24,7 +24,7 @@ export const SEO = ({ title, description }: { title: string; description: string
 export const PageHero = ({ title, text }: { title: string; text: string }) => (
   <section className="border-b border-amber-100 bg-[#fbf8f1] px-4 py-14 text-center sm:px-6">
     <p className="mb-3 text-xs font-semibold uppercase tracking-[0.24em] text-amber-600">Annai Jewellery</p>
-    <h1 className="font-serif text-4xl text-slate-900 sm:text-5xl">{title}</h1>
+    <h1 className="font-serif text-3xl text-slate-900 sm:text-5xl">{title}</h1>
     <p className="mx-auto mt-4 max-w-2xl text-sm leading-7 text-slate-600">{text}</p>
   </section>
 );
@@ -32,7 +32,7 @@ export const PageHero = ({ title, text }: { title: string; text: string }) => (
 export const SectionTitle = ({ kicker, title, text }: { kicker?: string; title: string; text?: string }) => (
   <div className="mb-8">
     {kicker && <p className="text-xs font-semibold uppercase tracking-[0.22em] text-amber-600">{kicker}</p>}
-    <h2 className="mt-2 font-serif text-3xl text-slate-900 sm:text-4xl">{title}</h2>
+    <h2 className="mt-2 font-serif text-3xl text-slate-900 sm:text-3xl">{title}</h2>
     {text && <p className="mt-3 max-w-2xl text-sm leading-7 text-slate-600">{text}</p>}
   </div>
 );
