@@ -115,7 +115,7 @@ export const productSlug = (name: string) => name.toLowerCase().replace(/[^a-z0-
 
 export const productShelves: { id: string; kicker: string; title: string; text: string; products: Product[] }[] = [
   {
-    id: "new-arrivals", kicker: "Just In", title: "New Arrivals", text: "Freshly crafted designs created for modern celebrations.",
+    id: "new-arrivals", kicker: "Just In", title: "New Arrivals", text: "Fresh designs, just arrived.",
     products: [
       { name: "Temple Bridal Necklace", material: "925 Silver with 24K Gold Plating", price: "8,999", badge: "New", image: necklace1 },
       { name: "Antique Ruby Bangles", material: "925 Silver with 24K Gold Plating", price: "3,999", badge: "New", image: bangle2 },
@@ -132,7 +132,7 @@ export const productShelves: { id: string; kicker: string; title: string; text: 
     ],
   },
   {
-    id: "best-sellers", kicker: "Customer Favourites", title: "Best Sellers", text: "The Annai designs most loved and chosen by our customers.",
+    id: "best-sellers", kicker: "Customer Favourites", title: "Best Sellers", text: "Our most-loved jewellery.",
     products: [
       { name: "Mango Mala Necklace", material: "925 Silver with 24K Gold Plating", price: "7,999", badge: "Bestseller", image: necklace2 },
       { name: "Traditional Gold Jhumka", material: "925 Silver with 24K Gold Plating", price: "1,899", badge: "Bestseller", image: earring3 },
@@ -145,7 +145,7 @@ export const productShelves: { id: string; kicker: string; title: string; text: 
     ],
   },
   {
-    id: "bangles", kicker: "Grace at Your Wrist", title: "Bangles", text: "A complete collection of traditional, bridal and everyday gold-plated silver bangles.",
+    id: "bangles", kicker: "Grace at Your Wrist", title: "Bangles", text: "Made for every occasion.",
     products: [
       { name: "Classic Temple Gold Bangle", material: "925 Silver with 24K Gold Plating", price: "2,899", badge: "Bestseller", image: bangle1 },
       { name: "Antique Ruby Bangles", material: "925 Silver with 24K Gold Plating", price: "3,999", badge: "New", image: bangle2 },
@@ -174,7 +174,7 @@ export const productShelves: { id: string; kicker: string; title: string; text: 
     ],
   },
   {
-    id: "necklaces", kicker: "Signature Silhouettes", title: "Necklaces", text: "From graceful daily wear to magnificent bridal heirlooms.",
+    id: "necklaces", kicker: "Signature Silhouettes", title: "Necklaces", text: "Graceful styles to treasure.",
     products: [
       { name: "Temple Bridal Necklace", material: "925 Silver with 24K Gold Plating", price: "8,999", badge: "Bestseller", image: necklace1 },
       { name: "Mango Mala Necklace", material: "925 Silver with 24K Gold Plating", price: "7,999", image: necklace2 },
@@ -202,7 +202,7 @@ export const productShelves: { id: string; kicker: string; title: string; text: 
     ],
   },
   {
-    id: "earrings", kicker: "Frame Your Glow", title: "Gold-Plated Silver Earrings", text: "925 silver earrings finished with radiant 24K gold plating for a traditional look at an accessible price.",
+    id: "earrings", kicker: "Frame Your Glow", title: "Gold-Plated Silver Earrings", text: "Radiant styles for every look.",
     products: [
       { name: "Lakshmi Temple Jhumka", material: "925 Silver with 24K Gold Plating", price: "1,799", image: earring1 },
       { name: "Lotus Jhumka Earrings", material: "925 Silver with 24K Gold Plating", price: "1,699", badge: "New", image: earring2 },
@@ -218,7 +218,7 @@ export const productShelves: { id: string; kicker: string; title: string; text: 
     ],
   },
   {
-    id: "chains", kicker: "Everyday Elegance", title: "Gold-Plated Silver Chains", text: "Refined 925 silver chains finished with radiant 24K gold plating for effortless everyday styling.",
+    id: "chains", kicker: "Everyday Elegance", title: "Gold-Plated Silver Chains", text: "Simple shine, every day.",
     products: [
       { name: "Classic Rope Gold Chain", material: "925 Silver with 24K Gold Plating", price: "2,299", badge: "New", image: chain1 },
       { name: "Singapore Twist Chain", material: "925 Silver with 24K Gold Plating", price: "2,499", image: chain2 },
@@ -247,7 +247,7 @@ export const productShelves: { id: string; kicker: string; title: string; text: 
     ],
   },
   {
-    id: "chain-bracelets", kicker: "Effortless Everyday Style", title: "Gold-Plated Silver Chain Bracelets", text: "Versatile 925 silver links finished with luminous 24K gold plating.",
+    id: "chain-bracelets", kicker: "Effortless Style", title: "Gold-Plated Silver Chain Bracelets", text: "Elegant links, beautifully finished.",
     products: [
       { name: "Classic Rope Chain Bracelet", material: "925 Silver with 24K Gold Plating", price: "1,899", image: bangle8 },
       { name: "Curb Link Gold-Plated Bracelet", material: "925 Silver with 24K Gold Plating", price: "2,299", image: bangle9 },
@@ -307,7 +307,7 @@ export default function HomePage() {
       kicker: "The Wedding Edit - 2026",
       title: "Jewellery for Today.",
       accent: "Heirlooms for Tomorrow.",
-      text: "Discover handcrafted 925 silver jewellery with radiant 24K gold plating, rooted in South Indian tradition.",
+      text: "Handcrafted silver. Timeless beauty.",
       position: "center",
     },
     {
@@ -315,7 +315,7 @@ export default function HomePage() {
       kicker: "Timeless Temple Jewellery",
       title: "Crafted by Hand.",
       accent: "Cherished for Generations.",
-      text: "Intricate heritage motifs, quality-checked silver and careful 24K gold plating come together in every Annai creation.",
+      text: "Heritage artistry, made to treasure.",
       position: "center 43%",
     },
     {
@@ -323,7 +323,7 @@ export default function HomePage() {
       kicker: "Modern Silver Luxury",
       title: "Designed to Shine.",
       accent: "Made to Be Yours.",
-      text: "Explore graceful jewellery designed for celebrations, gifting and everyday elegance.",
+      text: "Graceful jewellery for every moment.",
       position: "center",
     },
     {
@@ -331,7 +331,7 @@ export default function HomePage() {
       kicker: "The Annai Collection",
       title: "Tradition Reimagined.",
       accent: "Beauty Without Time.",
-      text: "Discover distinctive necklaces, earrings, bangles and chains crafted with enduring detail.",
+      text: "Tradition, refined for today.",
       position: "center",
     },
   ];

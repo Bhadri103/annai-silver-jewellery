@@ -7,37 +7,37 @@ const values = [
   {
     icon: ShieldCheck,
     title: "Materials without compromise",
-    text: "Every ornament begins with a quality-checked 925 silver base and is carefully finished with 24K gold plating. Materials and pricing are always shared transparently.",
+    text: "Quality-checked silver with clear pricing.",
   },
   {
     icon: HandHeart,
     title: "Crafted with patience",
-    text: "Our artisans combine time-honoured South Indian techniques with precise modern finishing to create jewellery that feels exceptional from every angle.",
+    text: "Traditional skill with a refined finish.",
   },
   {
     icon: Heart,
     title: "Relationships for generations",
-    text: "We listen before we recommend. From your first gift to your family's bridal jewellery, our service continues long after your purchase.",
+    text: "Personal care, before and after purchase.",
   },
   {
     icon: Sparkles,
     title: "Tradition, thoughtfully renewed",
-    text: "Temple motifs, antique finishes and contemporary silhouettes come together in collections designed for today and treasured for tomorrow.",
+    text: "Heritage designs, renewed for today.",
   },
 ];
 
 const milestones = [
-  ["2004", "Annai Jewellery begins as a family-run showroom built on honest pricing and personal service."],
-  ["2012", "Our bridal and temple jewellery collections become a trusted choice for families across Tamil Nadu."],
-  ["2018", "Our 925 silver and 24K gold-plated everyday collections join the Annai family."],
-  ["Today", "More than 50,000 happy customers continue to place their celebrations and memories in our care."],
+  ["2004", "Our family showroom opens."],
+  ["2012", "Bridal collections grow across Tamil Nadu."],
+  ["2018", "Everyday silver collections arrive."],
+  ["Today", "Trusted by 50,000+ customers."],
 ];
 
 const craftSteps = [
-  ["01", "Inspired", "Each design begins with heritage motifs, nature, architecture and the stories our customers bring us."],
-  ["02", "Handcrafted", "Experienced silversmiths shape, set and detail every ornament through many hours of patient work."],
-  ["03", "Quality checked", "Silver quality, stone setting, plating, finish and weight are checked before a piece receives the Annai seal."],
-  ["04", "Cared for", "Simple cleaning and plating-care guidance helps keep your jewellery beautiful for longer."],
+  ["01", "Inspired", "Rooted in heritage and nature."],
+  ["02", "Handcrafted", "Shaped by skilled silversmiths."],
+  ["03", "Quality checked", "Carefully inspected before delivery."],
+  ["04", "Cared for", "Simple guidance for lasting beauty."],
 ];
 
 const reviews = [
@@ -59,7 +59,7 @@ const AboutPage = () => (
         <div className="max-w-xl">
           <p className="text-xs font-bold uppercase tracking-[0.3em] text-amber-600">The Annai Story</p>
           <h1 className="mt-5 text-5xl font-medium leading-[1.05] text-slate-900 sm:text-6xl lg:text-7xl">Jewels of trust.<br/><span className="text-amber-600">Stories for life.</span></h1>
-          <p className="mt-6 max-w-lg text-base leading-8 text-slate-600 sm:text-lg">Annai Jewellery brings together genuine 925 silver, radiant 24K gold plating, South Indian artistry and heartfelt personal service.</p>
+          <p className="mt-5 max-w-lg text-base leading-7 text-slate-600 sm:text-lg">Fine silver, South Indian artistry and personal care.</p>
           <a href="#our-story" className="mt-8 inline-flex rounded-full bg-amber-600 px-7 py-3.5 text-sm font-semibold text-white shadow-lg transition hover:-translate-y-0.5 hover:bg-amber-700">Discover our journey</a>
         </div>
       </div>
@@ -75,8 +75,7 @@ const AboutPage = () => (
         <Reveal delay={100}>
           <p className="text-xs font-semibold uppercase tracking-[0.26em] text-amber-600">Meet Our Founder</p>
           <h2 className="mt-4 text-3xl font-medium leading-tight text-slate-900 sm:text-5xl">A personal promise behind every jewel.</h2>
-          <p className="mt-6 text-sm leading-8 text-slate-600">Annai Jewellery was founded with a simple purpose: families should be able to choose precious jewellery with complete confidence. Our owner built the showroom around honest conversations, carefully verified quality and long-term relationships rather than one-time sales.</p>
-          <p className="mt-4 text-sm leading-8 text-slate-600">That founding promise remains part of our daily work. From selecting new designs and working alongside artisans to personally supporting important bridal orders, our leadership stays closely involved in every customer experience.</p>
+          <p className="mt-5 text-sm leading-7 text-slate-600">Founded on honest guidance, trusted quality and lasting relationships.</p>
           <div className="mt-7 border-l-2 border-amber-500 pl-5">
             <p className="font-serif text-xl italic leading-8 text-slate-800">&ldquo;Jewellery becomes truly precious when it carries trust, meaning and the happiness of a family.&rdquo;</p>
             <p className="mt-3 text-xs font-bold uppercase tracking-[0.18em] text-amber-600">Founder, Annai Jewellery</p>
@@ -99,11 +98,8 @@ const AboutPage = () => (
         <Reveal delay={120}>
           <p className="text-xs font-semibold uppercase tracking-[0.26em] text-amber-600">About Annai Jewels</p>
           <h2 className="mt-4 text-3xl font-medium leading-tight text-amber-900 sm:text-5xl">More than jewellery.<br />A part of your family story.</h2>
-          <p className="mt-6 text-sm leading-8 text-slate-600">
-            Annai Jewellery began with one enduring belief: buying jewellery should feel as meaningful and reassuring as the occasion it celebrates. What started as a family showroom has grown through the trust of customers who value honest material details, careful gold plating and thoughtful craftsmanship.
-          </p>
-          <p className="mt-4 text-sm leading-8 text-slate-600">
-            Our name, &ldquo;Annai,&rdquo; reflects warmth, care and the quiet strength of a mother. Those qualities guide everything we do&mdash;from welcoming every customer with patience to crafting jewels worthy of being passed from one generation to the next.
+          <p className="mt-5 text-sm leading-7 text-slate-600">
+            A family showroom shaped by trust, thoughtful craft and warm service.
           </p>
           <div className="mt-8 grid grid-cols-3 gap-3 border-y border-amber-200 py-6 text-center">
             <div><strong className="block text-2xl text-amber-600">50K+</strong><span className="text-xs text-slate-500">Happy families</span></div>
@@ -116,7 +112,7 @@ const AboutPage = () => (
 
     <section className="bg-[#fbf8f1] px-4 py-16 sm:px-6 lg:px-10">
       <div className="mx-auto max-w-7xl">
-        <SectionTitle kicker="What We Stand For" title="Our values are set in every jewel." text="Four promises guide every design, recommendation and relationship at Annai." />
+        <SectionTitle kicker="What We Stand For" title="Our values, in every jewel." text="Four simple promises." />
         <div className="grid gap-5 md:grid-cols-2">
           {values.map(({ icon: Icon, title, text }, index) => (
             <Reveal key={title} delay={index * 70}>
@@ -139,12 +135,12 @@ const AboutPage = () => (
             <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-amber-900/70 to-transparent p-8 pt-28 text-white">
               <Gem className="mb-3 h-7 w-7 text-amber-300" />
               <h3 className="text-2xl font-medium">Made slowly. Loved forever.</h3>
-              <p className="mt-2 max-w-md text-sm leading-6 text-white/80">A single heirloom can pass through more than twenty pairs of skilled hands before it reaches yours.</p>
+              <p className="mt-2 max-w-md text-sm leading-6 text-white/80">Made by skilled hands.</p>
             </div>
           </div>
         </Reveal>
         <Reveal delay={100}>
-          <SectionTitle kicker="From Sketch to Heirloom" title="The art behind every Annai creation." text="Traditional skill and careful quality checks shape each piece at every stage." />
+          <SectionTitle kicker="From Sketch to Heirloom" title="The art behind every jewel." text="Crafted and checked with care." />
           <div className="grid gap-4 sm:grid-cols-2">
             {craftSteps.map(([number, title, text]) => (
               <Card key={number} className="h-full">
@@ -195,7 +191,7 @@ const AboutPage = () => (
 
     <section className="bg-[#fbf8f1] px-4 py-16 sm:px-6 lg:px-10">
       <div className="mx-auto max-w-7xl">
-        <SectionTitle kicker="Customer Love" title="Stories shared by our customers." text="The trust of families across generations is the most precious part of our journey." />
+        <SectionTitle kicker="Customer Love" title="Stories from our customers." text="Trusted across generations." />
         <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
           {reviews.map(([name, review], index) => (
             <Reveal key={name} delay={index * 50}>

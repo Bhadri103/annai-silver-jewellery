@@ -4,7 +4,7 @@ import { Card, LeadForm, PageHero, Reveal, SEO } from "../components/JewelleryUI
 const BookingPage = () => (
   <>
     <SEO title="Jewellery Consultation" description="Book a personal consultation for Annai Jewellery's 925 silver and 24K gold-plated ornaments." />
-    <PageHero title="Book a Jewellery Consultation" text="Get personal help choosing gold-plated silver jewellery for gifts, weddings and special occasions." />
+    <PageHero title="Book a Jewellery Consultation" text="Personal guidance for your perfect jewel." />
     <section className="px-4 py-16 sm:px-6 lg:px-10">
       <div className="mx-auto grid max-w-6xl gap-8 md:grid-cols-2">
         <LeadForm />

@@ -12,7 +12,7 @@ const contactItems = [
 const ContactPage = () => (
   <>
     <SEO title="Contact Annai Jewellery" description="Contact Annai Jewellery for 925 silver and 24K gold-plated ornaments, orders and consultations." />
-    <PageHero title="Contact Annai Jewellery" text="Visit, call, WhatsApp, email or book a personal jewellery consultation." />
+    <PageHero title="Contact Annai Jewellery" text="We are here to help." />
     <section className="px-4 py-16 sm:px-6 lg:px-10">
       <div className="mx-auto grid max-w-7xl gap-8 lg:grid-cols-[1.15fr_0.85fr]">
         <Reveal>
