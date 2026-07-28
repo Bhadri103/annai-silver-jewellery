@@ -30,7 +30,7 @@ const Footer: React.FC = () => (
           <p className="mt-3 max-w-sm text-sm leading-6 text-slate-600">Timeless 925 silver jewellery, thoughtfully finished for every celebration.</p>
           <div className="mt-5 flex gap-3">
             <a href="https://www.instagram.com/" target="_blank" rel="noreferrer" aria-label="Instagram" className="grid h-10 w-10 place-items-center rounded-full border border-amber-300 bg-white text-amber-700 transition hover:-translate-y-0.5 hover:bg-amber-600 hover:text-white"><Instagram className="h-4 w-4"/></a>
-            <a href="https://wa.me/919751229418" target="_blank" rel="noreferrer" aria-label="WhatsApp" className="grid h-10 w-10 place-items-center rounded-full border border-amber-300 bg-white text-amber-700 transition hover:-translate-y-0.5 hover:bg-[#25D366] hover:text-white"><MessageCircle className="h-4 w-4"/></a>
+            <a href="https://wa.me/919751229418" target="_blank" rel="noreferrer" aria-label="WhatsApp" className="grid h-10 w-10 place-items-center rounded-full border border-amber-300 bg-white text-amber-700 transition hover:-translate-y-0.5 hover:bg-amber-600 hover:text-white"><MessageCircle className="h-4 w-4"/></a>
             <a href="tel:+919751229418" aria-label="Call Annai Jewellery" className="grid h-10 w-10 place-items-center rounded-full border border-amber-300 bg-white text-amber-700 transition hover:-translate-y-0.5 hover:bg-amber-600 hover:text-white"><Phone className="h-4 w-4"/></a>
           </div>
         </div>
