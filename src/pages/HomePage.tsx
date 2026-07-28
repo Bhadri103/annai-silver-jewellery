@@ -259,9 +259,9 @@ export const productShelves: { id: string; kicker: string; title: string; text: 
 ];
 
 const ProductShelf = ({ shelf, alternate, onQuickView, cart, onChangeQuantity }: { shelf: typeof productShelves[number]; alternate: boolean; onQuickView: (product: Product) => void; cart: Record<string, number>; onChangeQuantity: (product: Product, change: number) => void }) => (
-  <section id={shelf.id} className={`product-shelf px-4 py-16 sm:px-6 lg:px-10 ${alternate ? "bg-[#fbf8f1]" : "bg-white"}`}>
+  <section id={shelf.id} className={`product-shelf px-4 py-10 sm:px-6 sm:py-12 lg:px-10 lg:py-14 ${alternate ? "bg-[#fbf8f1]" : "bg-white"}`}>
     <div className="mx-auto max-w-7xl">
-      <div className="mb-8 flex flex-wrap items-end justify-between gap-5">
+      <div className="mb-6 flex flex-wrap items-end justify-between gap-4 sm:mb-7">
         <div><p className="text-xs font-semibold uppercase tracking-[0.24em] text-amber-600">{shelf.kicker}</p><h2 className="mt-2 text-3xl font-medium text-slate-900 sm:text-3xl">{shelf.title}</h2><p className="mt-3 max-w-xl text-sm leading-6 text-slate-600">{shelf.text}</p></div>
         <Link to={`/collection/${shelf.id}`} className="inline-flex items-center gap-2 border-b border-amber-500 pb-1 text-sm font-medium text-amber-700">View all <ArrowRight className="h-4 w-4"/></Link>
       </div>
@@ -486,9 +486,9 @@ export default function HomePage() {
       </div>
     </section>
 
-    <section id="collections" className="shop-category-section relative overflow-hidden bg-white px-4 py-14 sm:px-6 lg:px-10">
+    <section id="collections" className="shop-category-section relative overflow-hidden bg-white px-4 py-10 sm:px-6 sm:py-12 lg:px-10 lg:py-14">
       <div className="mx-auto max-w-7xl">
-        <div className="mb-9 text-center">
+        <div className="mb-6 text-center sm:mb-8">
           <p className="text-xs font-semibold uppercase tracking-[0.28em] text-amber-600">Find your favourite</p>
           <h2 className="mt-2 text-3xl font-medium tracking-[0.04em] text-[#5a4323] sm:text-3xl">Shop by Category</h2>
           <span className="mx-auto mt-4 block h-px w-28 bg-gradient-to-r from-transparent via-amber-500 to-transparent" />
@@ -528,9 +528,9 @@ export default function HomePage() {
     {/* <section className="px-4 py-16 sm:px-6 lg:px-10"><div className="mx-auto max-w-5xl rounded-3xl bg-amber-700 p-8 text-center text-white sm:p-12"><MessageCircle className="mx-auto h-8 w-8 text-amber-500"/><h2 className="mt-4 text-3xl font-medium">Let us help you find the perfect jewel.</h2><p className="mx-auto mt-3 max-w-xl text-sm leading-7 text-slate-300">Book a private consultation or speak with our jewellery experts on WhatsApp.</p><div className="mt-7 flex flex-wrap justify-center gap-3"><Link to="/booking" className="rounded-full bg-amber-600 px-7 py-3 text-sm font-medium">Book an Appointment</Link><a href="https://wa.me/911234567890" className="rounded-full border border-white/30 px-7 py-3 text-sm font-medium">Chat on WhatsApp</a></div></div></section>
     <section className="px-4 pb-20 sm:px-6 lg:px-10"><div className="mx-auto max-w-7xl"><SectionTitle kicker="Shop With Confidence" title="The Annai experience." text="Thoughtful service before, during and long after your purchase."/><div className="grid gap-4 sm:grid-cols-3"><Card className="p-6"><Truck className="text-amber-600"/><h3 className="mt-4 text-lg font-medium">Insured Delivery</h3><p className="mt-2 text-sm text-slate-600">Safe shipping with careful, secure packaging.</p></Card><Card className="p-6"><ShieldCheck className="text-amber-600"/><h3 className="mt-4 text-lg font-medium">Transparent Materials</h3><p className="mt-2 text-sm text-slate-600">Clear 925 silver, 24K gold-plating and care details.</p></Card><Card className="p-6"><Heart className="text-amber-600"/><h3 className="mt-4 text-lg font-medium">Dedicated Care</h3><p className="mt-2 text-sm text-slate-600">Helpful guidance for cleaning, storage and preserving the plated finish.</p></Card></div></div></section> */}
 
-    <section className="customer-reviews-section bg-[#fbf8f1] px-4 py-16 sm:px-6 lg:px-10">
+    <section className="customer-reviews-section bg-[#fbf8f1] px-4 py-10 sm:px-6 sm:py-12 lg:px-10 lg:py-14">
       <div className="mx-auto max-w-7xl">
-        <div className="mb-7 flex flex-wrap items-end justify-between gap-5">
+        <div className="mb-6 flex flex-wrap items-end justify-between gap-4 sm:mb-7">
           <SectionTitle kicker="50+ Customer Reviews" title="Stories shared by the Annai family." text="Read genuine experiences or tell us about the jewellery and service you received." />
           <button type="button" onClick={()=>{setReviewModalOpen(true);setReviewMessage("");}} className="inline-flex items-center gap-2 rounded-full bg-amber-600 px-6 py-3 text-sm font-semibold text-white shadow-lg transition hover:-translate-y-0.5 hover:bg-amber-700"><Star className="h-4 w-4"/>Add Review</button>
         </div>
