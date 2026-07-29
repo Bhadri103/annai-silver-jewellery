@@ -202,7 +202,7 @@ export const productShelves: { id: string; kicker: string; title: string; text: 
     ],
   },
   {
-    id: "earrings", kicker: "Frame Your Glow", title: "Gold-Plated Silver Earrings", text: "Radiant styles for every look.",
+    id: "earrings", kicker: "Frame Your Glow", title: "Earrings", text: "",
     products: [
       { name: "Lakshmi Temple Jhumka", material: "925 Silver with 24K Gold Plating", price: "1,799", image: earring1 },
       { name: "Lotus Jhumka Earrings", material: "925 Silver with 24K Gold Plating", price: "1,699", badge: "New", image: earring2 },
@@ -218,7 +218,7 @@ export const productShelves: { id: string; kicker: string; title: string; text: 
     ],
   },
   {
-    id: "chains", kicker: "Everyday Elegance", title: "Gold-Plated Silver Chains", text: "Simple shine, every day.",
+    id: "chains", kicker: "Everyday Elegance", title: "Chains", text: "",
     products: [
       { name: "Classic Rope Gold Chain", material: "925 Silver with 24K Gold Plating", price: "2,299", badge: "New", image: chain1 },
       { name: "Singapore Twist Chain", material: "925 Silver with 24K Gold Plating", price: "2,499", image: chain2 },
@@ -247,7 +247,7 @@ export const productShelves: { id: string; kicker: string; title: string; text: 
     ],
   },
   {
-    id: "chain-bracelets", kicker: "Effortless Style", title: "Gold-Plated Silver Chain Bracelets", text: "Elegant links, beautifully finished.",
+    id: "chain-bracelets", kicker: "Effortless Style", title: "Chain Bracelets", text: "",
     products: [
       { name: "Classic Rope Chain Bracelet", material: "925 Silver with 24K Gold Plating", price: "1,899", image: bangle8 },
       { name: "Curb Link Gold-Plated Bracelet", material: "925 Silver with 24K Gold Plating", price: "2,299", image: bangle9 },
@@ -261,9 +261,9 @@ export const productShelves: { id: string; kicker: string; title: string; text: 
 const ProductShelf = ({ shelf, alternate, onQuickView, cart, onChangeQuantity }: { shelf: typeof productShelves[number]; alternate: boolean; onQuickView: (product: Product) => void; cart: Record<string, number>; onChangeQuantity: (product: Product, change: number) => void }) => (
   <section id={shelf.id} className={`product-shelf px-4 py-10 sm:px-6 sm:py-12 lg:px-10 lg:py-14 ${alternate ? "bg-[#fbf8f1]" : "bg-white"}`}>
     <div className="mx-auto max-w-7xl">
-      <div className="mb-6 flex flex-wrap items-end justify-between gap-4 sm:mb-7">
-        <div><p className="text-xs font-semibold uppercase tracking-[0.24em] text-amber-600">{shelf.kicker}</p><h2 className="mt-2 text-3xl font-medium text-slate-900 sm:text-3xl">{shelf.title}</h2><p className="mt-3 max-w-xl text-sm leading-6 text-slate-600">{shelf.text}</p></div>
-        <Link to={`/collection/${shelf.id}`} className="inline-flex items-center gap-2 border-b border-amber-500 pb-1 text-sm font-medium text-amber-700">View all <ArrowRight className="h-4 w-4"/></Link>
+      <div className="mb-6 flex items-center justify-between gap-4 sm:mb-7">
+        <div className="min-w-0"><p className="text-[10px] font-semibold uppercase tracking-[0.24em] text-amber-600 sm:text-xs">{shelf.kicker}</p><h2 className="mt-2 text-2xl font-medium text-slate-900 sm:text-3xl">{shelf.title}</h2></div>
+        <Link to={`/collection/${shelf.id}`} className="inline-flex shrink-0 items-center gap-2 border-b border-amber-500 pb-1 text-sm font-medium text-amber-700">View all <ArrowRight className="h-4 w-4"/></Link>
       </div>
       <div className="product-shelf-grid grid gap-4 overflow-x-auto pb-4">
         {shelf.products.map((product, index) => <Reveal key={product.name} delay={index * 60}><article className="group overflow-hidden rounded-2xl border border-amber-100 bg-white shadow-sm transition hover:-translate-y-1 hover:shadow-xl">
@@ -531,7 +531,7 @@ export default function HomePage() {
     <section className="customer-reviews-section bg-[#fbf8f1] px-4 py-10 sm:px-6 sm:py-12 lg:px-10 lg:py-14">
       <div className="mx-auto max-w-7xl">
         <div className="mb-6 flex flex-wrap items-end justify-between gap-4 sm:mb-7">
-          <SectionTitle kicker="50+ Customer Reviews" title="Stories shared by the Annai family." text="Read genuine experiences or tell us about the jewellery and service you received." />
+          <SectionTitle kicker="50+ Customer Reviews" title="What Customers Say" text="Read genuine experiences or tell us about the jewellery and service you received." />
           <button type="button" onClick={()=>{setReviewModalOpen(true);setReviewMessage("");}} className="inline-flex items-center gap-2 rounded-full bg-amber-600 px-6 py-3 text-sm font-semibold text-white shadow-lg transition hover:-translate-y-0.5 hover:bg-amber-700"><Star className="h-4 w-4"/>Add Review</button>
         </div>
         <div>
