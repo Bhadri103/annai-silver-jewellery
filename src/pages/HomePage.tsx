@@ -261,9 +261,13 @@ export const productShelves: { id: string; kicker: string; title: string; text: 
 const ProductShelf = ({ shelf, alternate, onQuickView, cart, onChangeQuantity }: { shelf: typeof productShelves[number]; alternate: boolean; onQuickView: (product: Product) => void; cart: Record<string, number>; onChangeQuantity: (product: Product, change: number) => void }) => (
   <section id={shelf.id} className={`product-shelf px-4 py-10 sm:px-6 sm:py-12 lg:px-10 lg:py-14 ${alternate ? "bg-[#fbf8f1]" : "bg-white"}`}>
     <div className="mx-auto max-w-7xl">
-      <div className="mb-6 flex items-center justify-between gap-4 sm:mb-7">
-        <div className="min-w-0"><h2 className="text-2xl font-medium text-slate-900 sm:text-3xl">{shelf.title}</h2></div>
-        <Link to={`/collection/${shelf.id}`} className="inline-flex shrink-0 items-center gap-2 border-b border-amber-500 pb-1 text-sm font-medium text-amber-700">View all <ArrowRight className="h-4 w-4"/></Link>
+      <div className="mb-6 text-center sm:mb-7">
+        <div className="mx-auto flex max-w-2xl items-center justify-center gap-3 sm:gap-5">
+          <span className="h-px min-w-8 flex-1 bg-gradient-to-r from-transparent to-amber-400" />
+          <h2 className="shrink-0 text-xl font-bold text-slate-900 sm:text-2xl">{shelf.title}</h2>
+          <span className="h-px min-w-8 flex-1 bg-gradient-to-l from-transparent to-amber-400" />
+        </div>
+        <Link to={`/collection/${shelf.id}`} className="mt-2 inline-flex items-center gap-1.5 text-xs font-medium text-amber-700 transition hover:text-amber-900">View all <ArrowRight className="h-3.5 w-3.5"/></Link>
       </div>
       <div className="product-shelf-grid grid gap-4 overflow-x-auto pb-4">
         {shelf.products.map((product, index) => <Reveal key={product.name} delay={index * 60}><article className="group overflow-hidden rounded-2xl border border-amber-100 bg-white shadow-sm transition hover:-translate-y-1 hover:shadow-xl">
