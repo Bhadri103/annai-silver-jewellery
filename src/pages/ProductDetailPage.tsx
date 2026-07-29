@@ -65,7 +65,7 @@ export default function ProductDetailPage() {
     <SEO title={product.name} description={`Shop ${product.name} from Annai Jewellery. Premium ${product.material}, certified quality and insured delivery.`}/>
     <section className="bg-white px-4 pb-16 pt-8 sm:px-6 lg:px-10">
       <div className="mx-auto max-w-7xl">
-        <nav className="mb-7 flex flex-wrap gap-2 text-xs text-slate-500"><Link to="/">Home</Link><span>/</span><Link to="/#new-arrivals">Products</Link><span>/</span><span className="text-amber-700">{product.name}</span></nav>
+        <nav className="mb-7 flex flex-wrap gap-2 text-xs text-slate-500"><Link to="/">Home</Link><span>/</span><Link to="/collection/products">Products</Link><span>/</span><span className="text-amber-700">{product.name}</span></nav>
         <div className="grid gap-9 lg:grid-cols-[1.05fr_0.95fr]">
           <div>
             <div className="relative">
