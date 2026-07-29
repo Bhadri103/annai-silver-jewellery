@@ -264,7 +264,7 @@ const ProductShelf = ({ shelf, alternate, onQuickView, cart, onChangeQuantity }:
       <div className="mb-6 text-center sm:mb-7">
         <div className="mx-auto flex max-w-2xl items-center justify-center gap-3 sm:gap-5">
           <span className="h-px min-w-8 flex-1 bg-gradient-to-r from-transparent to-amber-400" />
-          <h2 className="shrink-0 text-xl font-bold text-slate-900 sm:text-2xl">{shelf.title}</h2>
+          <h2 className="shrink-0 text-[1.1rem] font-bold capitalize text-slate-900">{shelf.title}</h2>
           <span className="h-px min-w-8 flex-1 bg-gradient-to-l from-transparent to-amber-400" />
         </div>
         <Link to={`/collection/${shelf.id}`} className="mt-2 inline-flex items-center gap-1.5 text-xs font-medium text-amber-700 transition hover:text-amber-900">View all <ArrowRight className="h-3.5 w-3.5"/></Link>
