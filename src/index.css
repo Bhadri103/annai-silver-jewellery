@@ -3776,3 +3776,44 @@ html {
 .jewellery-cursive {
   font-size: 1.12em;
 }
+/* Premium animated finish shared by every product badge. */
+span[class~="bg-[#D4AF37]"] {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+    border: 1px solid rgba(255, 244, 182, 0.9);
+    background: linear-gradient(115deg, #9f6f05 0%, #d8a817 28%, #ffe98a 50%, #d5a315 70%, #9b6900 100%) !important;
+    background-size: 220% 100% !important;
+    box-shadow: 0 5px 14px rgba(180, 127, 0, 0.28), inset 0 1px 0 rgba(255, 255, 255, 0.65);
+    text-shadow: 0 1px 1px rgba(92, 55, 0, 0.35);
+    animation: product-badge-gold-flow 3.2s ease-in-out infinite;
+}
+
+span[class~="bg-[#D4AF37]"]::after {
+    content: "";
+    position: absolute;
+    inset: -40% auto -40% -45%;
+    z-index: -1;
+    width: 34%;
+    transform: skewX(-18deg);
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.85), transparent);
+    animation: product-badge-shine 2.8s ease-in-out infinite;
+}
+
+@keyframes product-badge-gold-flow {
+    0%, 100% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+}
+
+@keyframes product-badge-shine {
+    0%, 28% { left: -45%; opacity: 0; }
+    38% { opacity: 1; }
+    62%, 100% { left: 120%; opacity: 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    span[class~="bg-[#D4AF37]"],
+    span[class~="bg-[#D4AF37]"]::after {
+        animation: none;
+    }
+}
