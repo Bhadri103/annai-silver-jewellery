@@ -262,7 +262,7 @@ const ProductShelf = ({ shelf, alternate, onQuickView, cart, onChangeQuantity }:
   <section id={shelf.id} className={`product-shelf px-4 py-10 sm:px-6 sm:py-12 lg:px-10 lg:py-14 ${alternate ? "bg-[#fbf8f1]" : "bg-white"}`}>
     <div className="mx-auto max-w-7xl">
       <div className="mb-6 flex items-center justify-between gap-4 sm:mb-7">
-        <div className="min-w-0"><p className="text-[10px] font-semibold uppercase tracking-[0.24em] text-amber-600 sm:text-xs">{shelf.kicker}</p><h2 className="mt-2 text-2xl font-medium text-slate-900 sm:text-3xl">{shelf.title}</h2></div>
+        <div className="min-w-0"><h2 className="text-2xl font-medium text-slate-900 sm:text-3xl">{shelf.title}</h2></div>
         <Link to={`/collection/${shelf.id}`} className="inline-flex shrink-0 items-center gap-2 border-b border-amber-500 pb-1 text-sm font-medium text-amber-700">View all <ArrowRight className="h-4 w-4"/></Link>
       </div>
       <div className="product-shelf-grid grid gap-4 overflow-x-auto pb-4">
@@ -489,8 +489,7 @@ export default function HomePage() {
     <section id="collections" className="shop-category-section relative overflow-hidden bg-white px-4 py-10 sm:px-6 sm:py-12 lg:px-10 lg:py-14">
       <div className="mx-auto max-w-7xl">
         <div className="mb-6 text-center sm:mb-8">
-          <p className="text-xs font-semibold uppercase tracking-[0.28em] text-amber-600">Find your favourite</p>
-          <h2 className="mt-2 text-3xl font-medium tracking-[0.04em] text-[#5a4323] sm:text-3xl">Shop by Category</h2>
+          <h2 className="text-3xl font-medium tracking-[0.04em] text-[#5a4323] sm:text-3xl">Shop by Category</h2>
           <span className="mx-auto mt-4 block h-px w-28 bg-gradient-to-r from-transparent via-amber-500 to-transparent" />
         </div>
         <div className="shop-category-grid grid gap-2 sm:gap-3 lg:gap-4">
@@ -531,7 +530,7 @@ export default function HomePage() {
     <section className="customer-reviews-section bg-[#fbf8f1] px-4 py-10 sm:px-6 sm:py-12 lg:px-10 lg:py-14">
       <div className="mx-auto max-w-7xl">
         <div className="mb-6 flex flex-wrap items-end justify-between gap-4 sm:mb-7">
-          <SectionTitle kicker="50+ Customer Reviews" title="What Customers Say" text="Read genuine experiences or tell us about the jewellery and service you received." />
+          <SectionTitle title="What Customers Say" text="Read genuine experiences or tell us about the jewellery and service you received." />
           <button type="button" onClick={()=>{setReviewModalOpen(true);setReviewMessage("");}} className="inline-flex items-center gap-2 rounded-full bg-amber-600 px-6 py-3 text-sm font-semibold text-white shadow-lg transition hover:-translate-y-0.5 hover:bg-amber-700"><Star className="h-4 w-4"/>Add Review</button>
         </div>
         <div>
