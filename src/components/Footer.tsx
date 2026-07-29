@@ -3,7 +3,7 @@ import { Instagram, MapPin, MessageCircle, Phone, Clock3 } from "lucide-react";
 import { Link } from "react-router-dom";
 import logo from "../assets/logo.png";
 
-const showroomDirections = "https://www.google.com/maps/dir//Annai+Sliver+Jewellery,+Shop+No+8,+Old+Bus+Stand,+Padmanabhapuram,+Tamil+Nadu+629175/@8.2073794,77.3040963,1915m/data=!3m1!1e3!4m8!4m7!1m0!1m5!1m1!1s0x3b04f9c3ad0b657f:0x9c9047a12495cad7!2m2!1d77.3202801!2d8.2407514?entry=ttu&g_ep=EgoyMDI2MDcyMi4wIKXMDSoASAFQAw%3D%3D";
+const showroomDirections = "https://www.google.com/maps/dir//Annai+Sliver+Jewellery,+Shop+No+8,+Old+Bus+Stand,+Thucklay,+Tamil+Nadu+629175/@8.2073794,77.3040963,1915m/data=!3m1!1e3!4m8!4m7!1m0!1m5!1m1!1s0x3b04f9c3ad0b657f:0x9c9047a12495cad7!2m2!1d77.3202801!2d8.2407514?entry=ttu&g_ep=EgoyMDI2MDcyMi4wIKXMDSoASAFQAw%3D%3D";
 
 const shopLinks = [
   ["New Arrivals", "/collection/new-arrivals"],
@@ -53,7 +53,7 @@ const Footer: React.FC = () => (
         <div className="md:col-span-2 lg:col-span-1">
           <h3 className="text-xs font-bold uppercase tracking-[0.2em] text-amber-700">Visit Annai</h3>
           <a href={showroomDirections} target="_blank" rel="noreferrer" className="mt-5 flex max-w-sm items-start gap-3 text-sm leading-6 text-slate-600 transition hover:text-amber-600">
-            <MapPin className="mt-1 h-4 w-4 shrink-0 text-amber-600"/>Shop No. 8, Old Bus Stand, Padmanabhapuram, Tamil Nadu 629175
+            <MapPin className="mt-1 h-4 w-4 shrink-0 text-amber-600"/>Shop No. 8, Old Bus Stand, Thucklay, Tamil Nadu 629175
           </a>
           <div className="mt-4 space-y-3 text-sm text-slate-600">
             <a href="tel:+919751229418" className="flex items-center gap-3 transition hover:text-amber-600"><Phone className="h-4 w-4 text-amber-600"/>+91 97512 29418</a>

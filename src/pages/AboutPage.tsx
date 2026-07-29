@@ -218,12 +218,12 @@ const AboutPage = () => (
           <span className="grid h-12 w-12 place-items-center rounded-2xl bg-amber-50 text-amber-600"><MapPin className="h-6 w-6"/></span>
           <p className="mt-6 text-xs font-bold uppercase tracking-[0.24em] text-amber-600">Visit Our Showroom</p>
           <h2 className="mt-3 text-3xl font-medium text-slate-900">Experience Annai in person.</h2>
-          <p className="mt-4 text-sm leading-7 text-slate-600">Shop No 8, Old Bus Stand, Padmanabhapuram, Tamil Nadu 629175</p>
+          <p className="mt-4 text-sm leading-7 text-slate-600">Shop No 8, Old Bus Stand, Thucklay, Tamil Nadu 629175</p>
           <p className="mt-2 text-sm text-slate-600">Monday–Saturday: 9:00 AM–9:00 PM<br/>Sunday: Closed</p>
-          <a href="https://www.google.com/maps/dir//Annai+Sliver+Jewellery,+Shop+No+8,+Old+Bus+Stand,+Padmanabhapuram,+Tamil+Nadu+629175/@8.2073794,77.3040963,1915m/data=!3m1!1e3!4m8!4m7!1m0!1m5!1m1!1s0x3b04f9c3ad0b657f:0x9c9047a12495cad7!2m2!1d77.3202801!2d8.2407514?entry=ttu&g_ep=EgoyMDI2MDcyMi4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noreferrer" className="mt-7 inline-flex w-fit rounded-full border border-amber-500 px-6 py-3 text-sm font-semibold text-slate-800 transition hover:bg-amber-600 hover:text-white">Get directions</a>
+          <a href="https://www.google.com/maps/dir//Annai+Sliver+Jewellery,+Shop+No+8,+Old+Bus+Stand,+Thucklay,+Tamil+Nadu+629175/@8.2073794,77.3040963,1915m/data=!3m1!1e3!4m8!4m7!1m0!1m5!1m1!1s0x3b04f9c3ad0b657f:0x9c9047a12495cad7!2m2!1d77.3202801!2d8.2407514?entry=ttu&g_ep=EgoyMDI2MDcyMi4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noreferrer" className="mt-7 inline-flex w-fit rounded-full border border-amber-500 px-6 py-3 text-sm font-semibold text-slate-800 transition hover:bg-amber-600 hover:text-white">Get directions</a>
         </div>
         <div className="min-h-[420px] bg-[#f5efe2]">
-          <iframe title="Annai Jewellery showroom location" src="https://www.google.com/maps?q=Annai%20Sliver%20Jewellery%2C%20Shop%20No%208%2C%20Old%20Bus%20Stand%2C%20Padmanabhapuram%2C%20Tamil%20Nadu%20629175&output=embed" className="h-full min-h-[420px] w-full border-0" loading="lazy" referrerPolicy="no-referrer-when-downgrade" allowFullScreen />
+          <iframe title="Annai Jewellery showroom location" src="https://www.google.com/maps?q=Annai%20Sliver%20Jewellery%2C%20Shop%20No%208%2C%20Old%20Bus%20Stand%2C%20Thucklay%2C%20Tamil%20Nadu%20629175&output=embed" className="h-full min-h-[420px] w-full border-0" loading="lazy" referrerPolicy="no-referrer-when-downgrade" allowFullScreen />
         </div>
       </div>
     </section>

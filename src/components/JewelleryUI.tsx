@@ -33,7 +33,7 @@ export const SectionTitle = ({ kicker, title, text }: { kicker?: string; title: 
   <div className="mb-8">
     {kicker && <p className="text-xs font-semibold uppercase tracking-[0.22em] text-amber-600">{kicker}</p>}
     <h2 className="mt-2 font-serif text-3xl text-slate-900 sm:text-3xl">{title}</h2>
-    {text && <p className="mt-2 max-w-xl text-sm leading-6 text-slate-600">{text}</p>}
+    {/* {text && <p className="mt-2 max-w-xl text-sm leading-6 text-slate-600">{text}</p>} */}
   </div>
 );
 
@@ -72,7 +72,7 @@ export const LeadForm = () => {
       <div className="mt-6 grid gap-3 border-t border-amber-100 pt-5 text-xs text-slate-600 sm:grid-cols-3">
         <span className="flex gap-2"><Phone className="h-4 w-4 text-amber-600" />+91 97512 29418</span>
         <span className="flex gap-2"><Clock className="h-4 w-4 text-amber-600" />Mon-Sat, 9 AM-9 PM</span>
-        <span className="flex gap-2"><MapPin className="h-4 w-4 text-amber-600" />Padmanabhapuram</span>
+        <span className="flex gap-2"><MapPin className="h-4 w-4 text-amber-600" />Thucklay</span>
       </div>
     </Card>
   );

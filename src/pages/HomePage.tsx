@@ -96,6 +96,7 @@ import ZoomableProductImage from "../components/ZoomableProductImage";
 import Price from "../components/Price";
 import { usePopupTransition } from "../lib/usePopupTransition";
 import { Card, Reveal, SectionTitle, SEO } from "../components/JewelleryUI";
+import { websiteApi } from "../lib/api";
 
 const collections = [
   { title: "Necklaces", image: necklace1 },
@@ -264,15 +265,17 @@ const ProductShelf = ({ shelf, alternate, onQuickView, cart, onChangeQuantity }:
       <div className="mb-6 text-center sm:mb-7">
         <div className="mx-auto flex max-w-2xl items-center justify-center gap-3 sm:gap-5">
           <span className="h-px min-w-8 flex-1 bg-gradient-to-r from-transparent to-amber-400" />
-          <h2 className="shrink-0 text-[1.1rem] font-bold capitalize text-slate-900">{shelf.title}</h2>
+          <h2 className="shrink-0 text-[1.1rem] font-bold uppercase  text-slate-900">{shelf.title}</h2>
           <span className="h-px min-w-8 flex-1 bg-gradient-to-l from-transparent to-amber-400" />
         </div>
-        <Link to={`/collection/${shelf.id}`} className="mt-2 inline-flex items-center gap-1.5 text-xs font-medium text-amber-700 transition hover:text-amber-900">View all <ArrowRight className="h-3.5 w-3.5"/></Link>
+        <Link to={`/collection/${shelf.id}`} className="mt-2 inline-flex items-center gap-1.5 text-xs font-medium text-amber-700 transition hover:text-amber-900">View all <ArrowRight className="h-3.5 w-3.5" /></Link>
       </div>
       <div className="product-shelf-grid grid gap-4 overflow-x-auto pb-4">
         {shelf.products.map((product, index) => <Reveal key={product.name} delay={index * 60}><article className="group overflow-hidden rounded-2xl border border-amber-100 bg-white shadow-sm transition hover:-translate-y-1 hover:shadow-xl">
-          <div className="relative h-72 overflow-hidden bg-[#f8f2e8] p-2"><Link to={`/product/${productSlug(product.name)}`} className="block h-full w-full overflow-hidden rounded-xl"><img src={product.image} alt={product.name} className="h-full w-full rounded-xl object-contain transition duration-700 group-hover:scale-110"/></Link>{product.badge && <span className="absolute left-3 top-3 rounded-full bg-[#D4AF37] px-3 py-1 text-[9px] font-bold uppercase tracking-wider text-white">{product.badge}</span>}<button type="button" onClick={() => onQuickView(product)} className="quick-view-button absolute right-3 top-3 grid h-9 w-9 place-items-center rounded-full bg-white/90 text-amber-700 shadow-sm" aria-label={`Quick view ${product.name}`} title="Quick view"><Eye className="h-4 w-4"/></button></div>
-          <div className="p-5"><p className="text-[10px] font-semibold uppercase tracking-[0.16em] text-amber-600">{product.material}</p><h3 className="mt-2 text-lg font-medium text-slate-900">{product.name}</h3><div className="mt-4 flex items-center justify-between gap-3"><strong className="text-sm text-slate-900"><Price value={product.price}/></strong>{cart[`jewel-${productSlug(product.name)}`] ? <div className="flex h-9 items-center overflow-hidden rounded-full bg-amber-600 text-white shadow-sm"><button type="button" onClick={()=>onChangeQuantity(product,-1)} className="grid h-9 w-9 place-items-center transition hover:bg-amber-700" aria-label={`Remove one ${product.name}`}><Minus className="h-4 w-4"/></button><span className="min-w-7 text-center text-sm font-semibold">{cart[`jewel-${productSlug(product.name)}`]}</span><button type="button" onClick={()=>onChangeQuantity(product,1)} className="grid h-9 w-9 place-items-center transition hover:bg-amber-700" aria-label={`Add one more ${product.name}`}><Plus className="h-4 w-4"/></button></div> : <button type="button" onClick={()=>onChangeQuantity(product,1)} className="inline-flex h-9 items-center gap-1.5 rounded-full bg-amber-600 px-4 text-sm font-semibold text-white shadow-sm transition hover:bg-amber-700" aria-label={`Add ${product.name} to bag`}><Plus className="h-4 w-4"/>Add</button>}</div></div>
+          <div className="relative h-72 overflow-hidden bg-[#f8f2e8] p-2"><Link to={`/product/${productSlug(product.name)}`} className="block h-full w-full overflow-hidden rounded-xl"><img src={product.image} alt={product.name} className="h-full w-full rounded-xl object-contain transition duration-700 group-hover:scale-110" /></Link>{product.badge && <span className="absolute left-3 top-3 rounded-full bg-[#D4AF37] px-3 py-1 text-[9px] font-bold uppercase tracking-wider text-white">{product.badge}</span>}<button type="button" onClick={() => onQuickView(product)} className="quick-view-button absolute right-3 top-3 grid h-9 w-9 place-items-center rounded-full bg-white/90 text-amber-700 shadow-sm" aria-label={`Quick view ${product.name}`} title="Quick view"><Eye className="h-4 w-4" /></button></div>
+          <div className="p-5">
+            {/* <p className="text-[10px] font-semibold uppercase tracking-[0.16em] text-amber-600">{product.material}</p> */}
+            <h3 className="mt-2 text-lg font-medium text-slate-900">{product.name}</h3><div className="mt-4 flex items-center justify-between gap-3"><strong className="text-sm text-slate-900"><Price value={product.price} /></strong>{cart[`jewel-${productSlug(product.name)}`] ? <div className="flex h-9 items-center overflow-hidden rounded-full bg-amber-600 text-white shadow-sm"><button type="button" onClick={() => onChangeQuantity(product, -1)} className="grid h-9 w-9 place-items-center transition hover:bg-amber-700" aria-label={`Remove one ${product.name}`}><Minus className="h-4 w-4" /></button><span className="min-w-7 text-center text-sm font-semibold">{cart[`jewel-${productSlug(product.name)}`]}</span><button type="button" onClick={() => onChangeQuantity(product, 1)} className="grid h-9 w-9 place-items-center transition hover:bg-amber-700" aria-label={`Add one more ${product.name}`}><Plus className="h-4 w-4" /></button></div> : <button type="button" onClick={() => onChangeQuantity(product, 1)} className="inline-flex h-9 items-center gap-1.5 rounded-full bg-amber-600 px-4 text-sm font-semibold text-white shadow-sm transition hover:bg-amber-700" aria-label={`Add ${product.name} to bag`}><Plus className="h-4 w-4" />Add</button>}</div></div>
         </article></Reveal>)}
       </div>
     </div>
@@ -350,7 +353,8 @@ export default function HomePage() {
   const [reviewRating, setReviewRating] = useState(5);
   const [reviewMessage, setReviewMessage] = useState("");
   const [reviewModalOpen, setReviewModalOpen] = useState(false);
-  const [welcomeAdOpen, setWelcomeAdOpen] = useState(() => sessionStorage.getItem("annai-welcome-ad-v2-seen") !== "true");
+  const [welcomeAdOpen, setWelcomeAdOpen] = useState(false);
+  const [welcomeAdConfig, setWelcomeAdConfig] = useState({ imageUrl: popupAd, linkUrl: "", alt: "Annai Jewellery special promotion", delaySeconds: 2 });
   const [quickImageModalOpen, setQuickImageModalOpen] = useState(false);
   const reviewModal = usePopupTransition(reviewModalOpen);
   const welcomeAd = usePopupTransition(welcomeAdOpen);
@@ -359,6 +363,24 @@ export default function HomePage() {
   const [renderedQuickViewIndex, setRenderedQuickViewIndex] = useState<number | null>(null);
   const [customerReviews, setCustomerReviews] = useState(initialReviews);
   const heroSwipeStart = useRef<number | null>(null);
+
+  useEffect(() => {
+    if (sessionStorage.getItem("annai-welcome-ad-v2-seen") === "true") return;
+    let active = true;
+    let timer = window.setTimeout(() => active && setWelcomeAdOpen(true), 2000);
+    websiteApi.contentBlock("home_popup").then((block) => {
+      if (!active || !block.isActive) return;
+      try {
+        const config = { ...welcomeAdConfig, ...JSON.parse(block.body || "{}") };
+        setWelcomeAdConfig(config);
+        window.clearTimeout(timer);
+        timer = window.setTimeout(() => active && setWelcomeAdOpen(true), Math.max(0, Number(config.delaySeconds || 0)) * 1000);
+      } catch { /* keep the bundled promotion as a safe fallback */ }
+    }).catch(() => { /* the bundled promotion remains available when the API is offline */ });
+    return () => { active = false; window.clearTimeout(timer); };
+  // The popup configuration is intentionally loaded once per visit.
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   useEffect(() => {
     if (quickViewIndex !== null) setRenderedQuickViewIndex(quickViewIndex);
@@ -454,7 +476,7 @@ export default function HomePage() {
     {welcomeAd.mounted && <div className={`welcome-ad-backdrop popup-backdrop-motion fixed inset-0 z-[180] grid place-items-center bg-slate-950/55 p-4 backdrop-blur-sm ${welcomeAd.active ? "is-open" : ""}`} role="dialog" aria-modal="true" aria-label="Annai Jewellery promotion" onClick={closeWelcomeAd}>
       <div className="welcome-ad popup-surface-motion relative w-fit max-w-full overflow-hidden rounded-2xl bg-transparent shadow-2xl" onClick={(event) => event.stopPropagation()}>
         <button type="button" onClick={closeWelcomeAd} className="welcome-ad-close" aria-label="Close promotion"><X /></button>
-        <img src={popupAd} alt="Annai Jewellery special promotion" className="block max-h-[82dvh] w-auto max-w-full object-contain" />
+        {welcomeAdConfig.linkUrl ? <a href={welcomeAdConfig.linkUrl}><img src={welcomeAdConfig.imageUrl || popupAd} alt={welcomeAdConfig.alt} className="block max-h-[82dvh] w-auto max-w-full object-contain" /></a> : <img src={welcomeAdConfig.imageUrl || popupAd} alt={welcomeAdConfig.alt} className="block max-h-[82dvh] w-auto max-w-full object-contain" />}
       </div>
     </div>}
 
@@ -477,32 +499,39 @@ export default function HomePage() {
       <div className="relative z-10 mx-auto flex min-h-[420px] max-w-7xl items-start px-6 pb-8 pt-24 sm:min-h-[560px] sm:items-center sm:px-10 sm:py-20 lg:min-h-[680px] lg:px-12 lg:py-24">
         <div key={activeSlide} className="jewellery-hero-content max-w-xl">
           {/* <p className="mb-4 inline-flex items-center gap-2 rounded-full border border-amber-200 bg-white/80 px-3.5 py-1.5 text-[10px] font-semibold uppercase tracking-[0.2em] text-amber-700 shadow-sm backdrop-blur sm:text-xs"><Gem className="h-3.5 w-3.5" /> {heroSlides[activeSlide].kicker}</p> */}
-          <h1 className="font-serif text-3xl font-normal leading-[1.08] tracking-[-0.02em] text-slate-900 sm:text-3xl lg:text-5xl">{heroSlides[activeSlide].title}<br/><span className="jewellery-cursive text-amber-600">{heroSlides[activeSlide].accent}</span></h1>
+          <h1 className="font-serif text-3xl font-normal leading-[1.08] tracking-[-0.02em] text-slate-900 sm:text-3xl lg:text-5xl">{heroSlides[activeSlide].title}<br /><span className="jewellery-cursive text-amber-600">{heroSlides[activeSlide].accent}</span></h1>
           <p className="mt-4 max-w-md text-sm leading-6 text-slate-700 sm:text-base">{heroSlides[activeSlide].text}</p>
           <div className="mt-6 flex flex-wrap gap-3">
-            <a href="#collections" className="hero-primary-cta inline-flex items-center gap-2 rounded-full px-7 py-3 text-sm font-medium text-white"><Sparkles className="h-4 w-4"/> Explore Collections</a>
-            <a href="tel:+919751229418" className="inline-flex items-center gap-2 rounded-full border border-amber-500 bg-white/85 px-6 py-3 text-sm font-semibold text-amber-800 shadow-sm backdrop-blur transition hover:bg-amber-600 hover:text-white"><Phone className="h-4 w-4"/> Call Us</a>
+            <a href="#collections" className="hero-primary-cta inline-flex items-center gap-2 rounded-full px-7 py-3 text-sm font-medium text-white"><Sparkles className="h-4 w-4" /> Explore Collections</a>
+            <a href="tel:+919751229418" className="inline-flex items-center gap-2 rounded-full border border-amber-500 bg-white/85 px-6 py-3 text-sm font-semibold text-amber-800 shadow-sm backdrop-blur transition hover:bg-amber-600 hover:text-white"><Phone className="h-4 w-4" /> Call Us</a>
           </div>
         </div>
       </div>
       <div className="absolute bottom-6 left-1/2 z-20 flex -translate-x-1/2 gap-2">
-        {heroSlides.map((slide, index) => <button key={slide.title} type="button" onClick={() => setActiveSlide(index)} className={`h-1.5 w-1.5 rounded-full bg-amber-600 transition-all ${index === activeSlide ? "scale-125 opacity-100" : "opacity-40"}`} aria-label={`Show banner ${index + 1}`}/>)}
+        {heroSlides.map((slide, index) => <button key={slide.title} type="button" onClick={() => setActiveSlide(index)} className={`h-1.5 w-1.5 rounded-full bg-amber-600 transition-all ${index === activeSlide ? "scale-125 opacity-100" : "opacity-40"}`} aria-label={`Show banner ${index + 1}`} />)}
       </div>
     </section>
 
     <section id="collections" className="shop-category-section relative overflow-hidden bg-white px-4 py-10 sm:px-6 sm:py-12 lg:px-10 lg:py-14">
       <div className="mx-auto max-w-7xl">
-        <div className="mb-6 text-center sm:mb-8">
-          <h2 className="text-3xl font-medium tracking-[0.04em] text-[#5a4323] sm:text-3xl">Shop by Category</h2>
-          <span className="mx-auto mt-4 block h-px w-28 bg-gradient-to-r from-transparent via-amber-500 to-transparent" />
-        </div>
+ 
+       <div className="mb-6 text-center sm:mb-7">
+        <div className="mx-auto flex max-w-2xl items-center justify-center gap-3 sm:gap-5">
+          <span className="h-px min-w-8 flex-1 bg-gradient-to-r from-transparent to-amber-400" />
+          <h2 className="shrink-0 text-[1.1rem] font-bold uppercase  text-slate-900">Shop by Category</h2>
+          <span className="h-px min-w-8 flex-1 bg-gradient-to-l from-transparent to-amber-400" />
+        </div> 
+        <Link to="/collection/products" className="mt-2 inline-flex items-center gap-1.5 text-xs font-medium text-amber-700 transition hover:text-amber-900">View all <ArrowRight className="h-3.5 w-3.5" /></Link>
+      </div>
+
+
         <div className="shop-category-grid grid gap-2 sm:gap-3 lg:gap-4">
-          {collections.map((item,index)=><Reveal key={item.title} delay={index*70} className="h-full">
+          {collections.map((item, index) => <Reveal key={item.title} delay={index * 70} className="h-full">
             <Link to={`/collection/${item.title.toLowerCase()}`} className="shop-category-card group flex h-full flex-col overflow-hidden rounded-2xl border border-amber-100 bg-[#fbf8f1] text-center shadow-sm transition duration-300 hover:-translate-y-1 hover:border-amber-300 hover:shadow-xl">
-              <div className="shop-category-image overflow-hidden"><img src={item.image} alt={`${item.title} collection`} className="h-full w-full object-cover transition duration-700 group-hover:scale-105"/></div>
+              <div className="shop-category-image overflow-hidden"><img src={item.image} alt={`${item.title} collection`} className="h-full w-full object-cover transition duration-700 group-hover:scale-105" /></div>
               <div className="bg-white px-2 py-4">
                 <h3 className="text-sm font-semibold uppercase tracking-[0.04em] text-slate-900 sm:text-base">{item.title}</h3>
-                <span className="mt-1.5 inline-flex items-center gap-1 text-[10px] text-slate-500 transition group-hover:text-amber-700 sm:text-xs">Explore <ArrowRight className="h-3 w-3"/></span>
+                <span className="mt-1.5 inline-flex items-center gap-1 text-[10px] text-slate-500 transition group-hover:text-amber-700 sm:text-xs">Explore <ArrowRight className="h-3 w-3" /></span>
               </div>
             </Link>
           </Reveal>)}
@@ -535,14 +564,14 @@ export default function HomePage() {
       <div className="mx-auto max-w-7xl">
         <div className="mb-6 flex flex-col items-center justify-center text-center sm:mb-7">
           <h2 className="font-serif text-3xl text-slate-900">What Customers Say</h2>
-          <button type="button" onClick={()=>{setReviewModalOpen(true);setReviewMessage("");}} className="mt-4 inline-flex items-center gap-2 rounded-full bg-amber-600 px-6 py-3 text-sm font-semibold text-white shadow-lg transition hover:-translate-y-0.5 hover:bg-amber-700"><Star className="h-4 w-4"/>Add Review</button>
+          <button type="button" onClick={() => { setReviewModalOpen(true); setReviewMessage(""); }} className="mt-4 inline-flex items-center gap-2 rounded-full bg-amber-600 px-6 py-3 text-sm font-semibold text-white shadow-lg transition hover:-translate-y-0.5 hover:bg-amber-700"><Star className="h-4 w-4" />Add Review</button>
         </div>
         <div>
           <div className="review-marquee">
             <div className="review-marquee-track">
               {[...customerReviews, ...customerReviews].map((review, index) => (
                 <article key={`${review.name}-${index}`} className="review-moving-card rounded-3xl border border-amber-100 bg-white p-6 shadow-sm">
-                  <div className="mb-4 flex text-amber-500">{Array.from({ length: 5 }).map((_, star) => <Star key={star} className={`h-4 w-4 ${star < review.rating ? "fill-current" : "opacity-25"}`}/>)}</div>
+                  <div className="mb-4 flex text-amber-500">{Array.from({ length: 5 }).map((_, star) => <Star key={star} className={`h-4 w-4 ${star < review.rating ? "fill-current" : "opacity-25"}`} />)}</div>
                   <blockquote className="text-sm leading-7 text-slate-600">&ldquo;{review.text}&rdquo;</blockquote>
                   <div className="mt-5 flex items-center gap-3 border-t border-amber-100 pt-4"><span className="grid h-10 w-10 place-items-center rounded-full bg-amber-100 font-semibold text-amber-700">{review.name.charAt(0).toUpperCase()}</span><div><strong className="block text-sm text-slate-900">{review.name}</strong><span className="text-xs text-slate-500">Verified customer</span></div></div>
                 </article>
@@ -553,19 +582,19 @@ export default function HomePage() {
       </div>
     </section>
 
-    {reviewModal.mounted&&<div className={`review-modal-backdrop popup-backdrop-motion fixed inset-0 z-[100] grid place-items-center overflow-y-auto bg-slate-950/45 p-4 pb-20 backdrop-blur-sm lg:pb-4 ${reviewModal.active?"is-open":""}`} role="dialog" aria-modal="true" aria-label="Add customer review" onClick={()=>setReviewModalOpen(false)}>
-      <form onSubmit={submitReview} onClick={(event)=>event.stopPropagation()} className="review-modal-card popup-surface-motion relative my-auto max-h-[calc(100dvh-110px)] w-full max-w-md overflow-y-auto rounded-3xl border border-amber-200 bg-white p-5 shadow-2xl sm:max-h-[90vh] sm:p-7">
-        <button type="button" onClick={()=>setReviewModalOpen(false)} className="absolute right-4 top-4 grid h-9 w-9 place-items-center rounded-full bg-[#fbf8f1] text-slate-900" aria-label="Close review form"><X className="h-4 w-4"/></button>
+    {reviewModal.mounted && <div className={`review-modal-backdrop popup-backdrop-motion fixed inset-0 z-[100] grid place-items-center overflow-y-auto bg-slate-950/45 p-4 pb-20 backdrop-blur-sm lg:pb-4 ${reviewModal.active ? "is-open" : ""}`} role="dialog" aria-modal="true" aria-label="Add customer review" onClick={() => setReviewModalOpen(false)}>
+      <form onSubmit={submitReview} onClick={(event) => event.stopPropagation()} className="review-modal-card popup-surface-motion relative my-auto max-h-[calc(100dvh-110px)] w-full max-w-md overflow-y-auto rounded-3xl border border-amber-200 bg-white p-5 shadow-2xl sm:max-h-[90vh] sm:p-7">
+        <button type="button" onClick={() => setReviewModalOpen(false)} className="absolute right-4 top-4 grid h-9 w-9 place-items-center rounded-full bg-[#fbf8f1] text-slate-900" aria-label="Close review form"><X className="h-4 w-4" /></button>
         <p className="text-xs font-semibold uppercase tracking-[0.22em] text-amber-600">Share Your Experience</p>
         <h3 className="mt-2 text-2xl font-medium text-slate-900">Add a review</h3>
         <label className="mt-6 block text-xs font-semibold text-slate-700">Your rating</label>
-        <div className="mt-2 flex gap-1">{Array.from({length:5}).map((_,index)=><button key={index} type="button" onClick={()=>setReviewRating(index+1)} aria-label={`${index+1} stars`} className="text-amber-500"><Star className={`h-7 w-7 ${index<reviewRating?"fill-current":"opacity-25"}`}/></button>)}</div>
+        <div className="mt-2 flex gap-1">{Array.from({ length: 5 }).map((_, index) => <button key={index} type="button" onClick={() => setReviewRating(index + 1)} aria-label={`${index + 1} stars`} className="text-amber-500"><Star className={`h-7 w-7 ${index < reviewRating ? "fill-current" : "opacity-25"}`} /></button>)}</div>
         <label className="mt-5 block text-xs font-semibold text-slate-700" htmlFor="review-name">Your name</label>
-        <input id="review-name" value={reviewName} onChange={(event)=>setReviewName(event.target.value)} maxLength={60} placeholder="Enter your name" className="mt-2 w-full rounded-2xl border border-amber-100 bg-[#fdfaf4] px-4 py-3 text-sm outline-none"/>
+        <input id="review-name" value={reviewName} onChange={(event) => setReviewName(event.target.value)} maxLength={60} placeholder="Enter your name" className="mt-2 w-full rounded-2xl border border-amber-100 bg-[#fdfaf4] px-4 py-3 text-sm outline-none" />
         <label className="mt-5 block text-xs font-semibold text-slate-700" htmlFor="review-text">Your review</label>
-        <textarea id="review-text" value={reviewText} onChange={(event)=>setReviewText(event.target.value)} maxLength={600} placeholder="Tell us about your Annai experience..." className="mt-2 min-h-32 w-full resize-none rounded-2xl border border-amber-100 bg-[#fdfaf4] px-4 py-3 text-sm outline-none"/>
-        {reviewMessage&&<p className={`mt-3 text-xs ${reviewMessage.startsWith("Thank")?"text-green-700":"text-amber-700"}`}>{reviewMessage}</p>}
-        <button type="submit" className="mt-5 inline-flex items-center justify-center gap-2 rounded-full bg-amber-600 px-6 py-2.5 text-sm font-semibold text-white shadow-lg hover:bg-amber-700"><Send className="h-4 w-4"/>Submit Review</button>
+        <textarea id="review-text" value={reviewText} onChange={(event) => setReviewText(event.target.value)} maxLength={600} placeholder="Tell us about your Annai experience..." className="mt-2 min-h-32 w-full resize-none rounded-2xl border border-amber-100 bg-[#fdfaf4] px-4 py-3 text-sm outline-none" />
+        {reviewMessage && <p className={`mt-3 text-xs ${reviewMessage.startsWith("Thank") ? "text-green-700" : "text-amber-700"}`}>{reviewMessage}</p>}
+        <button type="submit" className="mt-5 inline-flex items-center justify-center gap-2 rounded-full bg-amber-600 px-6 py-2.5 text-sm font-semibold text-white shadow-lg hover:bg-amber-700"><Send className="h-4 w-4" />Submit Review</button>
       </form>
     </div>}
 
@@ -573,27 +602,27 @@ export default function HomePage() {
       const product = allProducts[renderedQuickViewIndex];
       const gallery = [product.image];
       const productKey = `jewel-${productSlug(product.name)}`;
-      return <div className={`popup-backdrop-motion fixed inset-0 z-[80] flex items-center justify-center bg-slate-950/45 p-3 backdrop-blur-sm ${quickViewModal.active?"is-open":""}`} role="dialog" aria-modal="true" aria-label={`Quick view ${product.name}`} onClick={()=>setQuickViewIndex(null)}>
-        <div onClick={(event)=>event.stopPropagation()} className="quick-view-modal-scroll popup-surface-motion relative max-h-[94vh] w-full max-w-5xl overflow-y-auto rounded-[2rem] border border-amber-200 bg-white shadow-2xl">
-          <button type="button" onClick={() => setQuickViewIndex(null)} className="absolute right-3 top-3 z-30 grid h-9 w-9 place-items-center rounded-full border border-amber-200/80 bg-white/95 text-amber-800 shadow-[0_6px_20px_rgba(91,63,20,0.16)] backdrop-blur transition duration-200 hover:scale-105 hover:border-amber-400 hover:bg-amber-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-500 focus-visible:ring-offset-2 sm:right-4 sm:top-4" aria-label="Close quick view"><X className="h-3.5 w-3.5" strokeWidth={2}/></button>
-          <button type="button" onClick={() => moveQuickView(-1)} className="absolute left-3 top-1/3 z-30 grid h-10 w-10 place-items-center rounded-full bg-white/95 text-amber-700 shadow-lg" aria-label="Previous product"><ArrowLeft className="h-5 w-5"/></button>
-          <button type="button" onClick={() => moveQuickView(1)} className="absolute right-3 top-1/3 z-30 grid h-10 w-10 place-items-center rounded-full bg-white/95 text-amber-700 shadow-lg" aria-label="Next product"><ArrowRight className="h-5 w-5"/></button>
+      return <div className={`popup-backdrop-motion fixed inset-0 z-[80] flex items-center justify-center bg-slate-950/45 p-3 backdrop-blur-sm ${quickViewModal.active ? "is-open" : ""}`} role="dialog" aria-modal="true" aria-label={`Quick view ${product.name}`} onClick={() => setQuickViewIndex(null)}>
+        <div onClick={(event) => event.stopPropagation()} className="quick-view-modal-scroll popup-surface-motion relative max-h-[94vh] w-full max-w-5xl overflow-y-auto rounded-[2rem] border border-amber-200 bg-white shadow-2xl">
+          <button type="button" onClick={() => setQuickViewIndex(null)} className="absolute right-3 top-3 z-30 grid h-9 w-9 place-items-center rounded-full border border-amber-200/80 bg-white/95 text-amber-800 shadow-[0_6px_20px_rgba(91,63,20,0.16)] backdrop-blur transition duration-200 hover:scale-105 hover:border-amber-400 hover:bg-amber-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-500 focus-visible:ring-offset-2 sm:right-4 sm:top-4" aria-label="Close quick view"><X className="h-3.5 w-3.5" strokeWidth={2} /></button>
+          <button type="button" onClick={() => moveQuickView(-1)} className="absolute left-3 top-1/3 z-30 grid h-10 w-10 place-items-center rounded-full bg-white/95 text-amber-700 shadow-lg" aria-label="Previous product"><ArrowLeft className="h-5 w-5" /></button>
+          <button type="button" onClick={() => moveQuickView(1)} className="absolute right-3 top-1/3 z-30 grid h-10 w-10 place-items-center rounded-full bg-white/95 text-amber-700 shadow-lg" aria-label="Next product"><ArrowRight className="h-5 w-5" /></button>
           <div className="grid lg:grid-cols-[1.05fr_0.95fr]">
             <div className="relative bg-slate-50 p-5 sm:p-8">
-              <div className="absolute right-20 top-4 z-20 flex gap-2 sm:right-24"><button type="button" className="grid h-10 w-10 place-items-center rounded-full bg-white text-amber-700 shadow-lg" aria-label={`Save ${product.name}`}><Heart className="h-5 w-5"/></button><button type="button" onClick={()=>shareProduct(product)} className="grid h-10 w-10 place-items-center rounded-full bg-white text-amber-700 shadow-lg" aria-label={`Share ${product.name}`}><Share2 className="h-5 w-5"/></button></div>
+              <div className="absolute right-20 top-4 z-20 flex gap-2 sm:right-24"><button type="button" className="grid h-10 w-10 place-items-center rounded-full bg-white text-amber-700 shadow-lg" aria-label={`Save ${product.name}`}><Heart className="h-5 w-5" /></button><button type="button" onClick={() => shareProduct(product)} className="grid h-10 w-10 place-items-center rounded-full bg-white text-amber-700 shadow-lg" aria-label={`Share ${product.name}`}><Share2 className="h-5 w-5" /></button></div>
               <ZoomableProductImage src={gallery[quickImage]} alt={product.name} onOpen={() => setQuickImageModalOpen(true)} className="h-[360px] rounded-2xl bg-white sm:h-[520px]" />
-              <div className="mt-4 grid grid-cols-3 gap-3">{gallery.map((image, index) => <button type="button" key={`${image}-${index}`} onClick={() => setQuickImage(index)} className={`h-24 overflow-hidden rounded-xl border-2 bg-white ${quickImage === index ? "border-amber-500" : "border-transparent"}`}><img src={image} alt={`${product.name} view ${index + 1}`} className="h-full w-full object-contain"/></button>)}</div>
+              <div className="mt-4 grid grid-cols-3 gap-3">{gallery.map((image, index) => <button type="button" key={`${image}-${index}`} onClick={() => setQuickImage(index)} className={`h-24 overflow-hidden rounded-xl border-2 bg-white ${quickImage === index ? "border-amber-500" : "border-transparent"}`}><img src={image} alt={`${product.name} view ${index + 1}`} className="h-full w-full object-contain" /></button>)}</div>
             </div>
             <div className="p-6 sm:p-9">
               <p className="text-xs font-semibold uppercase tracking-[0.2em] text-amber-600">{product.material}</p>
               <h2 className="mt-3 pr-10 text-3xl font-medium text-slate-900">{product.name}</h2>
-              <div className="mt-3 flex items-center gap-2 text-sm"><div className="flex text-amber-500">{[0,1,2,3,4].map((star) => <Star key={star} className="h-4 w-4 fill-current"/>)}</div><span className="text-slate-500">12 reviews</span></div>
-              <div className="mt-5 flex flex-wrap items-center justify-between gap-3"><p className="text-2xl font-semibold text-slate-900"><Price value={product.price}/></p>{cart[productKey] ? <div className="flex h-11 items-center overflow-hidden rounded-full bg-amber-600 text-white shadow-sm"><button type="button" onClick={()=>changeJewelleryQuantity(product,-1)} className="grid h-11 w-11 place-items-center hover:bg-amber-700" aria-label="Decrease cart quantity"><Minus className="h-4 w-4"/></button><span className="min-w-8 text-center font-semibold">{cart[productKey]}</span><button type="button" onClick={()=>changeJewelleryQuantity(product,1)} className="grid h-11 w-11 place-items-center hover:bg-amber-700" aria-label="Increase cart quantity"><Plus className="h-4 w-4"/></button></div> : <button type="button" onClick={()=>changeJewelleryQuantity(product,1)} className="inline-flex h-11 items-center gap-2 rounded-full bg-amber-600 px-5 text-sm font-semibold text-white hover:bg-amber-700"><Plus className="h-4 w-4"/>Add</button>}</div><p className="mt-1 text-xs text-slate-500">3% GST will be added at checkout</p>
+              <div className="mt-3 flex items-center gap-2 text-sm"><div className="flex text-amber-500">{[0, 1, 2, 3, 4].map((star) => <Star key={star} className="h-4 w-4 fill-current" />)}</div><span className="text-slate-500">12 reviews</span></div>
+              <div className="mt-5 flex flex-wrap items-center justify-between gap-3"><p className="text-2xl font-semibold text-slate-900"><Price value={product.price} /></p>{cart[productKey] ? <div className="flex h-11 items-center overflow-hidden rounded-full bg-amber-600 text-white shadow-sm"><button type="button" onClick={() => changeJewelleryQuantity(product, -1)} className="grid h-11 w-11 place-items-center hover:bg-amber-700" aria-label="Decrease cart quantity"><Minus className="h-4 w-4" /></button><span className="min-w-8 text-center font-semibold">{cart[productKey]}</span><button type="button" onClick={() => changeJewelleryQuantity(product, 1)} className="grid h-11 w-11 place-items-center hover:bg-amber-700" aria-label="Increase cart quantity"><Plus className="h-4 w-4" /></button></div> : <button type="button" onClick={() => changeJewelleryQuantity(product, 1)} className="inline-flex h-11 items-center gap-2 rounded-full bg-amber-600 px-5 text-sm font-semibold text-white hover:bg-amber-700"><Plus className="h-4 w-4" />Add</button>}</div><p className="mt-1 text-xs text-slate-500">3% GST will be added at checkout</p>
               <div className="mt-5 space-y-2 rounded-2xl bg-[#fbf8f1] p-4 text-sm"><p><strong>3 sold</strong> in the last 20 hours</p><p>Vendor: <span className="text-amber-700">Annai Jewellery</span></p><p>Availability: <strong className="text-green-700">In Stock</strong></p><p>Product type: Jewellery</p><p className="font-semibold text-amber-700">Hurry! Only 8 pieces left.</p></div>
               <div className="mt-5"><p className="text-sm font-semibold">Finish: <span className="text-slate-500">24K Gold Plated</span></p></div>
               <Link to={`/product/${productSlug(product.name)}`} className="mt-5 block rounded-full bg-[#D4AF37] px-4 py-3 text-center text-sm font-semibold text-white">View full details</Link>
               {cartNotice && <p className="mt-3 rounded-xl bg-green-50 p-3 text-sm text-green-700">{cartNotice}</p>}
-              <p className="mt-5 text-center text-xs text-slate-500"><Eye className="mr-1 inline h-4 w-4"/>283 customers are viewing this product</p>
+              <p className="mt-5 text-center text-xs text-slate-500"><Eye className="mr-1 inline h-4 w-4" />283 customers are viewing this product</p>
             </div>
           </div>
         </div>

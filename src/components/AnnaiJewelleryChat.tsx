@@ -13,7 +13,7 @@ type ChatMessage = {
 
 type LeadStep = "idle" | "name" | "phone" | "goal";
 
-const showroomMap = "https://www.google.com/maps/dir//Annai+Sliver+Jewellery,+Shop+No+8,+Old+Bus+Stand,+Padmanabhapuram,+Tamil+Nadu+629175/@8.2073794,77.3040963,1915m/data=!3m1!1e3!4m8!4m7!1m0!1m5!1m1!1s0x3b04f9c3ad0b657f:0x9c9047a12495cad7!2m2!1d77.3202801!2d8.2407514?entry=ttu&g_ep=EgoyMDI2MDcyMi4wIKXMDSoASAFQAw%3D%3D";
+const showroomMap = "https://www.google.com/maps/dir//Annai+Sliver+Jewellery,+Shop+No+8,+Old+Bus+Stand,+Thucklay,+Tamil+Nadu+629175/@8.2073794,77.3040963,1915m/data=!3m1!1e3!4m8!4m7!1m0!1m5!1m1!1s0x3b04f9c3ad0b657f:0x9c9047a12495cad7!2m2!1d77.3202801!2d8.2407514?entry=ttu&g_ep=EgoyMDI2MDcyMi4wIKXMDSoASAFQAw%3D%3D";
 
 const quickAnswers: Record<string, ChatMessage> = {
   collections: {
@@ -40,7 +40,7 @@ const quickAnswers: Record<string, ChatMessage> = {
   location: {
     id: 0,
     from: "bot",
-    text: "Visit Annai Jewellery at Shop No 8, Old Bus Stand, Padmanabhapuram, Tamil Nadu 629175. We are open Monday-Saturday 9 AM-9 PM and closed on Sunday.",
+    text: "Visit Annai Jewellery at Shop No 8, Old Bus Stand, Thucklay, Tamil Nadu 629175. We are open Monday-Saturday 9 AM-9 PM and closed on Sunday.",
     actions: [{ label: "Showroom directions", href: showroomMap }],
   },
   contact: {

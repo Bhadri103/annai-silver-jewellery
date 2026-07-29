@@ -124,7 +124,7 @@ const AuthPage = ({ initialMode }: { initialMode?: AuthMode }) => {
         setMessage(data.devOtp ? `${data.message} Dev OTP: ${data.devOtp}` : data.message);
       } else {
         if (clean(form.email).toLowerCase() === "bhadri@gmail.com" && form.password === "bhadri") {
-          handleSuccess({ id: "demo-bhadri", name: "Bhadri", email: "bhadri@gmail.com", phone: "9751229418", plan: "Annai Customer", goal: "Silver jewellery", address: "Padmanabhapuram, Tamil Nadu", token: "demo-bhadri-token" }, "Login successful. Opening your profile...");
+          handleSuccess({ id: "demo-bhadri", name: "Bhadri", email: "bhadri@gmail.com", phone: "9751229418", plan: "Annai Customer", goal: "Silver jewellery", address: "Thucklay, Tamil Nadu", token: "demo-bhadri-token" }, "Login successful. Opening your profile...");
           return;
         }
         const user = await websiteApi.login({ loginIdentifier: clean(form.email), password: form.password });
@@ -263,12 +263,14 @@ const AuthPage = ({ initialMode }: { initialMode?: AuthMode }) => {
               )}
             </div>
 
-            <p className="mt-4 text-center text-xs text-slate-500 sm:text-sm">
-              {mode === "login" ? "New to Annai?" : "Already have an account?"}{" "}
-              <button onClick={() => setMode(mode === "login" ? "register" : "login")} className="font-semibold text-amber-600">
-                {mode === "login" ? "Create account" : "Login"}
-              </button>
-            </p>
+          <p className="mt-4 text-center text-xs text-slate-500 sm:text-sm">
+  <button
+    onClick={() => setMode(mode === "login" ? "register" : "login")}
+    className="font-semibold text-amber-600"
+  >
+    {mode === "login" ? "Create Account" : "Login"}
+  </button>
+</p>
             {mode === "login" && (
               <p className="mt-2 text-center text-xs sm:text-sm">
                 <button onClick={() => { setMode("forgot"); setErrors({}); setMessage(""); }} className="font-semibold text-amber-600">

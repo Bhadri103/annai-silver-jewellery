@@ -18,10 +18,14 @@ import ProductDetailPage from "./pages/ProductDetailPage";
 import CollectionPage from "./pages/CollectionPage";
 import SupplementCartPage from "./pages/SupplementCartPage";
 import SupplementCheckoutPage from "./pages/SupplementCheckoutPage";
+import AdminPage from "./pages/AdminPage";
 
 const AppContent = () => {
   const location = useLocation();
   const navigate = useNavigate();
+  if (location.pathname.startsWith("/admin")) {
+    return <><ScrollToTop /><Routes><Route path="/admin/*" element={<AdminPage />} /></Routes></>;
+  }
   const showBackButton = location.pathname !== "/"
     && location.pathname !== "/cart"
     && !location.pathname.startsWith("/product/")
@@ -45,7 +49,9 @@ const AppContent = () => {
         </Routes>
         </div>
       </main>
-      <Footer /><AnnaiJewelleryChat /><WhatsAppButton />
+      <Footer />
+      {/* <AnnaiJewelleryChat /> */}
+      {/* <WhatsAppButton /> */}
     </div>
   </>;
 };

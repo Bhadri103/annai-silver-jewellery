@@ -129,6 +129,10 @@ export type CouponValidation = {
 };
 
 export const websiteApi = {
+  contentBlock: (key: string) =>
+    request<{ key: string; title: string; body: string; isActive: boolean }>(
+      `/content-blocks/${encodeURIComponent(key)}`,
+    ),
   products: () => request<{ products: WebsiteProduct[] }>("/products?limit=100"),
   gallery: () => request<{ galleryItems: WebsiteGalleryItem[] }>("/gallery"),
   blogs: (params = "page=1&limit=60") =>
