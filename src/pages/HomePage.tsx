@@ -533,9 +533,9 @@ export default function HomePage() {
 
     <section className="customer-reviews-section bg-[#fbf8f1] px-4 py-10 sm:px-6 sm:py-12 lg:px-10 lg:py-14">
       <div className="mx-auto max-w-7xl">
-        <div className="mb-6 flex flex-wrap items-end justify-between gap-4 sm:mb-7">
-          <SectionTitle title="What Customers Say" text="Read genuine experiences or tell us about the jewellery and service you received." />
-          <button type="button" onClick={()=>{setReviewModalOpen(true);setReviewMessage("");}} className="inline-flex items-center gap-2 rounded-full bg-amber-600 px-6 py-3 text-sm font-semibold text-white shadow-lg transition hover:-translate-y-0.5 hover:bg-amber-700"><Star className="h-4 w-4"/>Add Review</button>
+        <div className="mb-6 flex flex-col items-center justify-center text-center sm:mb-7">
+          <h2 className="font-serif text-3xl text-slate-900">What Customers Say</h2>
+          <button type="button" onClick={()=>{setReviewModalOpen(true);setReviewMessage("");}} className="mt-4 inline-flex items-center gap-2 rounded-full bg-amber-600 px-6 py-3 text-sm font-semibold text-white shadow-lg transition hover:-translate-y-0.5 hover:bg-amber-700"><Star className="h-4 w-4"/>Add Review</button>
         </div>
         <div>
           <div className="review-marquee">
