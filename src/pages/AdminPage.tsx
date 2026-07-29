@@ -258,7 +258,17 @@ export default function AdminPage() {
   const [menu, setMenu] = useState(false);
   const [notice, setNotice] = useState<Notice>(null);
   const notify = useCallback((next: Notice) => setNotice(next), []);
-  useEffect(() => { adminApi.profile().then(setProfile).catch((e) => { if (!(e instanceof AdminApiError) || e.status !== 401) setNotice({ type: "error", text: e.message }); }).finally(() => setChecking(false)); }, []);
+  useEffect(() => {
+    adminApi.profile()
+      .then(setProfile)
+      .catch((error) => {
+        // A missing session or an unavailable API is expected on the
+        // frontend-only GitHub Pages preview. Keep the login screen clean.
+        if (error instanceof AdminApiError && (error.status === 0 || error.status === 401)) return;
+        setNotice({ type: "error", text: error instanceof Error ? error.message : "Unable to check the admin session." });
+      })
+      .finally(() => setChecking(false));
+  }, []);
   if (checking) return <main className="grid min-h-screen place-items-center bg-amber-50"><LoaderCircle className="h-8 w-8 animate-spin text-amber-600" /></main>;
   if (!profile) return <><Message notice={notice} clear={() => setNotice(null)} /><AdminLogin onLogin={setProfile} /></>;
   const logout = async () => { try { await adminApi.logout(); } finally { setProfile(null); } };
