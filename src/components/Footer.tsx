@@ -9,12 +9,10 @@ const shopLinks = [
   ["New Arrivals", "/collection/new-arrivals"],
   ["Best Sellers", "/collection/best-sellers"],
   ["Bangles", "/collection/bangles"],
-  ["All Jewellery", "/collection/indian-jewellery"],
+  ["All Jewellery", "/collection/products"],
 ];
 
 const customerLinks = [
-  ["About Us", "/about"],
-  ["Contact Us", "/contact"],
   ["My Account", "/profile"],
   ["Wishlist", "/wishlist"],
 ];

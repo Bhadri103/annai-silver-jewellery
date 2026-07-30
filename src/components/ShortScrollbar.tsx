@@ -3,7 +3,7 @@ import { useEffect, useRef, useState } from "react";
 export default function ShortScrollbar() {
   const trackRef = useRef<HTMLDivElement>(null);
   const [thumbTop, setThumbTop] = useState(0);
-  const thumbHeight = 150;
+  const thumbHeight = 72;
 
   useEffect(() => {
     const update = () => {
@@ -43,8 +43,8 @@ export default function ShortScrollbar() {
   };
 
   return (
-    <div ref={trackRef} className="annai-short-scrollbar fixed bottom-[72px] right-1 top-[82px] z-[70] hidden w-[5px] rounded-full bg-slate-100 lg:block" aria-hidden="true">
-      <button type="button" tabIndex={-1} onPointerDown={startDrag} className="absolute left-0 w-[5px] cursor-grab rounded-full bg-slate-300 shadow-sm transition-colors hover:bg-slate-400 active:cursor-grabbing" style={{ height: thumbHeight, transform: `translateY(${thumbTop}px)` }} />
+    <div ref={trackRef} className="annai-short-scrollbar fixed bottom-[72px] right-1 top-[82px] z-[70] hidden w-[3px] rounded-full bg-slate-100 lg:block" aria-hidden="true">
+      <button type="button" tabIndex={-1} onPointerDown={startDrag} className="absolute left-0 w-[3px] cursor-grab rounded-full bg-slate-300 shadow-sm transition-colors hover:bg-slate-400 active:cursor-grabbing" style={{ height: thumbHeight, transform: `translateY(${thumbTop}px)` }} />
     </div>
   );
 }

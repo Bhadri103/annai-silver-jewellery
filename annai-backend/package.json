@@ -1,0 +1,40 @@
+{
+  "name": "annai-jewellery-backend",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "node src/server.js",
+    "dev:watch": "nodemon src/server.js",
+    "start": "node src/server.js",
+    "seed": "node src/seed.js && node src/import-frontend-catalog.js",
+    "seed:catalog": "node src/import-frontend-catalog.js",
+    "validate:catalog": "node src/import-frontend-catalog.js --dry-run",
+    "verify:catalog": "node src/verify-catalog.js",
+    "verify:admin": "node src/verify-admin.js",
+    "verify:commerce": "node src/verify-commerce.js",
+    "verify:crud": "node src/verify-crud.js",
+    "populate:category-images": "node src/populate-category-images.js",
+    "seed:home-banners": "node src/seed-home-banners.js",
+    "test": "node test/security-regression.test.js",
+    "backup": "node src/backup-db.js",
+    "seed:blogs": "node src/seed-blogs.js"
+  },
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "express-rate-limit": "^7.5.0",
+    "helmet": "^8.0.0",
+    "morgan": "^1.10.0",
+    "mysql2": "^3.12.0",
+    "nodemailer": "^9.0.3",
+    "pdf-lib": "^1.17.1",
+    "qrcode": "^1.5.4",
+    "sharp": "^0.35.3"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.9"
+  }
+}

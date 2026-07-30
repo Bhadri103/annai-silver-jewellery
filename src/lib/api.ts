@@ -1,15 +1,23 @@
-const API_BASE_URL =
-  import.meta.env.VITE_API_BASE_URL || "http://localhost:3000/api";
+import { API_BASE_URL } from "./config";
+const API_ORIGIN = new URL(API_BASE_URL, window.location.origin).origin;
+
+function withAbsoluteAssets<T>(value: T): T {
+  if (typeof value === "string" && value.startsWith("/uploads/")) return `${API_ORIGIN}${value}` as T;
+  if (Array.isArray(value)) return value.map(withAbsoluteAssets) as T;
+  if (value && typeof value === "object") {
+    return Object.fromEntries(Object.entries(value).map(([key, item]) => [key, withAbsoluteAssets(item)])) as T;
+  }
+  return value;
+}
 
 async function request<T>(path: string, options: RequestInit = {}): Promise<T> {
   const hasBody = options.body !== undefined && options.body !== null;
-  const userToken = localStorage.getItem("annai_user_token");
   const response = await fetch(`${API_BASE_URL}${path}`, {
     ...options,
+    credentials: "include",
     cache: "no-store",
     headers: {
       ...(hasBody ? { "Content-Type": "application/json" } : {}),
-      ...(userToken ? { Authorization: `Bearer ${userToken}` } : {}),
       ...(options.headers || {}),
     },
   });
@@ -18,12 +26,13 @@ async function request<T>(path: string, options: RequestInit = {}): Promise<T> {
   if (!response.ok) {
     throw new Error(data.message || "Request failed");
   }
-  return data as T;
+  return withAbsoluteAssets(data as T);
 }
 
 export type WebsiteProduct = {
   id: number | string;
   name: string;
+  slug?: string;
   category: string;
   goal: string;
   flavor: string;
@@ -33,7 +42,20 @@ export type WebsiteProduct = {
   inStock?: boolean;
   rating: number;
   image: string;
+  imageUrl?: string;
+  images?: string[];
+  description?: string;
+  tagline?: string;
+  material?: string;
+  purity?: string;
+  weight?: string;
+  relatedProductIds?: string[];
+  reviews?: Array<{ name: string; rating: number; text: string }>;
+  reviewCount?: number;
+  comparePrice?: number;
+  isFeatured?: boolean;
 };
+export type WebsiteCategory = { id: number; name: string; slug: string; imageUrl: string; productCount: number };
 
 export type WebsiteTestimonial = {
   id: number | string;
@@ -84,9 +106,17 @@ export type WebsiteUser = {
   email: string;
   phone?: string;
   plan?: string;
-  goal?: string;
   address?: string;
-  token: string;
+  token?: string;
+};
+
+export type WebsiteAddress = {
+  id: number;
+  label: string;
+  address: string;
+  isDefault: boolean;
+  createdAt?: string;
+  updatedAt?: string;
 };
 
 export type WebsiteOrder = {
@@ -107,6 +137,7 @@ export type WebsiteOrder = {
   customerName?: string;
   customerEmail?: string;
   customerPhone?: string;
+  items?: Array<{ id: number; productId: number | null; productName: string; sku?: string; unitPrice: number; quantity: number; lineTotal: number; productSnapshot?: { image?: string } }>;
 };
 
 export type PhonePeInitResponse = {
@@ -133,7 +164,9 @@ export const websiteApi = {
     request<{ key: string; title: string; body: string; isActive: boolean }>(
       `/content-blocks/${encodeURIComponent(key)}`,
     ),
-  products: () => request<{ products: WebsiteProduct[] }>("/products?limit=100"),
+  products: (params = "page=1&limit=100") => request<{ products: WebsiteProduct[]; total: number; currentPage: number; totalPages: number }>(`/products?${params}`),
+  product: (idOrSlug: string | number) => request<WebsiteProduct>(`/products/${encodeURIComponent(idOrSlug)}`),
+  categories: () => request<{ categories: WebsiteCategory[] }>("/categories"),
   gallery: () => request<{ galleryItems: WebsiteGalleryItem[] }>("/gallery"),
   blogs: (params = "page=1&limit=60") =>
     request<{
@@ -212,10 +245,31 @@ export const websiteApi = {
       method: "POST",
       body: JSON.stringify(payload),
     }),
+  logout: () => request<{ message: string }>("/auth/logout", { method: "POST" }),
   profile: () => request<WebsiteUser>("/me"),
   updateProfile: (payload: unknown) =>
     request<WebsiteUser>("/me", {
       method: "PUT",
+      body: JSON.stringify(payload),
+    }),
+  addresses: () => request<{ addresses: WebsiteAddress[] }>("/me/addresses"),
+  createAddress: (payload: unknown) =>
+    request<WebsiteAddress>("/me/addresses", {
+      method: "POST",
+      body: JSON.stringify(payload),
+    }),
+  updateAddress: (id: string | number, payload: unknown) =>
+    request<WebsiteAddress>(`/me/addresses/${encodeURIComponent(id)}`, {
+      method: "PUT",
+      body: JSON.stringify(payload),
+    }),
+  deleteAddress: (id: string | number) =>
+    request<{ message: string }>(`/me/addresses/${encodeURIComponent(id)}`, {
+      method: "DELETE",
+    }),
+  changePassword: (payload: unknown) =>
+    request<{ message: string }>("/me/change-password", {
+      method: "POST",
       body: JSON.stringify(payload),
     }),
   myOrders: (params = "page=1&limit=20") =>

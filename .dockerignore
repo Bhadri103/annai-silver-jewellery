@@ -1,0 +1,12 @@
+.git
+.github
+.agents
+.codex
+node_modules
+dist
+annai-backend/node_modules
+annai-backend/.env
+annai-backend/uploads
+annai-fd-orginal
+*.zip
+*.log

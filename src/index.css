@@ -2,6 +2,78 @@
 @tailwind components;
 @tailwind utilities;
 
+@keyframes annai-marquee-scroll {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-25%);
+  }
+}
+
+.annai-marquee-track {
+  animation: annai-marquee-scroll 18s linear infinite;
+  will-change: transform;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .annai-marquee-track {
+    animation: none;
+    justify-content: center;
+    min-width: 100%;
+  }
+
+  .annai-marquee-track > span:not(:first-child) {
+    display: none;
+  }
+}
+
+/* Admin spacing and compact control system */
+.admin-shell > div > main {
+  padding: 2.5rem;
+  padding-top: calc(84px + 2.5rem);
+}
+
+.admin-shell button,
+.admin-shell a {
+  -webkit-tap-highlight-color: transparent;
+}
+
+.admin-shell > div > header button,
+.admin-shell > div > header a {
+  height: 2.25rem;
+  border-radius: 0.625rem;
+}
+
+.admin-shell aside nav button {
+  padding: 0.625rem 0.75rem;
+  font-size: 0.75rem;
+}
+
+.admin-shell main button[class*="py-3"] {
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+  font-size: 0.75rem;
+}
+
+.admin-shell main button[class*="w-full"] {
+  width: auto;
+}
+
+@media (max-width: 1023px) {
+  .admin-shell > div > main {
+    padding: 1.5rem;
+    padding-top: calc(84px + 1.5rem);
+  }
+}
+
+@media (max-width: 639px) {
+  .admin-shell > div > main {
+    padding: 1rem;
+    padding-top: calc(84px + 1rem);
+  }
+}
+
 html,
 body,
 #root {
@@ -39,35 +111,6 @@ body,
 
 .theme-dark .theme-logo-dark {
     display: block;
-}
-
-.site-back-row {
-    position: relative;
-    z-index: 10;
-    width: 100%;
-    padding: 1rem 1rem 0;
-}
-
-.site-back-button {
-    color: #D4AF37;
-    background: rgba(255, 255, 255, 0.94);
-    border-color: rgba(15, 23, 42, 0.12);
-    backdrop-filter: blur(14px);
-}
-
-.site-back-button:hover {
-    color: #D4AF37;
-    border-color: rgba(184, 135, 44, 0.35);
-}
-
-.theme-dark .site-back-button {
-    color: #f8fafc;
-    background: rgba(17, 17, 17, 0.94);
-    border-color: rgba(255, 255, 255, 0.12);
-}
-
-.theme-dark .site-back-button:hover {
-    color: #d6aa54;
 }
 
 .program-logo-stage {
@@ -1408,7 +1451,7 @@ input[type="number"] {
 .admin-shell {
     color: #D4AF37;
     background: linear-gradient(180deg, rgba(184, 135, 44, 0.05), transparent 260px), #f7f7f7;
-    overflow-x: hidden;
+    overflow-x: clip;
     font-size: 14px;
 }
 
@@ -1575,21 +1618,109 @@ html.admin-scrollbars-hidden .admin-shell *::-webkit-scrollbar {
     overscroll-behavior: contain;
 }
 
+.admin-shell > div > header {
+    position: fixed;
+    top: 0;
+    right: 0;
+    left: 0;
+    z-index: 30;
+}
+
+@media (min-width: 1024px) {
+    .admin-shell > div > header {
+        left: 280px;
+    }
+}
+
 .admin-modal-header,
 .admin-modal-footer {
     background: rgba(255, 255, 255, 0.98);
     backdrop-filter: blur(14px);
 }
 
+.admin-dialog-backdrop {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: clamp(0.75rem, 2.5vw, 2rem);
+    overflow: hidden;
+}
+
+.admin-dialog-surface {
+    display: flex;
+    max-height: min(calc(100dvh - 2rem), 56rem);
+    flex-direction: column;
+    margin: auto;
+    border-radius: 1.25rem;
+    animation: admin-dialog-in 240ms cubic-bezier(0.22, 1, 0.36, 1) both;
+    isolation: isolate;
+}
+
+.admin-dialog-body {
+    min-height: 0;
+    flex: 1 1 auto;
+    overflow-y: auto;
+    overflow-x: hidden;
+    overscroll-behavior: contain;
+    scroll-padding-block: 5rem 9rem;
+}
+
+.admin-dialog-body select {
+    max-width: 100%;
+    color-scheme: light;
+}
+
+@keyframes admin-dialog-in {
+    from {
+        opacity: 0;
+        transform: translate3d(0, 18px, 0) scale(0.985);
+    }
+    to {
+        opacity: 1;
+        transform: translate3d(0, 0, 0) scale(1);
+    }
+}
+
+@media (max-width: 639px) {
+    .admin-dialog-backdrop {
+        align-items: center;
+        padding: 0.5rem;
+    }
+
+    .admin-dialog-surface {
+        width: 100%;
+        max-height: calc(100dvh - 1rem);
+        margin: auto;
+        border-radius: 1rem;
+    }
+
+    .admin-dialog-body {
+        padding-bottom: max(1.5rem, env(safe-area-inset-bottom));
+        scroll-padding-block: 4.5rem 11rem;
+    }
+}
+
 .admin-modal-body {
     -webkit-overflow-scrolling: touch;
-    scrollbar-width: none;
+    scrollbar-width: thin;
+    scrollbar-color: #d4af37 transparent;
 }
 
 .admin-modal-body::-webkit-scrollbar {
-    width: 0;
-    height: 0;
-    display: none;
+    width: 3px;
+    height: 3px;
+}
+
+.admin-modal-body::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.admin-modal-body::-webkit-scrollbar-thumb {
+    border-radius: 999px;
+    background: #d4af37;
 }
 
 .admin-notification-panel {
@@ -2761,7 +2892,7 @@ html.admin-scrollbars-hidden .admin-shell *::-webkit-scrollbar {
     }
 }
 
-/* Annai Jewellery colour theme ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â existing homepage layout remains unchanged. */
+/* Annai Jewellery colour theme — existing homepage layout remains unchanged. */
 :root {
     --annai-gold: #D4AF37;
     --annai-gold-dark: #D4AF37;
@@ -2858,7 +2989,11 @@ body,
 
 header {
     border-color: #eee4d2 !important;
-    background: rgba(255, 255, 255, 0.96) !important;
+    background: #ffffff !important;
+    background-image: none !important;
+    opacity: 1 !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
 }
 
 .site-footer {
@@ -2999,12 +3134,6 @@ select:focus {
     width: 0 !important;
     height: 0 !important;
   }
-}
-
-@media (max-width: 640px) {
-    .jewellery-hero-slider .jewellery-hero-slide img {
-        object-position: 63% center !important;
-    }
 }
 
 .shop-category-section {
@@ -3330,6 +3459,94 @@ body,
 
 *::-webkit-scrollbar-corner {
     background: #f8fafc;
+}
+
+/* Compact admin scrolling and explicit status colours. */
+.admin-shell,
+.admin-shell * {
+    scrollbar-width: thin;
+    scrollbar-color: #cbd5e1 transparent;
+}
+
+.admin-shell *::-webkit-scrollbar {
+    width: 3px;
+    height: 3px;
+}
+
+.admin-shell *::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.admin-shell *::-webkit-scrollbar-thumb {
+    min-height: 32px;
+    border: 0;
+    border-radius: 999px;
+    background: #cbd5e1;
+}
+
+.admin-status-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 1.65rem;
+    white-space: nowrap;
+    border: 1px solid transparent;
+    border-radius: 999px;
+    padding: 0.28rem 0.65rem;
+    font-size: 0.625rem;
+    font-weight: 700;
+    line-height: 1;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    box-shadow: none !important;
+    text-shadow: none !important;
+}
+
+.admin-status-pending { color: #a16207 !important; border-color: #fde68a !important; background: #fffbeb !important; }
+.admin-status-processing { color: #1d4ed8 !important; border-color: #bfdbfe !important; background: #eff6ff !important; }
+.admin-status-shipped { color: #6d28d9 !important; border-color: #ddd6fe !important; background: #f5f3ff !important; }
+.admin-status-delivered { color: #047857 !important; border-color: #a7f3d0 !important; background: #ecfdf5 !important; }
+.admin-status-paid { color: #0f766e !important; border-color: #99f6e4 !important; background: #f0fdfa !important; }
+.admin-status-awaiting { color: #c2410c !important; border-color: #fed7aa !important; background: #fff7ed !important; }
+.admin-status-approved { color: #15803d !important; border-color: #bbf7d0 !important; background: #f0fdf4 !important; }
+.admin-status-visible { color: #0e7490 !important; border-color: #a5f3fc !important; background: #ecfeff !important; }
+.admin-status-active { color: #047857 !important; border-color: #a7f3d0 !important; background: #ecfdf5 !important; }
+.admin-status-hidden { color: #be123c !important; border-color: #fecdd3 !important; background: #fff1f2 !important; }
+.admin-status-inactive { color: #475569 !important; border-color: #e2e8f0 !important; background: #f1f5f9 !important; }
+.admin-status-cancelled,
+.admin-status-rejected,
+.admin-status-failed { color: #b91c1c !important; border-color: #fecaca !important; background: #fef2f2 !important; }
+.admin-status-archived { color: #52525b !important; border-color: #e4e4e7 !important; background: #f4f4f5 !important; }
+.admin-status-refunded { color: #a21caf !important; border-color: #f5d0fe !important; background: #fdf4ff !important; }
+.admin-status-default { color: #475569 !important; border-color: #e2e8f0 !important; background: #f8fafc !important; }
+
+.admin-page-enter {
+    animation: admin-page-in 360ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.admin-page-header--merged {
+    position: relative;
+    z-index: 1;
+    border-bottom-color: #f1dfb5;
+}
+
+.admin-page-header--merged + section,
+.admin-page-header--merged + div,
+.admin-page-header--merged + form {
+    border-top-width: 0 !important;
+    border-top-left-radius: 0 !important;
+    border-top-right-radius: 0 !important;
+}
+
+@keyframes admin-page-in {
+    from {
+        opacity: 0;
+        transform: translate3d(0, 10px, 0);
+    }
+    to {
+        opacity: 1;
+        transform: translate3d(0, 0, 0);
+    }
 }
 
 /* Final bright pure-gold normalization: no bronze or dark-gold UI accents. */
@@ -3720,22 +3937,45 @@ html {
   animation: site-page-in 480ms cubic-bezier(0.22, 1, 0.36, 1) backwards;
 }
 
-.review-modal-backdrop {
-  animation: review-backdrop-in 260ms ease-out both;
+.review-modal-backdrop.popup-backdrop-motion {
+  transition:
+    opacity 440ms ease,
+    visibility 0s linear 480ms;
 }
 
-.review-modal-card {
-  animation: review-card-in 420ms cubic-bezier(0.22, 1, 0.36, 1) both;
+.review-modal-backdrop .popup-surface-motion {
+  transition:
+    opacity 360ms ease,
+    transform 480ms cubic-bezier(0.22, 1, 0.36, 1);
 }
 
-@keyframes review-backdrop-in {
-  from { opacity: 0; }
-  to { opacity: 1; }
+.storefront-page-header {
+  margin-bottom: 1.25rem;
 }
 
-@keyframes review-card-in {
-  from { opacity: 0; transform: translateY(24px) scale(0.96); }
-  to { opacity: 1; transform: translateY(0) scale(1); }
+.storefront-page-kicker {
+  color: #c58f00;
+  font-size: 0.68rem;
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+}
+
+.storefront-page-title {
+  margin-top: 0.5rem;
+  color: #0f172a;
+  font-size: clamp(1rem, 4vw, 1.875rem);
+  font-weight: 600;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+}
+
+.storefront-page-copy {
+  margin-top: 0.5rem;
+  color: #64748b;
+  font-size: 0.875rem;
+  line-height: 1.5;
 }
 
 @keyframes site-page-in {
@@ -3758,11 +3998,24 @@ html {
     animation: none;
   }
 
+  .admin-page-enter {
+    animation: none;
+  }
+
+  .admin-dialog-surface {
+    animation: none;
+  }
+
   .site-card-reveal,
   .site-card-reveal.site-card-visible {
     opacity: 1;
     transform: none;
     transition: none;
+  }
+
+  .review-modal-backdrop.popup-backdrop-motion,
+  .review-modal-backdrop .popup-surface-motion {
+    transition-duration: 1ms;
   }
 }
 /* Elegant jewellery accents with reliable cursive fallbacks on every device. */

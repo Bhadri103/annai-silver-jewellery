@@ -1,39 +1,45 @@
 import { useState } from "react";
 import type { ReactNode } from "react";
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
-import { KeyRound, Loader2, Lock, Mail, Phone, UserRound } from "lucide-react";
+import { Eye, EyeOff, KeyRound, Loader2, Lock, Mail, Phone, UserRound } from "lucide-react";
 import logo from "../assets/logo.png";
 import heroEditorial from "../assets/jewellery/hero-editorial.png";
 import { websiteApi, type WebsiteUser } from "../lib/api";
+import { syncCartWithAccount } from "../lib/cart";
 import { clean, isEmail, isName, isPhone, limitPhoneDigits, maxLength, minLength, phoneDigits } from "../lib/validation";
 import { SEO } from "../components/JewelleryUI";
 
 type AuthMode = "login" | "register" | "forgot";
 type FormErrors = Record<string, string>;
 
-const userTokenKey = "annai_user_token";
 const userProfileKey = "annai_user_profile";
 
 const saveUserSession = (user: WebsiteUser) => {
-  localStorage.setItem(userTokenKey, user.token);
   localStorage.setItem(userProfileKey, JSON.stringify(user));
   window.dispatchEvent(new Event("annai-user-session"));
+  void syncCartWithAccount().catch(() => {
+    // Login remains successful if cart synchronization must retry later.
+  });
 };
 
 const Input = ({
   icon,
   error,
   className = "",
+  type,
   ...props
-}: React.InputHTMLAttributes<HTMLInputElement> & { icon: ReactNode; error?: string }) => (
-  <label className="block">
+}: React.InputHTMLAttributes<HTMLInputElement> & { icon: ReactNode; error?: string }) => {
+  const [passwordVisible, setPasswordVisible] = useState(false);
+  const isPassword = type === "password";
+  return <label className="block">
     <div className={`flex items-center gap-2.5 rounded-xl border bg-white px-3 py-2 transition focus-within:border-amber-500 focus-within:ring-4 focus-within:ring-amber-500/10 sm:px-4 sm:py-2.5 ${error ? "border-amber-500" : "border-slate-200"} ${className}`}>
       <span className="text-amber-600">{icon}</span>
-      <input {...props} aria-invalid={Boolean(error)} className="w-full bg-transparent text-sm text-amber-900 outline-none placeholder:text-slate-400" />
+      <input {...props} type={isPassword ? (passwordVisible ? "text" : "password") : type} aria-invalid={Boolean(error)} className="w-full bg-transparent text-sm text-amber-900 outline-none placeholder:text-slate-400" />
+      {isPassword && <button type="button" onClick={() => setPasswordVisible((visible) => !visible)} className="grid h-7 w-7 shrink-0 place-items-center rounded-lg text-slate-400 hover:bg-amber-50 hover:text-amber-700" aria-label={passwordVisible ? "Hide password" : "Show password"}>{passwordVisible ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}</button>}
     </div>
-    {error && <p className="mt-1.5 text-xs font-medium text-amber-600">{error}</p>}
+    {error && <p className="mt-1.5 text-xs font-medium text-red-600">{error}</p>}
   </label>
-);
+};
 
 const AuthPage = ({ initialMode }: { initialMode?: AuthMode }) => {
   const [searchParams] = useSearchParams();
@@ -49,8 +55,6 @@ const AuthPage = ({ initialMode }: { initialMode?: AuthMode }) => {
     password: "",
     confirmPassword: "",
     otp: "",
-    plan: "Website Member",
-    goal: "",
   });
 
   const update = (patch: Partial<typeof form>) => {
@@ -67,7 +71,6 @@ const AuthPage = ({ initialMode }: { initialMode?: AuthMode }) => {
     if (!minLength(form.password, 6)) next.password = "Password must be at least 6 characters.";
     else if (!maxLength(form.password, 72)) next.password = "Password must be 72 characters or less.";
     if (form.confirmPassword !== form.password) next.confirmPassword = "Passwords do not match.";
-    if (!maxLength(form.goal, 120)) next.goal = "Goal must be 120 characters or less.";
     return next;
   };
 
@@ -103,7 +106,7 @@ const AuthPage = ({ initialMode }: { initialMode?: AuthMode }) => {
     const next = mode === "register" ? validateRegister() : mode === "forgot" ? validateOtpEmail() : validatePasswordLogin();
     if (Object.keys(next).length) {
       setErrors(next);
-      setMessage(Object.values(next)[0]);
+      setMessage("");
       return;
     }
     setLoading(true);
@@ -115,23 +118,20 @@ const AuthPage = ({ initialMode }: { initialMode?: AuthMode }) => {
           email: clean(form.email).toLowerCase(),
           phone: phoneDigits(form.phone),
           password: form.password,
-          plan: form.plan,
-          goal: clean(form.goal),
         });
         handleSuccess(user, "Registration successful. Opening member portal...");
       } else if (mode === "forgot") {
         const data = await websiteApi.forgotPassword({ email: clean(form.email).toLowerCase() });
         setMessage(data.devOtp ? `${data.message} Dev OTP: ${data.devOtp}` : data.message);
       } else {
-        if (clean(form.email).toLowerCase() === "bhadri@gmail.com" && form.password === "bhadri") {
-          handleSuccess({ id: "demo-bhadri", name: "Bhadri", email: "bhadri@gmail.com", phone: "9751229418", plan: "Annai Customer", goal: "Silver jewellery", address: "Thucklay, Tamil Nadu", token: "demo-bhadri-token" }, "Login successful. Opening your profile...");
-          return;
-        }
         const user = await websiteApi.login({ loginIdentifier: clean(form.email), password: form.password });
         handleSuccess(user, "Login successful. Opening your profile...");
       }
     } catch (error) {
-      setMessage(error instanceof Error ? error.message : "Authentication failed.");
+      const text = error instanceof Error ? error.message : "Authentication failed.";
+      if (/email|already registered/i.test(text)) setErrors({ email: text });
+      else if (/password|credential|login/i.test(text)) setErrors({ password: text });
+      else setMessage(text);
     } finally {
       setLoading(false);
     }
@@ -142,7 +142,7 @@ const AuthPage = ({ initialMode }: { initialMode?: AuthMode }) => {
     if (!/^\d{6}$/.test(clean(form.otp))) next.otp = "Enter the 6 digit OTP.";
     if (Object.keys(next).length) {
       setErrors(next);
-      setMessage(Object.values(next)[0]);
+      setMessage("");
       return;
     }
     setLoading(true);
@@ -150,7 +150,10 @@ const AuthPage = ({ initialMode }: { initialMode?: AuthMode }) => {
       const user = await websiteApi.verifyOtp({ email: clean(form.email).toLowerCase(), otp: clean(form.otp) });
       handleSuccess(user, "OTP verified. Opening member portal...");
     } catch (error) {
-      setMessage(error instanceof Error ? error.message : "OTP verification failed.");
+      const text = error instanceof Error ? error.message : "OTP verification failed.";
+      if (/otp|code/i.test(text)) setErrors({ otp: text });
+      else if (/email/i.test(text)) setErrors({ email: text });
+      else setMessage(text);
     } finally {
       setLoading(false);
     }
@@ -160,7 +163,7 @@ const AuthPage = ({ initialMode }: { initialMode?: AuthMode }) => {
     const next = validateReset();
     if (Object.keys(next).length) {
       setErrors(next);
-      setMessage(Object.values(next)[0]);
+      setMessage("");
       return;
     }
     setLoading(true);
@@ -168,7 +171,11 @@ const AuthPage = ({ initialMode }: { initialMode?: AuthMode }) => {
       const user = await websiteApi.resetPassword({ email: clean(form.email).toLowerCase(), otp: clean(form.otp), password: form.password });
       handleSuccess(user, "Password reset successful. Opening member portal...");
     } catch (error) {
-      setMessage(error instanceof Error ? error.message : "Password reset failed.");
+      const text = error instanceof Error ? error.message : "Password reset failed.";
+      if (/otp|code/i.test(text)) setErrors({ otp: text });
+      else if (/password/i.test(text)) setErrors({ password: text });
+      else if (/email/i.test(text)) setErrors({ email: text });
+      else setMessage(text);
     } finally {
       setLoading(false);
     }
@@ -177,7 +184,7 @@ const AuthPage = ({ initialMode }: { initialMode?: AuthMode }) => {
   return (
     <>
       <SEO title={mode === "register" ? "Create Account" : mode === "forgot" ? "Reset Password" : "Customer Login"} description="Login or create your Annai Jewellery customer account." />
-      <section className="bg-[#fbf8f1] px-4 pb-7 pt-[92px] text-amber-900 sm:px-6 sm:pb-14 sm:pt-28 lg:px-10">
+      <section className="bg-[#fbf8f1] px-4 py-6 text-amber-900 sm:px-6 sm:py-8 lg:px-10">
         <div className="mx-auto grid max-w-sm overflow-hidden rounded-3xl border border-amber-100 bg-white shadow-[0_18px_50px_rgba(130,91,24,0.11)] sm:max-w-md xl:max-w-3xl xl:grid-cols-[0.88fr_1.12fr] xl:rounded-[2rem]">
           <div className="relative h-28 overflow-hidden sm:h-40 xl:block xl:h-auto xl:min-h-[570px]">
             <img src={heroEditorial} alt="Annai Jewellery collection" className="absolute inset-0 h-full w-full object-cover object-center" loading="eager" fetchPriority="high"/>
@@ -195,7 +202,7 @@ const AuthPage = ({ initialMode }: { initialMode?: AuthMode }) => {
             <Link to="/" className="mb-2 flex justify-center"><img src={logo} alt="Annai Jewellery" className="h-9 w-auto object-contain sm:h-12" /></Link>
             <div className="mb-3 text-center sm:mb-5">
               <p className="text-[9px] font-semibold uppercase tracking-[0.2em] text-amber-600 sm:text-[10px]">Annai Customer Account</p>
-              <h1 className="mt-1 text-xl font-semibold sm:text-2xl">
+              <h1 className="storefront-page-title !mt-1">
                 {mode === "register" ? "Create Account" : mode === "forgot" ? "Reset Password" : "Login"}
               </h1>
               <p className="mx-auto mt-1.5 max-w-xs text-xs leading-5 text-slate-500 sm:text-sm">
@@ -233,7 +240,6 @@ const AuthPage = ({ initialMode }: { initialMode?: AuthMode }) => {
               {(mode === "register" || mode === "forgot") && (
                 <>
                   <Input icon={<Lock className="h-4 w-4" />} placeholder="Confirm password" type="password" value={form.confirmPassword} error={errors.confirmPassword} onChange={(e) => update({ confirmPassword: e.target.value })} />
-                  {mode === "register" && <Input icon={<KeyRound className="h-4 w-4" />} placeholder="Jewellery preference" value={form.goal} error={errors.goal} onChange={(e) => update({ goal: e.target.value })} />}
                 </>
               )}
               {mode === "forgot" && (
@@ -271,14 +277,6 @@ const AuthPage = ({ initialMode }: { initialMode?: AuthMode }) => {
     {mode === "login" ? "Create Account" : "Login"}
   </button>
 </p>
-            {mode === "login" && (
-              <p className="mt-2 text-center text-xs sm:text-sm">
-                <button onClick={() => { setMode("forgot"); setErrors({}); setMessage(""); }} className="font-semibold text-amber-600">
-                  Forgot password?
-                </button>
-              </p>
-            )}
-            {mode === "login" && <div className="mt-3 text-center"><button type="button" onClick={() => update({ email: "bhadri@gmail.com", password: "bhadri" })} className="rounded-full border border-dashed border-amber-300 bg-amber-50/60 px-3 py-2 text-[10px] text-slate-600 sm:px-4 sm:text-[11px]"><strong className="text-amber-700">Use demo</strong> &nbsp; bhadri@gmail.com / bhadri</button></div>}
             <p className="mt-3 text-center text-xs text-slate-400">
               <Link to="/" className="hover:text-amber-600">Back to website</Link>
             </p>

@@ -1,6 +1,8 @@
+/* eslint-disable react-refresh/only-export-components */
 import { useEffect, useRef, useState, type FormEvent } from "react";
-import { ArrowLeft, ArrowRight, Eye, Gem, Heart, MessageCircle, Minus, Phone, Plus, Send, Share2, ShieldCheck, ShoppingBag, Sparkles, Star, Truck, X } from "lucide-react";
+import { ArrowLeft, ArrowRight, Eye, Heart, Minus, Phone, Plus, Send, Share2, Sparkles, Star, X } from "lucide-react";
 import { Link } from "react-router-dom";
+import headingBottom from "../assets/heading-btm.png";
 import earring1 from "../assets/earings/1.png";
 import earring2 from "../assets/earings/2.png";
 import earring3 from "../assets/earings/3.png";
@@ -12,6 +14,7 @@ import earring8 from "../assets/earings/8.png";
 import earring9 from "../assets/earings/9.png";
 import earring10 from "../assets/earings/10.png";
 import earring11 from "../assets/earings/11.png";
+import earring12 from "../assets/earings/12.png";
 import bangle1 from "../assets/bangles/1.png";
 import bangle2 from "../assets/bangles/2.png";
 import bangle3 from "../assets/bangles/3.png";
@@ -95,24 +98,56 @@ import { readCart, writeCart } from "../lib/cart";
 import ZoomableProductImage from "../components/ZoomableProductImage";
 import Price from "../components/Price";
 import { usePopupTransition } from "../lib/usePopupTransition";
-import { Card, Reveal, SectionTitle, SEO } from "../components/JewelleryUI";
+import { Reveal, SEO } from "../components/JewelleryUI";
 import { websiteApi } from "../lib/api";
+import { API_BASE_URL } from "../lib/config";
+import { loadWishlistIds, notifyWishlistUpdated, wishlistUpdatedEvent } from "../lib/wishlist";
 
 const collections = [
-  { title: "Necklaces", image: necklace1 },
   { title: "Bangles", image: bangle1 },
-  { title: "Earrings", image: earring1 },
   { title: "Chains", image: chain1 },
+  { title: "Earrings", image: earring1 },
+  { title: "Jewellery", image: templeNecklace },
+  { title: "Necklaces", image: necklace1 },
 ];
 
-const promises = [
-  [ShieldCheck, "Certified 925 Silver", "Every ornament uses a quality-checked 925 silver base with 24K gold plating."],
-  [Sparkles, "Master Craftsmanship", "Skilled artisans bring traditional details to life by hand."],
-  [Heart, "Lifetime Care", "Complimentary cleaning and dedicated after-sales assistance."],
-] as const;
-
-export type Product = { name: string; material: string; price: string; image: string; badge?: string };
+export type Product = {
+  id?: number | string;
+  name: string;
+  material: string;
+  price: string;
+  image: string;
+  images?: string[];
+  badge?: string;
+  description?: string;
+  category?: string;
+  rating?: number;
+  reviewCount?: number;
+  relatedProductIds?: string[];
+  stock?: number;
+  inStock?: boolean;
+};
+type HomeHeroSlide = {
+  image: string;
+  mobileImage?: string;
+  kicker: string;
+  title: string;
+  accent: string;
+  text: string;
+  position: string;
+  primaryLabel?: string;
+  primaryLink?: string;
+  secondaryLabel?: string;
+  secondaryLink?: string;
+};
 export const productSlug = (name: string) => name.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
+const storefrontApiOrigin = new URL(API_BASE_URL, window.location.origin).origin;
+const storefrontAssetUrl = (value: string) => value.startsWith("/uploads/") ? `${storefrontApiOrigin}${value}` : value;
+const storefrontLink = (value: string) => {
+  if (value.startsWith("#/")) return value.slice(1);
+  if (value.startsWith("#")) return "/collection/products";
+  return value;
+};
 
 export const productShelves: { id: string; kicker: string; title: string; text: string; products: Product[] }[] = [
   {
@@ -180,6 +215,7 @@ export const productShelves: { id: string; kicker: string; title: string; text: 
       { name: "Temple Bridal Necklace", material: "925 Silver with 24K Gold Plating", price: "8,999", badge: "Bestseller", image: necklace1 },
       { name: "Mango Mala Necklace", material: "925 Silver with 24K Gold Plating", price: "7,999", image: necklace2 },
       { name: "Emerald Heritage Choker", material: "925 Silver with 24K Gold Plating", price: "6,999", image: necklace3 },
+      { name: "Classic Bridal Necklace", material: "925 Silver with 24K Gold Plating", price: "7,499", badge: "New", image: necklace4 },
       { name: "Royal Lakshmi Haaram", material: "925 Silver with 24K Gold Plating", price: "8,499", badge: "New", image: necklace5 },
       { name: "Antique Peacock Necklace", material: "925 Silver with 24K Gold Plating", price: "6,799", image: necklace6 },
       { name: "Ruby Floral Choker", material: "925 Silver with 24K Gold Plating", price: "5,999", image: necklace7 },
@@ -216,6 +252,7 @@ export const productShelves: { id: string; kicker: string; title: string; text: 
       { name: "Golden Peacock Earrings", material: "925 Silver with 24K Gold Plating", price: "2,149", image: earring9 },
       { name: "Classic Gold-Plated Studs", material: "925 Silver with 24K Gold Plating", price: "1,249", image: earring10 },
       { name: "Heritage Bridal Jhumka", material: "925 Silver with 24K Gold Plating", price: "2,499", image: earring11 },
+      { name: "Signature Temple Jhumka", material: "925 Silver with 24K Gold Plating", price: "2,399", badge: "New", image: earring12 },
     ],
   },
   {
@@ -248,34 +285,35 @@ export const productShelves: { id: string; kicker: string; title: string; text: 
     ],
   },
   {
-    id: "chain-bracelets", kicker: "Effortless Style", title: "Chain Bracelets", text: "",
+    id: "jewellery", kicker: "", title: "Jewellery", text: "",
     products: [
-      { name: "Classic Rope Chain Bracelet", material: "925 Silver with 24K Gold Plating", price: "1,899", image: bangle8 },
-      { name: "Curb Link Gold-Plated Bracelet", material: "925 Silver with 24K Gold Plating", price: "2,299", image: bangle9 },
-      { name: "Figaro Chain Bracelet", material: "925 Silver with 24K Gold Plating", price: "1,799", image: bangle10 },
-      { name: "Zircon Link Bracelet", material: "925 Silver with 24K Gold Plating", price: "2,999", image: bangle11 },
-      { name: "Twisted Gold Chain Bracelet", material: "925 Silver with 24K Gold Plating", price: "2,499", image: bangle13 },
+      { name: "Annai Temple Statement Necklace", material: "925 Silver with 24K Gold Plating", price: "8,999", badge: "Bestseller", image: templeNecklace },
     ],
   },
 ];
 
-const ProductShelf = ({ shelf, alternate, onQuickView, cart, onChangeQuantity }: { shelf: typeof productShelves[number]; alternate: boolean; onQuickView: (product: Product) => void; cart: Record<string, number>; onChangeQuantity: (product: Product, change: number) => void }) => (
-  <section id={shelf.id} className={`product-shelf px-4 py-10 sm:px-6 sm:py-12 lg:px-10 lg:py-14 ${alternate ? "bg-[#fbf8f1]" : "bg-white"}`}>
+const ProductShelf = ({ shelf, alternate, onQuickView, cart, onChangeQuantity, wishlistIds, onToggleWishlist }: { shelf: typeof productShelves[number]; alternate: boolean; onQuickView: (product: Product) => void; cart: Record<string, number>; onChangeQuantity: (product: Product, change: number) => void; wishlistIds: Set<string>; onToggleWishlist: (product: Product) => void }) => (
+  <section id={shelf.id} className={`product-shelf px-4 py-7 sm:px-6 sm:py-8 lg:px-10 lg:py-10 ${alternate ? "bg-[#fbf8f1]" : "bg-white"}`}>
     <div className="mx-auto max-w-7xl">
-      <div className="mb-6 text-center sm:mb-7">
-        <div className="mx-auto flex max-w-2xl items-center justify-center gap-3 sm:gap-5">
-          <span className="h-px min-w-8 flex-1 bg-gradient-to-r from-transparent to-amber-400" />
-          <h2 className="shrink-0 text-[1.1rem] font-bold uppercase  text-slate-900">{shelf.title}</h2>
-          <span className="h-px min-w-8 flex-1 bg-gradient-to-l from-transparent to-amber-400" />
-        </div>
-        <Link to={`/collection/${shelf.id}`} className="mt-2 inline-flex items-center gap-1.5 text-xs font-medium text-amber-700 transition hover:text-amber-900">View all <ArrowRight className="h-3.5 w-3.5" /></Link>
+      <div className="text-center">
+        <h2 className="text-[1.2rem] font-semibold tracking-tight text-slate-900 sm:text-[1.35rem]">{shelf.title}</h2>
+        <img src={headingBottom} alt="" aria-hidden="true" className="mx-auto mt-2 h-auto w-36 object-contain sm:w-40" />
       </div>
-      <div className="product-shelf-grid grid gap-4 overflow-x-auto pb-4">
+      <div className="mb-3 mt-2 flex justify-end sm:mb-4">
+        <Link
+          to={`/collection/${shelf.id}`}
+          className="inline-flex items-center gap-1.5 text-xs font-medium text-amber-700 transition hover:text-amber-900"
+        >
+          View all
+          <ArrowRight className="h-3.5 w-3.5" />
+        </Link>
+      </div>
+      <div className="product-shelf-grid grid gap-4 overflow-x-auto pb-2">
         {shelf.products.map((product, index) => <Reveal key={product.name} delay={index * 60}><article className="group overflow-hidden rounded-2xl border border-amber-100 bg-white shadow-sm transition hover:-translate-y-1 hover:shadow-xl">
-          <div className="relative h-72 overflow-hidden bg-[#f8f2e8] p-2"><Link to={`/product/${productSlug(product.name)}`} className="block h-full w-full overflow-hidden rounded-xl"><img src={product.image} alt={product.name} className="h-full w-full rounded-xl object-contain transition duration-700 group-hover:scale-110" /></Link>{product.badge && <span className="absolute left-3 top-3 rounded-full bg-[#D4AF37] px-3 py-1 text-[9px] font-bold uppercase tracking-wider text-white">{product.badge}</span>}<button type="button" onClick={() => onQuickView(product)} className="quick-view-button absolute right-3 top-3 grid h-9 w-9 place-items-center rounded-full bg-white/90 text-amber-700 shadow-sm" aria-label={`Quick view ${product.name}`} title="Quick view"><Eye className="h-4 w-4" /></button></div>
+          <div className="relative h-72 overflow-hidden bg-[#f8f2e8] p-2"><Link to={`/product/${productSlug(product.name)}`} className="block h-full w-full overflow-hidden rounded-xl"><img src={product.image} alt={product.name} className="h-full w-full rounded-xl object-contain transition duration-700 group-hover:scale-110" /></Link>{product.badge && <span className="absolute left-3 top-3 rounded-full bg-[#D4AF37] px-3 py-1 text-[9px] font-bold uppercase tracking-wider text-white">{product.badge}</span>}<button type="button" onClick={() => onToggleWishlist(product)} className={`absolute right-14 top-3 grid h-9 w-9 place-items-center rounded-full bg-white/95 shadow-sm transition hover:scale-105 ${product.id && wishlistIds.has(String(product.id)) ? "text-red-500" : "text-amber-700"}`} aria-label={`${product.id && wishlistIds.has(String(product.id)) ? "Remove" : "Add"} ${product.name} ${product.id && wishlistIds.has(String(product.id)) ? "from" : "to"} wishlist`} title={product.id && wishlistIds.has(String(product.id)) ? "Remove from wishlist" : "Add to wishlist"}><Heart className={`h-4 w-4 ${product.id && wishlistIds.has(String(product.id)) ? "fill-current" : ""}`} /></button><button type="button" onClick={() => onQuickView(product)} className="quick-view-button absolute right-3 top-3 grid h-9 w-9 place-items-center rounded-full bg-white/90 text-amber-700 shadow-sm" aria-label={`Quick view ${product.name}`} title="Quick view"><Eye className="h-4 w-4" /></button></div>
           <div className="p-5">
             {/* <p className="text-[10px] font-semibold uppercase tracking-[0.16em] text-amber-600">{product.material}</p> */}
-            <h3 className="mt-2 text-lg font-medium text-slate-900">{product.name}</h3><div className="mt-4 flex items-center justify-between gap-3"><strong className="text-sm text-slate-900"><Price value={product.price} /></strong>{cart[`jewel-${productSlug(product.name)}`] ? <div className="flex h-9 items-center overflow-hidden rounded-full bg-amber-600 text-white shadow-sm"><button type="button" onClick={() => onChangeQuantity(product, -1)} className="grid h-9 w-9 place-items-center transition hover:bg-amber-700" aria-label={`Remove one ${product.name}`}><Minus className="h-4 w-4" /></button><span className="min-w-7 text-center text-sm font-semibold">{cart[`jewel-${productSlug(product.name)}`]}</span><button type="button" onClick={() => onChangeQuantity(product, 1)} className="grid h-9 w-9 place-items-center transition hover:bg-amber-700" aria-label={`Add one more ${product.name}`}><Plus className="h-4 w-4" /></button></div> : <button type="button" onClick={() => onChangeQuantity(product, 1)} className="inline-flex h-9 items-center gap-1.5 rounded-full bg-amber-600 px-4 text-sm font-semibold text-white shadow-sm transition hover:bg-amber-700" aria-label={`Add ${product.name} to bag`}><Plus className="h-4 w-4" />Add</button>}</div></div>
+            <h3 className="text-xs font-semibold sm:text-base">{product.name}</h3><div className="mt-4 flex items-center justify-between gap-3"><strong className="text-sm text-slate-900"><Price value={product.price} /></strong>{cart[`jewel-${productSlug(product.name)}`] ? <div className="flex h-9 items-center overflow-hidden rounded-full bg-amber-600 text-white shadow-sm"><button type="button" onClick={() => onChangeQuantity(product, -1)} className="grid h-9 w-9 place-items-center transition hover:bg-amber-700" aria-label={`Remove one ${product.name}`}><Minus className="h-4 w-4" /></button><span className="min-w-7 text-center text-sm font-semibold">{cart[`jewel-${productSlug(product.name)}`]}</span><button type="button" onClick={() => onChangeQuantity(product, 1)} className="grid h-9 w-9 place-items-center transition hover:bg-amber-700" aria-label={`Add one more ${product.name}`}><Plus className="h-4 w-4" /></button></div> : <button type="button" onClick={() => onChangeQuantity(product, 1)} className="inline-flex h-9 items-center gap-1.5 rounded-full bg-amber-600 px-4 text-sm font-semibold text-white shadow-sm transition hover:bg-amber-700" aria-label={`Add ${product.name} to bag`}><Plus className="h-4 w-4" />Add</button>}</div></div>
         </article></Reveal>)}
       </div>
     </div>
@@ -307,8 +345,13 @@ const initialReviews = Array.from({ length: 54 }, (_, index) => ({
 }));
 
 export default function HomePage() {
-  const allProducts = productShelves.flatMap((shelf) => shelf.products);
-  const heroSlides = [
+  const [liveShelves, setLiveShelves] = useState<typeof productShelves>([]);
+  const displayedShelves = liveShelves.length ? liveShelves : productShelves;
+  const allProducts = [...new Map(displayedShelves.flatMap((shelf) => shelf.products).map((product) => [productSlug(product.name), product])).values()];
+  const displayedCollections = liveShelves.length
+    ? liveShelves.filter((shelf) => !["new-arrivals", "best-sellers"].includes(shelf.id)).map((shelf) => ({ id: shelf.id, title: shelf.title, image: shelf.products[0]?.image || "" }))
+    : collections.map((item) => ({ ...item, id: productSlug(item.title) }));
+  const bundledHeroSlides: HomeHeroSlide[] = [
     {
       image: homeBanner1,
       kicker: "The Wedding Edit - 2026",
@@ -342,21 +385,30 @@ export default function HomePage() {
       position: "center",
     },
   ];
+  const [managedHeroSlides, setManagedHeroSlides] = useState<HomeHeroSlide[]>([]);
+  const heroSlides = managedHeroSlides.length ? managedHeroSlides : bundledHeroSlides.map((slide) => ({
+    ...slide,
+    primaryLabel: "Explore Collections",
+    primaryLink: "/collection/products",
+    secondaryLabel: "Call Us",
+    secondaryLink: "tel:+919751229418",
+  }));
   const [activeSlide, setActiveSlide] = useState(0);
   const [quickViewIndex, setQuickViewIndex] = useState<number | null>(null);
-  const [quickQuantity, setQuickQuantity] = useState(1);
   const [quickImage, setQuickImage] = useState(0);
   const [cartNotice, setCartNotice] = useState("");
   const [cart, setCart] = useState(() => readCart());
+  const [wishlistIds, setWishlistIds] = useState<Set<string>>(new Set());
   const [reviewName, setReviewName] = useState("");
   const [reviewText, setReviewText] = useState("");
   const [reviewRating, setReviewRating] = useState(5);
   const [reviewMessage, setReviewMessage] = useState("");
+  const [reviewErrors, setReviewErrors] = useState<Record<string, string>>({});
   const [reviewModalOpen, setReviewModalOpen] = useState(false);
   const [welcomeAdOpen, setWelcomeAdOpen] = useState(false);
-  const [welcomeAdConfig, setWelcomeAdConfig] = useState({ imageUrl: popupAd, linkUrl: "", alt: "Annai Jewellery special promotion", delaySeconds: 2 });
+  const [welcomeAdConfig, setWelcomeAdConfig] = useState({ imageUrl: popupAd, alt: "Annai Jewellery special promotion", delaySeconds: 2 });
   const [quickImageModalOpen, setQuickImageModalOpen] = useState(false);
-  const reviewModal = usePopupTransition(reviewModalOpen);
+  const reviewModal = usePopupTransition(reviewModalOpen, 480);
   const welcomeAd = usePopupTransition(welcomeAdOpen);
   const quickImageModal = usePopupTransition(quickImageModalOpen);
   const quickViewModal = usePopupTransition(quickViewIndex !== null);
@@ -365,21 +417,113 @@ export default function HomePage() {
   const heroSwipeStart = useRef<number | null>(null);
 
   useEffect(() => {
-    if (sessionStorage.getItem("annai-welcome-ad-v2-seen") === "true") return;
     let active = true;
-    let timer = window.setTimeout(() => active && setWelcomeAdOpen(true), 2000);
+    websiteApi.products().then(({ products }) => {
+      if (!active || !products.length) return;
+      const mapped: Product[] = products.map((item) => ({
+        id: item.id,
+        name: item.name,
+        material: item.material || "925 Silver with 24K Gold Plating",
+        price: String(item.price),
+        image: item.image || item.imageUrl || "",
+        images: item.images,
+        badge: item.badge,
+        description: item.description,
+        category: item.category,
+        rating: item.rating,
+        reviewCount: item.reviewCount,
+        relatedProductIds: item.relatedProductIds,
+        stock: item.stock,
+        inStock: item.inStock,
+      }));
+      const slug = (value: string) => value.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
+      const sections: typeof productShelves = [];
+      const newest = mapped.filter((item) => /new/i.test(item.badge || "")).slice(0, 12);
+      const best = mapped.filter((item) => /best/i.test(item.badge || "")).slice(0, 12);
+      if (newest.length) sections.push({ id: "new-arrivals", kicker: "", title: "New Arrivals", text: "", products: newest });
+      if (best.length) sections.push({ id: "best-sellers", kicker: "", title: "Best Sellers", text: "", products: best });
+      [...new Set(mapped.map((item) => item.category).filter((value): value is string => Boolean(value)))].forEach((category) => {
+        sections.push({ id: slug(category), kicker: "", title: category, text: "", products: mapped.filter((item) => item.category === category) });
+      });
+      setLiveShelves(sections);
+    }).catch(() => { /* bundled catalogue remains available offline */ });
+    websiteApi.testimonials("page=1&limit=60").then(({ testimonials }) => {
+      if (active && testimonials.length) setCustomerReviews(testimonials.map((review) => ({ name: review.name, rating: review.rating, text: review.text })));
+    }).catch(() => { /* bundled reviews remain available offline */ });
+    return () => { active = false; };
+  }, []);
+
+  useEffect(() => {
+    let active = true;
+    websiteApi.contentBlock("home_banners").then((block) => {
+      if (!active || !block.isActive) return;
+      try {
+        const parsed = JSON.parse(block.body || "{}");
+        const slides = (Array.isArray(parsed.banners) ? parsed.banners : [])
+          .filter((banner: Record<string, unknown>) => banner?.isActive !== false && banner?.imageUrl)
+          .slice(0, 4)
+          .map((banner: Record<string, unknown>): HomeHeroSlide => ({
+            image: storefrontAssetUrl(String(banner.imageUrl)),
+            mobileImage: banner.mobileImageUrl ? storefrontAssetUrl(String(banner.mobileImageUrl)) : undefined,
+            kicker: "",
+            title: String(banner.title || "").slice(0, 36),
+            accent: String(banner.accent || "").slice(0, 42),
+            text: String(banner.text || "").slice(0, 90),
+            position: String(banner.position || "center"),
+            primaryLabel: String(banner.primaryLabel || "").slice(0, 24),
+            primaryLink: String(banner.primaryLink || "/collection/products").slice(0, 200),
+            secondaryLabel: String(banner.secondaryLabel || "").slice(0, 20),
+            secondaryLink: String(banner.secondaryLink || "tel:+919751229418").slice(0, 200),
+          }));
+        if (slides.length) setManagedHeroSlides(slides);
+      } catch {
+        // Bundled banners remain visible if saved content is malformed.
+      }
+    }).catch(() => { /* bundled banners remain available offline */ });
+    return () => { active = false; };
+  }, []);
+
+  useEffect(() => {
+    let active = true;
+    const syncWishlist = () => {
+      loadWishlistIds()
+        .then((ids) => { if (active) setWishlistIds(ids); })
+        .catch(() => { if (active) setWishlistIds(new Set()); });
+    };
+    syncWishlist();
+    window.addEventListener(wishlistUpdatedEvent, syncWishlist);
+    return () => {
+      active = false;
+      window.removeEventListener(wishlistUpdatedEvent, syncWishlist);
+    };
+  }, []);
+
+  useEffect(() => {
+    let active = true;
+    let timer = 0;
+    const schedule = (config: typeof welcomeAdConfig) => {
+      const popupKey = config.imageUrl || popupAd;
+      if (sessionStorage.getItem("annai-welcome-ad-v2-seen") === popupKey) return;
+      timer = window.setTimeout(() => active && setWelcomeAdOpen(true), Math.max(0, Number(config.delaySeconds || 0)) * 1000);
+    };
     websiteApi.contentBlock("home_popup").then((block) => {
       if (!active || !block.isActive) return;
       try {
-        const config = { ...welcomeAdConfig, ...JSON.parse(block.body || "{}") };
+        const saved = JSON.parse(block.body || "{}");
+        const config = {
+          ...welcomeAdConfig,
+          ...saved,
+          imageUrl: saved.imageUrl ? storefrontAssetUrl(String(saved.imageUrl)) : popupAd,
+        };
         setWelcomeAdConfig(config);
-        window.clearTimeout(timer);
-        timer = window.setTimeout(() => active && setWelcomeAdOpen(true), Math.max(0, Number(config.delaySeconds || 0)) * 1000);
-      } catch { /* keep the bundled promotion as a safe fallback */ }
-    }).catch(() => { /* the bundled promotion remains available when the API is offline */ });
+        schedule(config);
+      } catch {
+        schedule(welcomeAdConfig);
+      }
+    }).catch(() => schedule(welcomeAdConfig));
     return () => { active = false; window.clearTimeout(timer); };
-  // The popup configuration is intentionally loaded once per visit.
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // The popup configuration is intentionally loaded once per visit.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
@@ -396,7 +540,7 @@ export default function HomePage() {
   }, [reviewModal.mounted, quickViewModal.mounted, welcomeAd.mounted, quickImageModal.mounted]);
 
   const closeWelcomeAd = () => {
-    sessionStorage.setItem("annai-welcome-ad-v2-seen", "true");
+    sessionStorage.setItem("annai-welcome-ad-v2-seen", welcomeAdConfig.imageUrl || popupAd);
     setWelcomeAdOpen(false);
   };
 
@@ -404,6 +548,10 @@ export default function HomePage() {
     const timer = window.setInterval(() => setActiveSlide((current) => (current + 1) % heroSlides.length), 5500);
     return () => window.clearInterval(timer);
   }, [heroSlides.length]);
+
+  useEffect(() => {
+    if (activeSlide >= heroSlides.length) setActiveSlide(0);
+  }, [activeSlide, heroSlides.length]);
 
   const changeSlide = (direction: number) =>
     setActiveSlide((current) => (current + direction + heroSlides.length) % heroSlides.length);
@@ -417,28 +565,19 @@ export default function HomePage() {
 
   const openQuickView = (product: Product) => {
     setQuickViewIndex(allProducts.findIndex((item) => item.name === product.name));
-    setQuickQuantity(1);
     setQuickImage(0);
     setCartNotice("");
   };
   const moveQuickView = (direction: number) => {
     setQuickViewIndex((current) => current === null ? 0 : (current + direction + allProducts.length) % allProducts.length);
-    setQuickQuantity(1);
     setQuickImage(0);
     setCartNotice("");
-  };
-  const addJewelleryToCart = (product: Product, quantity: number) => {
-    const key = `jewel-${productSlug(product.name)}`;
-    const cart = readCart();
-    writeCart({ ...cart, [key]: Number(cart[key] || 0) + quantity });
-    setCart(readCart());
-    localStorage.setItem("annai_cart_products", JSON.stringify({ ...JSON.parse(localStorage.getItem("annai_cart_products") || "{}"), [key]: product }));
-    setCartNotice(`${quantity} item${quantity > 1 ? "s" : ""} added to your cart.`);
   };
   const changeJewelleryQuantity = (product: Product, change: number) => {
     const key = `jewel-${productSlug(product.name)}`;
     const currentCart = readCart();
-    const quantity = Math.max(0, Number(currentCart[key] || 0) + change);
+    const requestedQuantity = Math.max(0, Number(currentCart[key] || 0) + change);
+    const quantity = product.stock === undefined ? requestedQuantity : Math.min(requestedQuantity, Math.max(product.stock, 0));
     const nextCart = { ...currentCart };
     if (quantity) nextCart[key] = quantity;
     else delete nextCart[key];
@@ -447,11 +586,37 @@ export default function HomePage() {
     setCart(nextCart);
   };
   const shareProduct = async (product: Product) => {
-    const url = `${window.location.origin}${window.location.pathname}#/product/${productSlug(product.name)}`;
+    const url = new URL(`/product/${productSlug(product.name)}`, window.location.origin).toString();
     if (navigator.share) await navigator.share({ title: product.name, text: `View ${product.name} at Annai Jewellery`, url }).catch(() => undefined);
     else {
       await navigator.clipboard?.writeText(url);
       setCartNotice("Product link copied.");
+    }
+  };
+  const saveWishlist = async (product: Product) => {
+    if (!product.id) {
+      setCartNotice("This product is still loading. Please try again.");
+      return;
+    }
+    try {
+      const productId = String(product.id);
+      if (wishlistIds.has(productId)) {
+        await websiteApi.removeWishlist(product.id);
+        setWishlistIds((current) => {
+          const next = new Set(current);
+          next.delete(productId);
+          return next;
+        });
+        setCartNotice("Removed from your wishlist.");
+        notifyWishlistUpdated();
+      } else {
+        await websiteApi.addWishlist(product.id);
+        setWishlistIds((current) => new Set(current).add(productId));
+        setCartNotice("Added to your wishlist.");
+        notifyWishlistUpdated();
+      }
+    } catch (error) {
+      setCartNotice(error instanceof Error && /login|required|session/i.test(error.message) ? "Please sign in to use your wishlist." : (error as Error).message);
     }
   };
 
@@ -459,15 +624,21 @@ export default function HomePage() {
     event.preventDefault();
     const name = reviewName.trim();
     const text = reviewText.trim();
-    if (name.length < 2 || text.length < 10) {
-      setReviewMessage("Please enter your name and a review of at least 10 characters.");
-      return;
-    }
-    setCustomerReviews((reviews) => [{ name, rating: reviewRating, text }, ...reviews]);
-    setReviewName("");
-    setReviewText("");
-    setReviewRating(5);
-    setReviewMessage("Thank you! Your review has been added.");
+    const next: Record<string, string> = {};
+    if (!name) next.name = "Enter your name.";
+    if (!text) next.text = "Enter your review.";
+    if (Object.keys(next).length) return setReviewErrors(next);
+    setReviewErrors({});
+    websiteApi.createTestimonial({ name, rating: reviewRating, text })
+      .then((created) => {
+        setCustomerReviews((current) => [{ name: created.name, rating: created.rating, text: created.text }, ...current]);
+        setReviewName("");
+        setReviewText("");
+        setReviewRating(5);
+        setReviewMessage("Thank you! Your review is now published.");
+        window.setTimeout(() => setReviewModalOpen(false), 1100);
+      })
+      .catch((error) => setReviewMessage(error instanceof Error ? error.message : "Unable to submit your review."));
   };
 
   return <>
@@ -476,7 +647,7 @@ export default function HomePage() {
     {welcomeAd.mounted && <div className={`welcome-ad-backdrop popup-backdrop-motion fixed inset-0 z-[180] grid place-items-center bg-slate-950/55 p-4 backdrop-blur-sm ${welcomeAd.active ? "is-open" : ""}`} role="dialog" aria-modal="true" aria-label="Annai Jewellery promotion" onClick={closeWelcomeAd}>
       <div className="welcome-ad popup-surface-motion relative w-fit max-w-full overflow-hidden rounded-2xl bg-transparent shadow-2xl" onClick={(event) => event.stopPropagation()}>
         <button type="button" onClick={closeWelcomeAd} className="welcome-ad-close" aria-label="Close promotion"><X /></button>
-        {welcomeAdConfig.linkUrl ? <a href={welcomeAdConfig.linkUrl}><img src={welcomeAdConfig.imageUrl || popupAd} alt={welcomeAdConfig.alt} className="block max-h-[82dvh] w-auto max-w-full object-contain" /></a> : <img src={welcomeAdConfig.imageUrl || popupAd} alt={welcomeAdConfig.alt} className="block max-h-[82dvh] w-auto max-w-full object-contain" />}
+        <img src={welcomeAdConfig.imageUrl || popupAd} alt={welcomeAdConfig.alt} onError={(event) => { if (!event.currentTarget.dataset.fallback) { event.currentTarget.dataset.fallback = "true"; event.currentTarget.src = popupAd; } }} className="block max-h-[82dvh] w-auto max-w-full object-contain" />
       </div>
     </div>}
 
@@ -491,7 +662,10 @@ export default function HomePage() {
     >
       {heroSlides.map((slide, index) => (
         <div key={slide.title} className={`jewellery-hero-slide absolute inset-0 ${index === activeSlide ? "is-active" : ""}`}>
-          <img src={slide.image} alt={`${slide.title} ${slide.accent}`} data-eager={index === 0 ? "true" : undefined} loading={index === 0 ? "eager" : "lazy"} fetchPriority={index === 0 ? "high" : "auto"} decoding="async" style={{ objectPosition: slide.position }} className="h-full w-full object-cover" />
+          <picture className="block h-full w-full">
+            {slide.mobileImage && <source media="(max-width: 640px)" srcSet={slide.mobileImage} />}
+            <img src={slide.image} alt={`${slide.title} ${slide.accent}`} data-eager={index === 0 ? "true" : undefined} loading={index === 0 ? "eager" : "lazy"} fetchPriority={index === 0 ? "high" : "auto"} decoding="async" style={{ objectPosition: slide.position }} className="h-full w-full object-cover" />
+          </picture>
         </div>
       ))}
       <div className="absolute inset-0 bg-gradient-to-r from-white via-white/80 to-white/5" />
@@ -502,8 +676,8 @@ export default function HomePage() {
           <h1 className="font-serif text-3xl font-normal leading-[1.08] tracking-[-0.02em] text-slate-900 sm:text-3xl lg:text-5xl">{heroSlides[activeSlide].title}<br /><span className="jewellery-cursive text-amber-600">{heroSlides[activeSlide].accent}</span></h1>
           <p className="mt-4 max-w-md text-sm leading-6 text-slate-700 sm:text-base">{heroSlides[activeSlide].text}</p>
           <div className="mt-6 flex flex-wrap gap-3">
-            <a href="#collections" className="hero-primary-cta inline-flex items-center gap-2 rounded-full px-7 py-3 text-sm font-medium text-white"><Sparkles className="h-4 w-4" /> Explore Collections</a>
-            <a href="tel:+919751229418" className="inline-flex items-center gap-2 rounded-full border border-amber-500 bg-white/85 px-6 py-3 text-sm font-semibold text-amber-800 shadow-sm backdrop-blur transition hover:bg-amber-600 hover:text-white"><Phone className="h-4 w-4" /> Call Us</a>
+            {heroSlides[activeSlide].primaryLabel && <a href={storefrontLink(heroSlides[activeSlide].primaryLink || "/collection/products")} className="hero-primary-cta inline-flex items-center gap-2 rounded-full px-7 py-3 text-sm font-medium text-white"><Sparkles className="h-4 w-4" />{heroSlides[activeSlide].primaryLabel}</a>}
+            {heroSlides[activeSlide].secondaryLabel && <a href={storefrontLink(heroSlides[activeSlide].secondaryLink || "tel:+919751229418")} className="inline-flex items-center gap-2 rounded-full border border-amber-500 bg-white/85 px-6 py-3 text-sm font-semibold text-amber-800 shadow-sm backdrop-blur transition hover:bg-amber-600 hover:text-white"><Phone className="h-4 w-4" />{heroSlides[activeSlide].secondaryLabel}</a>}
           </div>
         </div>
       </div>
@@ -512,22 +686,21 @@ export default function HomePage() {
       </div>
     </section>
 
-    <section id="collections" className="shop-category-section relative overflow-hidden bg-white px-4 py-10 sm:px-6 sm:py-12 lg:px-10 lg:py-14">
+    <section id="collections" className="shop-category-section relative overflow-hidden bg-white px-4 py-7 sm:px-6 sm:py-8 lg:px-10 lg:py-10">
       <div className="mx-auto max-w-7xl">
- 
-       <div className="mb-6 text-center sm:mb-7">
-        <div className="mx-auto flex max-w-2xl items-center justify-center gap-3 sm:gap-5">
-          <span className="h-px min-w-8 flex-1 bg-gradient-to-r from-transparent to-amber-400" />
-          <h2 className="shrink-0 text-[1.1rem] font-bold uppercase  text-slate-900">Shop by Category</h2>
-          <span className="h-px min-w-8 flex-1 bg-gradient-to-l from-transparent to-amber-400" />
-        </div> 
-        <Link to="/collection/products" className="mt-2 inline-flex items-center gap-1.5 text-xs font-medium text-amber-700 transition hover:text-amber-900">View all <ArrowRight className="h-3.5 w-3.5" /></Link>
-      </div>
+
+        <div className="text-center">
+          <h2 className="text-[1.2rem] font-semibold tracking-tight text-slate-900 sm:text-[1.35rem]">Shop by Category</h2>
+          <img src={headingBottom} alt="" aria-hidden="true" className="mx-auto mt-2 h-auto w-36 object-contain sm:w-40" />
+        </div>
+        <div className="mb-3 mt-2 flex justify-end sm:mb-4">
+          <Link to="/collection/products" className="inline-flex items-center gap-1.5 border-b border-amber-400 pb-1 text-xs font-medium text-amber-700 transition hover:border-amber-700 hover:text-amber-900">View all <ArrowRight className="h-3.5 w-3.5" /></Link>
+        </div>
 
 
         <div className="shop-category-grid grid gap-2 sm:gap-3 lg:gap-4">
-          {collections.map((item, index) => <Reveal key={item.title} delay={index * 70} className="h-full">
-            <Link to={`/collection/${item.title.toLowerCase()}`} className="shop-category-card group flex h-full flex-col overflow-hidden rounded-2xl border border-amber-100 bg-[#fbf8f1] text-center shadow-sm transition duration-300 hover:-translate-y-1 hover:border-amber-300 hover:shadow-xl">
+          {displayedCollections.map((item, index) => <Reveal key={item.title} delay={index * 70} className="h-full">
+            <Link to={`/collection/${item.id}`} className="shop-category-card group flex h-full flex-col overflow-hidden rounded-2xl border border-amber-100 bg-[#fbf8f1] text-center shadow-sm transition duration-300 hover:-translate-y-1 hover:border-amber-300 hover:shadow-xl">
               <div className="shop-category-image overflow-hidden"><img src={item.image} alt={`${item.title} collection`} className="h-full w-full object-cover transition duration-700 group-hover:scale-105" /></div>
               <div className="bg-white px-2 py-4">
                 <h3 className="text-sm font-semibold uppercase tracking-[0.04em] text-slate-900 sm:text-base">{item.title}</h3>
@@ -539,7 +712,7 @@ export default function HomePage() {
       </div>
     </section>
 
-    {productShelves.map((shelf, index) => <ProductShelf key={shelf.id} shelf={shelf} alternate={index % 2 === 1} onQuickView={openQuickView} cart={cart} onChangeQuantity={changeJewelleryQuantity} />)}
+    {displayedShelves.map((shelf, index) => <ProductShelf key={shelf.id} shelf={shelf} alternate={index % 2 === 1} onQuickView={openQuickView} cart={cart} onChangeQuantity={changeJewelleryQuantity} wishlistIds={wishlistIds} onToggleWishlist={saveWishlist} />)}
 
     {/* <section className="px-4 py-12 sm:px-6 lg:px-10">
       <div className="mx-auto max-w-7xl">
@@ -560,11 +733,14 @@ export default function HomePage() {
     {/* <section className="px-4 py-16 sm:px-6 lg:px-10"><div className="mx-auto max-w-5xl rounded-3xl bg-amber-700 p-8 text-center text-white sm:p-12"><MessageCircle className="mx-auto h-8 w-8 text-amber-500"/><h2 className="mt-4 text-3xl font-medium">Let us help you find the perfect jewel.</h2><p className="mx-auto mt-3 max-w-xl text-sm leading-7 text-slate-300">Book a private consultation or speak with our jewellery experts on WhatsApp.</p><div className="mt-7 flex flex-wrap justify-center gap-3"><Link to="/booking" className="rounded-full bg-amber-600 px-7 py-3 text-sm font-medium">Book an Appointment</Link><a href="https://wa.me/911234567890" className="rounded-full border border-white/30 px-7 py-3 text-sm font-medium">Chat on WhatsApp</a></div></div></section>
     <section className="px-4 pb-20 sm:px-6 lg:px-10"><div className="mx-auto max-w-7xl"><SectionTitle kicker="Shop With Confidence" title="The Annai experience." text="Thoughtful service before, during and long after your purchase."/><div className="grid gap-4 sm:grid-cols-3"><Card className="p-6"><Truck className="text-amber-600"/><h3 className="mt-4 text-lg font-medium">Insured Delivery</h3><p className="mt-2 text-sm text-slate-600">Safe shipping with careful, secure packaging.</p></Card><Card className="p-6"><ShieldCheck className="text-amber-600"/><h3 className="mt-4 text-lg font-medium">Transparent Materials</h3><p className="mt-2 text-sm text-slate-600">Clear 925 silver, 24K gold-plating and care details.</p></Card><Card className="p-6"><Heart className="text-amber-600"/><h3 className="mt-4 text-lg font-medium">Dedicated Care</h3><p className="mt-2 text-sm text-slate-600">Helpful guidance for cleaning, storage and preserving the plated finish.</p></Card></div></div></section> */}
 
-    <section className="customer-reviews-section bg-[#fbf8f1] px-4 py-10 sm:px-6 sm:py-12 lg:px-10 lg:py-14">
+    <section className="customer-reviews-section bg-[#fbf8f1] px-4 py-7 sm:px-6 sm:py-8 lg:px-10 lg:py-10">
       <div className="mx-auto max-w-7xl">
-        <div className="mb-6 flex flex-col items-center justify-center text-center sm:mb-7">
-          <h2 className="font-serif text-3xl text-slate-900">What Customers Say</h2>
-          <button type="button" onClick={() => { setReviewModalOpen(true); setReviewMessage(""); }} className="mt-4 inline-flex items-center gap-2 rounded-full bg-amber-600 px-6 py-3 text-sm font-semibold text-white shadow-lg transition hover:-translate-y-0.5 hover:bg-amber-700"><Star className="h-4 w-4" />Add Review</button>
+        <div className="text-center">
+          <h2 className="text-[1.2rem] font-semibold tracking-tight text-slate-900 sm:text-[1.35rem]">What Customers Say</h2>
+          <img src={headingBottom} alt="" aria-hidden="true" className="mx-auto mt-2 h-auto w-36 object-contain sm:w-40" />
+        </div>
+        <div className="mb-3 mt-2 flex justify-end sm:mb-4">
+          <button type="button" onClick={() => { setReviewModalOpen(true); setReviewMessage(""); setReviewErrors({}); }} className="inline-flex items-center gap-1.5 rounded-full bg-amber-600 px-4 py-2 text-xs font-semibold text-white shadow-sm transition hover:-translate-y-0.5 hover:bg-amber-700"><Star className="h-3.5 w-3.5" />Add Review</button>
         </div>
         <div>
           <div className="review-marquee">
@@ -583,24 +759,44 @@ export default function HomePage() {
     </section>
 
     {reviewModal.mounted && <div className={`review-modal-backdrop popup-backdrop-motion fixed inset-0 z-[100] grid place-items-center overflow-y-auto bg-slate-950/45 p-4 pb-20 backdrop-blur-sm lg:pb-4 ${reviewModal.active ? "is-open" : ""}`} role="dialog" aria-modal="true" aria-label="Add customer review" onClick={() => setReviewModalOpen(false)}>
-      <form onSubmit={submitReview} onClick={(event) => event.stopPropagation()} className="review-modal-card popup-surface-motion relative my-auto max-h-[calc(100dvh-110px)] w-full max-w-md overflow-y-auto rounded-3xl border border-amber-200 bg-white p-5 shadow-2xl sm:max-h-[90vh] sm:p-7">
+      <form onSubmit={submitReview} noValidate onClick={(event) => event.stopPropagation()} className="review-modal-card popup-surface-motion relative my-auto max-h-[calc(100dvh-110px)] w-full max-w-md overflow-y-auto rounded-3xl border border-amber-200 bg-white p-5 shadow-2xl sm:max-h-[90vh] sm:p-7">
         <button type="button" onClick={() => setReviewModalOpen(false)} className="absolute right-4 top-4 grid h-9 w-9 place-items-center rounded-full bg-[#fbf8f1] text-slate-900" aria-label="Close review form"><X className="h-4 w-4" /></button>
         <p className="text-xs font-semibold uppercase tracking-[0.22em] text-amber-600">Share Your Experience</p>
         <h3 className="mt-2 text-2xl font-medium text-slate-900">Add a review</h3>
         <label className="mt-6 block text-xs font-semibold text-slate-700">Your rating</label>
-        <div className="mt-2 flex gap-1">{Array.from({ length: 5 }).map((_, index) => <button key={index} type="button" onClick={() => setReviewRating(index + 1)} aria-label={`${index + 1} stars`} className="text-amber-500"><Star className={`h-7 w-7 ${index < reviewRating ? "fill-current" : "opacity-25"}`} /></button>)}</div>
+      <div className="mt-2 flex gap-1">
+  {Array.from({ length: 5 }).map((_, index) => (
+    <button
+      key={index}
+      type="button"
+      onClick={() => setReviewRating(index + 1)}
+      aria-label={`${index + 1} stars`}
+      className="text-yellow-500 hover:text-yellow-400 transition-colors"
+    >
+      <Star
+        className={`h-7 w-7 ${
+          index < reviewRating
+            ? "fill-current"
+            : "opacity-25"
+        }`}
+      />
+    </button>
+  ))}
+</div>
         <label className="mt-5 block text-xs font-semibold text-slate-700" htmlFor="review-name">Your name</label>
-        <input id="review-name" value={reviewName} onChange={(event) => setReviewName(event.target.value)} maxLength={60} placeholder="Enter your name" className="mt-2 w-full rounded-2xl border border-amber-100 bg-[#fdfaf4] px-4 py-3 text-sm outline-none" />
+        <input id="review-name" value={reviewName} onChange={(event) => { setReviewName(event.target.value); setReviewErrors((current) => ({ ...current, name: "" })); }} maxLength={60} placeholder="Enter your name" aria-invalid={Boolean(reviewErrors.name)} className={`mt-2 w-full rounded-2xl border bg-[#fdfaf4] px-4 py-3 text-sm outline-none ${reviewErrors.name ? "border-red-400" : "border-amber-100"}`} />
+        {reviewErrors.name && <p className="mt-1.5 text-xs font-medium text-red-600">{reviewErrors.name}</p>}
         <label className="mt-5 block text-xs font-semibold text-slate-700" htmlFor="review-text">Your review</label>
-        <textarea id="review-text" value={reviewText} onChange={(event) => setReviewText(event.target.value)} maxLength={600} placeholder="Tell us about your Annai experience..." className="mt-2 min-h-32 w-full resize-none rounded-2xl border border-amber-100 bg-[#fdfaf4] px-4 py-3 text-sm outline-none" />
-        {reviewMessage && <p className={`mt-3 text-xs ${reviewMessage.startsWith("Thank") ? "text-green-700" : "text-amber-700"}`}>{reviewMessage}</p>}
+        <textarea id="review-text" value={reviewText} onChange={(event) => { setReviewText(event.target.value); setReviewErrors((current) => ({ ...current, text: "" })); }} maxLength={600} placeholder="Tell us about your Annai experience..." aria-invalid={Boolean(reviewErrors.text)} className={`mt-2 min-h-32 w-full resize-none rounded-2xl border bg-[#fdfaf4] px-4 py-3 text-sm outline-none ${reviewErrors.text ? "border-red-400" : "border-amber-100"}`} />
+        {reviewErrors.text && <p className="mt-1.5 text-xs font-medium text-red-600">{reviewErrors.text}</p>}
+        {reviewMessage && <p className={`mt-3 text-xs ${reviewMessage.startsWith("Thank") ? "text-green-700" : "text-red-600"}`}>{reviewMessage}</p>}
         <button type="submit" className="mt-5 inline-flex items-center justify-center gap-2 rounded-full bg-amber-600 px-6 py-2.5 text-sm font-semibold text-white shadow-lg hover:bg-amber-700"><Send className="h-4 w-4" />Submit Review</button>
       </form>
     </div>}
 
     {quickViewModal.mounted && renderedQuickViewIndex !== null && (() => {
       const product = allProducts[renderedQuickViewIndex];
-      const gallery = [product.image];
+      const gallery = product.images?.filter(Boolean).length ? product.images.filter(Boolean) : [product.image];
       const productKey = `jewel-${productSlug(product.name)}`;
       return <div className={`popup-backdrop-motion fixed inset-0 z-[80] flex items-center justify-center bg-slate-950/45 p-3 backdrop-blur-sm ${quickViewModal.active ? "is-open" : ""}`} role="dialog" aria-modal="true" aria-label={`Quick view ${product.name}`} onClick={() => setQuickViewIndex(null)}>
         <div onClick={(event) => event.stopPropagation()} className="quick-view-modal-scroll popup-surface-motion relative max-h-[94vh] w-full max-w-5xl overflow-y-auto rounded-[2rem] border border-amber-200 bg-white shadow-2xl">
@@ -609,20 +805,19 @@ export default function HomePage() {
           <button type="button" onClick={() => moveQuickView(1)} className="absolute right-3 top-1/3 z-30 grid h-10 w-10 place-items-center rounded-full bg-white/95 text-amber-700 shadow-lg" aria-label="Next product"><ArrowRight className="h-5 w-5" /></button>
           <div className="grid lg:grid-cols-[1.05fr_0.95fr]">
             <div className="relative bg-slate-50 p-5 sm:p-8">
-              <div className="absolute right-20 top-4 z-20 flex gap-2 sm:right-24"><button type="button" className="grid h-10 w-10 place-items-center rounded-full bg-white text-amber-700 shadow-lg" aria-label={`Save ${product.name}`}><Heart className="h-5 w-5" /></button><button type="button" onClick={() => shareProduct(product)} className="grid h-10 w-10 place-items-center rounded-full bg-white text-amber-700 shadow-lg" aria-label={`Share ${product.name}`}><Share2 className="h-5 w-5" /></button></div>
+              <div className="absolute right-20 top-4 z-20 flex gap-2 sm:right-24"><button type="button" onClick={() => saveWishlist(product)} className={`grid h-10 w-10 place-items-center rounded-full bg-white shadow-lg ${product.id && wishlistIds.has(String(product.id)) ? "text-red-500" : "text-amber-700"}`} aria-label={`${product.id && wishlistIds.has(String(product.id)) ? "Remove" : "Save"} ${product.name} ${product.id && wishlistIds.has(String(product.id)) ? "from" : "to"} wishlist`}><Heart className={`h-5 w-5 ${product.id && wishlistIds.has(String(product.id)) ? "fill-current" : ""}`} /></button><button type="button" onClick={() => shareProduct(product)} className="grid h-10 w-10 place-items-center rounded-full bg-white text-amber-700 shadow-lg" aria-label={`Share ${product.name}`}><Share2 className="h-5 w-5" /></button></div>
               <ZoomableProductImage src={gallery[quickImage]} alt={product.name} onOpen={() => setQuickImageModalOpen(true)} className="h-[360px] rounded-2xl bg-white sm:h-[520px]" />
               <div className="mt-4 grid grid-cols-3 gap-3">{gallery.map((image, index) => <button type="button" key={`${image}-${index}`} onClick={() => setQuickImage(index)} className={`h-24 overflow-hidden rounded-xl border-2 bg-white ${quickImage === index ? "border-amber-500" : "border-transparent"}`}><img src={image} alt={`${product.name} view ${index + 1}`} className="h-full w-full object-contain" /></button>)}</div>
             </div>
             <div className="p-6 sm:p-9">
               <p className="text-xs font-semibold uppercase tracking-[0.2em] text-amber-600">{product.material}</p>
               <h2 className="mt-3 pr-10 text-3xl font-medium text-slate-900">{product.name}</h2>
-              <div className="mt-3 flex items-center gap-2 text-sm"><div className="flex text-amber-500">{[0, 1, 2, 3, 4].map((star) => <Star key={star} className="h-4 w-4 fill-current" />)}</div><span className="text-slate-500">12 reviews</span></div>
-              <div className="mt-5 flex flex-wrap items-center justify-between gap-3"><p className="text-2xl font-semibold text-slate-900"><Price value={product.price} /></p>{cart[productKey] ? <div className="flex h-11 items-center overflow-hidden rounded-full bg-amber-600 text-white shadow-sm"><button type="button" onClick={() => changeJewelleryQuantity(product, -1)} className="grid h-11 w-11 place-items-center hover:bg-amber-700" aria-label="Decrease cart quantity"><Minus className="h-4 w-4" /></button><span className="min-w-8 text-center font-semibold">{cart[productKey]}</span><button type="button" onClick={() => changeJewelleryQuantity(product, 1)} className="grid h-11 w-11 place-items-center hover:bg-amber-700" aria-label="Increase cart quantity"><Plus className="h-4 w-4" /></button></div> : <button type="button" onClick={() => changeJewelleryQuantity(product, 1)} className="inline-flex h-11 items-center gap-2 rounded-full bg-amber-600 px-5 text-sm font-semibold text-white hover:bg-amber-700"><Plus className="h-4 w-4" />Add</button>}</div><p className="mt-1 text-xs text-slate-500">3% GST will be added at checkout</p>
-              <div className="mt-5 space-y-2 rounded-2xl bg-[#fbf8f1] p-4 text-sm"><p><strong>3 sold</strong> in the last 20 hours</p><p>Vendor: <span className="text-amber-700">Annai Jewellery</span></p><p>Availability: <strong className="text-green-700">In Stock</strong></p><p>Product type: Jewellery</p><p className="font-semibold text-amber-700">Hurry! Only 8 pieces left.</p></div>
+              <div className="mt-3 flex items-center gap-2 text-sm"><div className="flex text-amber-500">{[0, 1, 2, 3, 4].map((star) => <Star key={star} className="h-4 w-4 fill-current" />)}</div><span className="text-slate-500">{product.reviewCount || 0} reviews</span></div>
+              <div className="mt-5 flex flex-wrap items-center justify-between gap-3"><p className="text-lg font-semibold text-slate-900"><Price value={product.price} /></p>{product.inStock === false || product.stock === 0 ? <span className="rounded-full bg-slate-100 px-5 py-3 text-sm font-semibold text-slate-500">Out of stock</span> : cart[productKey] ? <div className="flex h-11 items-center overflow-hidden rounded-full bg-amber-600 text-white shadow-sm"><button type="button" onClick={() => changeJewelleryQuantity(product, -1)} className="grid h-11 w-11 place-items-center hover:bg-amber-700" aria-label="Decrease cart quantity"><Minus className="h-4 w-4" /></button><span className="min-w-8 text-center font-semibold">{cart[productKey]}</span><button type="button" onClick={() => changeJewelleryQuantity(product, 1)} className="grid h-11 w-11 place-items-center hover:bg-amber-700" aria-label="Increase cart quantity"><Plus className="h-4 w-4" /></button></div> : <button type="button" onClick={() => changeJewelleryQuantity(product, 1)} className="inline-flex h-11 items-center gap-2 rounded-full bg-amber-600 px-5 text-sm font-semibold text-white hover:bg-amber-700"><Plus className="h-4 w-4" />Add</button>}</div><p className="mt-1 text-xs text-slate-500">3% GST will be added at checkout</p>
+              <div className="mt-5 space-y-2 rounded-2xl bg-[#fbf8f1] p-4 text-sm"><p>Vendor: <span className="text-amber-700">Annai Jewellery</span></p><p>Availability: <strong className={product.inStock === false || product.stock === 0 ? "text-red-600" : "text-green-700"}>{product.inStock === false || product.stock === 0 ? "Out of stock" : "In stock"}</strong></p><p>Product type: Jewellery</p>{product.stock !== undefined && product.stock > 0 && <p className="font-semibold text-amber-700">{product.stock} pieces available.</p>}</div>
               <div className="mt-5"><p className="text-sm font-semibold">Finish: <span className="text-slate-500">24K Gold Plated</span></p></div>
               <Link to={`/product/${productSlug(product.name)}`} className="mt-5 block rounded-full bg-[#D4AF37] px-4 py-3 text-center text-sm font-semibold text-white">View full details</Link>
               {cartNotice && <p className="mt-3 rounded-xl bg-green-50 p-3 text-sm text-green-700">{cartNotice}</p>}
-              <p className="mt-5 text-center text-xs text-slate-500"><Eye className="mr-1 inline h-4 w-4" />283 customers are viewing this product</p>
             </div>
           </div>
         </div>

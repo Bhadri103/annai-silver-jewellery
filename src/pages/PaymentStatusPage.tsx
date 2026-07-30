@@ -81,16 +81,16 @@ const PaymentStatusPage = () => {
   return (
     <>
       <SEO title="Payment Status" description="Payment status for Annai Jewellery orders." />
-      <section className="min-h-[72vh] bg-white px-4 py-16 text-amber-900 sm:px-6 lg:px-10">
+      <section className="min-h-[72vh] bg-white px-4 py-8 text-amber-900 sm:px-6 lg:px-10">
         <div className="mx-auto max-w-2xl rounded-[2rem] border border-slate-200 bg-white p-6 shadow-xl shadow-slate-200/60 sm:p-8">
           <div className="flex items-start gap-4">
             <div className={`flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-slate-50 ${view.className}`}>
               {loading ? <RefreshCw className="h-7 w-7 animate-spin" /> : <Icon className="h-7 w-7" />}
             </div>
             <div>
-              <p className="text-xs font-semibold uppercase tracking-[0.22em] text-amber-600">PhonePe Payment</p>
-              <h1 className="mt-2 text-3xl font-semibold">{loading ? "Checking payment..." : view.title}</h1>
-              <p className="mt-2 text-sm leading-6 text-slate-600">{loading ? "Please wait while we verify the transaction." : view.text}</p>
+              <p className="storefront-page-kicker">PhonePe Payment</p>
+              <h1 className="storefront-page-title">{loading ? "Checking payment..." : view.title}</h1>
+              <p className="storefront-page-copy">{loading ? "Please wait while we verify the transaction." : view.text}</p>
             </div>
           </div>
 
@@ -128,7 +128,7 @@ const PaymentStatusPage = () => {
             <Link to="/my-orders" className="inline-flex items-center justify-center rounded-full bg-amber-600 px-6 py-3 text-sm font-semibold text-white">
               View my orders
             </Link>
-            <Link to="/collection/indian-jewellery" className="inline-flex items-center justify-center rounded-full border border-amber-200 px-6 py-3 text-sm font-semibold text-amber-600">
+            <Link to="/collection/products" className="inline-flex items-center justify-center rounded-full border border-amber-200 px-6 py-3 text-sm font-semibold text-amber-600">
               Back to shop
             </Link>
           </div>

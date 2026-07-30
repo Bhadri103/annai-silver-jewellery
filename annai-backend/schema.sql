@@ -1,0 +1,193 @@
+CREATE DATABASE IF NOT EXISTS annai_jewellery CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+USE annai_jewellery;
+
+CREATE TABLE IF NOT EXISTS admin_users (
+  id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+  name VARCHAR(140) NOT NULL,
+  email VARCHAR(190) NOT NULL UNIQUE,
+  password_hash VARCHAR(255) NOT NULL,
+  role ENUM('owner','admin','staff') NOT NULL DEFAULT 'admin',
+  active TINYINT(1) NOT NULL DEFAULT 1,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+
+CREATE TABLE IF NOT EXISTS users (
+  id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+  name VARCHAR(160) NOT NULL,
+  email VARCHAR(190) NOT NULL UNIQUE,
+  password_hash VARCHAR(255),
+  phone VARCHAR(40),
+  plan VARCHAR(100),
+  goal VARCHAR(180),
+  address TEXT,
+  is_active TINYINT(1) NOT NULL DEFAULT 1,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+
+CREATE TABLE IF NOT EXISTS product_categories (
+  id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+  name VARCHAR(120) NOT NULL UNIQUE,
+  image_url LONGTEXT,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE IF NOT EXISTS product_brands (
+  id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+  name VARCHAR(120) NOT NULL UNIQUE,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE IF NOT EXISTS products (
+  id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+  name VARCHAR(190) NOT NULL,
+  slug VARCHAR(220) NOT NULL UNIQUE,
+  category_id BIGINT UNSIGNED NULL,
+  brand_id BIGINT UNSIGNED NULL,
+  category VARCHAR(120),
+  brand VARCHAR(120),
+  goal VARCHAR(120),
+  flavor VARCHAR(120),
+  price DECIMAL(10,2) NOT NULL DEFAULT 0,
+  compare_price DECIMAL(10,2),
+  stock INT NOT NULL DEFAULT 0,
+  rating DECIMAL(2,1) NOT NULL DEFAULT 4.8,
+  review_count INT NOT NULL DEFAULT 0,
+  in_stock TINYINT(1) NOT NULL DEFAULT 1,
+  image_url LONGTEXT,
+  images JSON,
+  variants JSON,
+  features JSON,
+  specs JSON,
+  faqs JSON,
+  reviews JSON,
+  description TEXT,
+  tagline VARCHAR(220),
+  badge VARCHAR(80),
+  is_active TINYINT(1) NOT NULL DEFAULT 1,
+  is_featured TINYINT(1) NOT NULL DEFAULT 0,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  INDEX idx_products_store_listing (is_active, category, is_featured, created_at),
+  INDEX idx_products_stock_listing (is_active, in_stock, stock),
+  FOREIGN KEY (category_id) REFERENCES product_categories(id) ON DELETE SET NULL,
+  FOREIGN KEY (brand_id) REFERENCES product_brands(id) ON DELETE SET NULL
+);
+
+CREATE TABLE IF NOT EXISTS cart_items (
+  id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+  user_id BIGINT UNSIGNED NOT NULL,
+  product_id BIGINT UNSIGNED NOT NULL,
+  quantity INT UNSIGNED NOT NULL DEFAULT 1,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  UNIQUE KEY unique_cart_product (user_id, product_id),
+  FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+  FOREIGN KEY (product_id) REFERENCES products(id) ON DELETE CASCADE
+);
+
+CREATE TABLE IF NOT EXISTS orders (
+  id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+  order_id VARCHAR(60) NOT NULL UNIQUE,
+  user_id BIGINT UNSIGNED NULL,
+  customer_name VARCHAR(160) NOT NULL,
+  customer_email VARCHAR(190),
+  customer_phone VARCHAR(40),
+  product VARCHAR(190) NOT NULL,
+  category VARCHAR(120),
+  amount DECIMAL(10,2) NOT NULL DEFAULT 0,
+  status ENUM('Pending','Processing','Shipped','Delivered','Cancelled') NOT NULL DEFAULT 'Pending',
+  payment_status ENUM('Pending','Paid','Failed','Refunded') NOT NULL DEFAULT 'Pending',
+  payment_method VARCHAR(80),
+  payment_transaction_id VARCHAR(120),
+  payment_gateway_response MEDIUMTEXT,
+  delivery_mode ENUM('Pickup','Delivery') DEFAULT 'Pickup',
+  delivery_address TEXT,
+  invoice_number VARCHAR(80),
+  license_key VARCHAR(255),
+  notes TEXT,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  INDEX idx_orders_created (created_at),
+  INDEX idx_orders_customer_listing (user_id, created_at),
+  FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE SET NULL
+);
+
+CREATE TABLE IF NOT EXISTS enquiries (
+  id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+  name VARCHAR(160) NOT NULL,
+  email VARCHAR(190),
+  phone VARCHAR(40) NOT NULL,
+  program VARCHAR(160) NOT NULL,
+  source VARCHAR(80) NOT NULL DEFAULT 'Website',
+  message TEXT,
+  status ENUM('New','Contacted','Converted','Closed') NOT NULL DEFAULT 'New',
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+
+CREATE TABLE IF NOT EXISTS testimonials (
+  id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+  product_id BIGINT UNSIGNED NULL,
+  name VARCHAR(160) NOT NULL,
+  role VARCHAR(120),
+  rating INT NOT NULL DEFAULT 5,
+  text TEXT NOT NULL,
+  image_url TEXT,
+  source VARCHAR(40) NOT NULL DEFAULT 'Website',
+  source_id VARCHAR(220),
+  author_meta VARCHAR(220),
+  review_date VARCHAR(80),
+  is_visible TINYINT(1) NOT NULL DEFAULT 1,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+
+CREATE TABLE IF NOT EXISTS blogs (
+  id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+  title VARCHAR(220) NOT NULL,
+  slug VARCHAR(240) NOT NULL UNIQUE,
+  category VARCHAR(80) NOT NULL DEFAULT 'Jewellery Guide',
+  excerpt TEXT,
+  body MEDIUMTEXT,
+  image_url TEXT,
+  status ENUM('Draft','Published') NOT NULL DEFAULT 'Draft',
+  is_featured TINYINT(1) NOT NULL DEFAULT 0,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+
+CREATE TABLE IF NOT EXISTS content_blocks (
+  id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+  block_key VARCHAR(140) NOT NULL UNIQUE,
+  title VARCHAR(220) NOT NULL,
+  body MEDIUMTEXT,
+  is_active TINYINT(1) NOT NULL DEFAULT 1,
+  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+
+CREATE TABLE IF NOT EXISTS gallery_items (
+  id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+  title VARCHAR(180) NOT NULL,
+  category VARCHAR(80) NOT NULL DEFAULT 'Jewellery',
+  media_type ENUM('image','video','tour') NOT NULL DEFAULT 'image',
+  image_url TEXT NOT NULL,
+  video_url TEXT,
+  description TEXT,
+  sort_order INT NOT NULL DEFAULT 0,
+  is_visible TINYINT(1) NOT NULL DEFAULT 1,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+
+CREATE TABLE IF NOT EXISTS audit_logs (
+  id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+  actor_id BIGINT UNSIGNED NULL,
+  actor_name VARCHAR(160),
+  action VARCHAR(190) NOT NULL,
+  entity_type VARCHAR(80) NOT NULL,
+  entity_id VARCHAR(80),
+  payload JSON,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);

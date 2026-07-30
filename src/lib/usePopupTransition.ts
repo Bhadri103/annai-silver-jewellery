@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 
 const EXIT_DURATION_MS = 240;
 
-export const usePopupTransition = (open: boolean) => {
+export const usePopupTransition = (open: boolean, exitDurationMs = EXIT_DURATION_MS) => {
   const [mounted, setMounted] = useState(open);
   const [active, setActive] = useState(false);
 
@@ -14,9 +14,9 @@ export const usePopupTransition = (open: boolean) => {
     }
 
     setActive(false);
-    const timer = window.setTimeout(() => setMounted(false), EXIT_DURATION_MS);
+    const timer = window.setTimeout(() => setMounted(false), exitDurationMs);
     return () => window.clearTimeout(timer);
-  }, [open]);
+  }, [exitDurationMs, open]);
 
   return { mounted, active };
 };
