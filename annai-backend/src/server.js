@@ -4199,6 +4199,24 @@ app.post(`${apiPrefix}/reset-password`, reroute(`${apiPrefix}/auth/reset-passwor
 app.get(`${apiPrefix}/profile`, reroute(`${apiPrefix}/me`));
 app.put(`${apiPrefix}/profile`, reroute(`${apiPrefix}/me`));
 
+const frontendDistDir = path.resolve(
+  process.env.FRONTEND_DIST_DIR || path.join(__dirname, "../../dist"),
+);
+app.use(express.static(frontendDistDir, {
+  etag: true,
+  maxAge: process.env.NODE_ENV === "production" ? "1h" : 0,
+  index: false,
+}));
+app.get("*", (req, res, next) => {
+  if (req.path.startsWith(apiPrefix) || req.path.startsWith(uploadUrlPath)) {
+    next();
+    return;
+  }
+  res.sendFile(path.join(frontendDistDir, "index.html"), (error) => {
+    if (error) next();
+  });
+});
+
 app.use((_req, res) => res.status(404).json({ message: "API route not found" }));
 
 app.use((error, _req, res, _next) => {
