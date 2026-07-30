@@ -6,7 +6,14 @@ media through one Node.js application.
 ## 1. Create the database
 
 In the website dashboard, open **Databases**, create a MySQL database and user,
-and save the host, database name, username, and password.
+and save the host, database name, username, and password. Open phpMyAdmin for
+that new, empty database and import:
+
+`annai-app/deploy/data/annai-production-store.sql`
+
+This initial import contains the current jewellery categories, products,
+storefront content, coupons, and public reviews. It does not contain customer
+passwords, sessions, OTPs, orders, payment proofs, or verification files.
 
 ## 2. Upload the application
 

@@ -6,10 +6,19 @@ import path from "path";
 
 const backupDir = path.resolve(process.env.BACKUP_DIR || "backups");
 const retentionDays = Math.max(Number(process.env.BACKUP_RETENTION_DAYS || 14), 1);
+const backupFilePrefix = String(process.env.BACKUP_FILE_PREFIX || "annai-jewellery")
+  .trim()
+  .replace(/[^a-z0-9_-]+/gi, "-")
+  .replace(/^-+|-+$/g, "") || "annai-jewellery";
+const selectedTables = String(process.env.BACKUP_TABLES || "")
+  .split(",")
+  .map((table) => table.trim())
+  .filter((table) => /^[a-z0-9_]+$/i.test(table));
 await mkdir(backupDir, { recursive: true });
 
 const stamp = new Date().toISOString().replace(/[:.]/g, "-");
-const target = path.join(backupDir, `annai-jewellery-${stamp}.sql`);
+const target = path.join(backupDir, `${backupFilePrefix}-${stamp}.sql`);
+const databaseName = process.env.DB_NAME || "annai_jewellery";
 const args = [
   `--host=${process.env.DB_HOST || "127.0.0.1"}`,
   `--port=${process.env.DB_PORT || "3306"}`,
@@ -18,8 +27,8 @@ const args = [
   "--routines",
   "--triggers",
   "--events",
-  "--set-gtid-purged=OFF",
-  process.env.DB_NAME || "annai_jewellery",
+  databaseName,
+  ...selectedTables,
 ];
 const environment = { ...process.env, MYSQL_PWD: process.env.DB_PASSWORD || "" };
 const dump = spawn(process.env.MYSQLDUMP_PATH || "mysqldump", args, { env: environment, stdio: ["ignore", "pipe", "inherit"] });
